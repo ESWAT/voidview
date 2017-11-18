@@ -1,0 +1,14 @@
+{
+  "name": "yuffie",
+  "version": "0.0.1",
+  "description": "Local image viewer",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://gitlab.com/eswat/yuffie",
+  "author": "Philip Karpiak <philip@eswat.ca>",
+  "devDependencies": {
+    "electron": "~1.7.8"
+  }
+}
