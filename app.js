@@ -5,7 +5,7 @@
 const fs = require('fs');
 const {dialog} = require('electron').remote
 
-const FILE_LIMIT = 10;
+const FILE_LIMIT = 100;
 
 const path = dialog.showOpenDialog({properties: ['openDirectory']});
 
