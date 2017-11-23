@@ -17,15 +17,40 @@ fs.readdir(path[0], function(err, dir) {
 
     for (let file of files) {
       let node = document.createElement('div');
-      node.className = 'item';
+      node.classList.add('js-item', 'item');
       node.setAttribute('style', `background-image: url('${path + '/' + file}')`)
+      node.dataset.image = file;
 
       const item = document.querySelector('.js-list').appendChild(node);
 
       item.addEventListener('click', function(event) {
-        console.log(event);
+        openPeek(event.target.dataset.image);
       }, false);
     }
   }
 });
 
+function openPeek(image) {
+  const peekEl = document.querySelector('.js-peek');
+
+  if (peekEl.classList.contains('is-none')) {
+    const node = peekEl.querySelector('.js-peek-image');
+    node.setAttribute('style', `background-image: url('${path + '/' + image}')`)
+    peekEl.classList.remove('is-none');
+    document.body.classList.add('is-frozen');
+
+    node.querySelector('.js-close-peek').addEventListener('click', function(event) {
+      closePeek();
+    }, false);
+  }
+}
+
+function closePeek() {
+  const peekEl = document.querySelector('.js-peek');
+
+  if (peekEl.classList.contains('is-none') === false) {
+    peekEl.querySelector('.js-peek-image').removeAttribute('style');
+    peekEl.classList.add('is-none');
+    document.body.classList.remove('is-frozen');
+  }
+}
