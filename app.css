@@ -3,7 +3,7 @@ body {
   margin: 0;
 }
 
-#list {
+.list {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;

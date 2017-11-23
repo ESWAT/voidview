@@ -20,7 +20,7 @@ fs.readdir(path[0], function(err, dir) {
       node.className = 'item';
       node.setAttribute('style', `background-image: url('${path + '/' + file}')`)
 
-      const item = document.querySelector('#list').appendChild(node);
+      const item = document.querySelector('.js-list').appendChild(node);
 
       item.addEventListener('click', function(event) {
         console.log(event);
