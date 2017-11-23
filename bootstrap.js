@@ -1,11 +1,9 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
+// Bootstrap starting state for Yuffie
+
+const FILE_LIMIT = 100;
 
 const fs = require('fs');
 const {dialog} = require('electron').remote
-
-const FILE_LIMIT = 100;
 
 const path = dialog.showOpenDialog({properties: ['openDirectory']});
 
@@ -22,7 +20,12 @@ fs.readdir(path[0], function(err, dir) {
       node.className = 'item';
       node.setAttribute('style', `background-image: url('${path + '/' + file}')`)
 
-      document.querySelector('#list').appendChild(node);
+      const item = document.querySelector('#list').appendChild(node);
+
+      item.addEventListener('click', function(event) {
+        console.log(event);
+      }, false);
     }
   }
 });
+
