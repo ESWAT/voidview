@@ -1,0 +1,18 @@
+body {
+  background: #111;
+  margin: 0;
+}
+
+#list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.item {
+  width: calc(20% - 4px);
+  margin: 2px;
+  background-size: cover;
+  background-position: center;
+  height: calc(20vw - 4px);
+}

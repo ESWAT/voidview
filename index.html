@@ -1,44 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <style>
-    body {
-      background: #111;
-      margin: 0;
-    }
-
-    #list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-    }
-
-    .item {
-      width: calc(20vw - 8px);
-      margin: 4px;
-      background-size: cover;
-      background-position: center;
-      height: 20vw;
-      transition: transform 0.1s ease-in, box-shadow 0.1s ease-in;
-      animation: appear 0.5s both ease-in;
-    }
-
-    .item:hover {
-      transform: scale(1.1);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, .5);
-      z-index: 2;
-      cursor: pointer;
-    }
-
-    @keyframes appear {
-      0% {
-        opacity: 0;
-      }
-
-      100% {
-        opacity: 1;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="./app.css">
   <head>
     <meta charset="UTF-8">
     <title>Yuffie</title>
