@@ -12,7 +12,9 @@ fs.readdir(path[0], function(err, dir) {
     const files = [];
 
     for (let i = 0; i < FILE_LIMIT; i++) {
-      files.push(dir[i]);
+      if (dir[i] !== undefined) {
+        files.push(dir[i]);
+      }
     }
 
     for (let file of files) {
