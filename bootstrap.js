@@ -44,6 +44,8 @@ function openPeek(image) {
     node.querySelector('.js-close-peek').addEventListener('click', function(event) {
       closePeek();
     }, false);
+
+    document.addEventListener('keyup', handleEscOnPeek);
   }
 }
 
@@ -54,5 +56,13 @@ function closePeek() {
     peekEl.querySelector('.js-peek-image').removeAttribute('style');
     peekEl.classList.add('is-none');
     document.body.classList.remove('is-frozen');
+  }
+
+  document.removeEventListener('keyup', handleEscOnPeek);
+}
+
+function handleEscOnPeek(event) {
+  if (event.key == 'Escape') {
+    closePeek();
   }
 }
