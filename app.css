@@ -16,6 +16,7 @@ body {
   background-size: cover;
   background-position: center;
   height: calc(20vw - 4px);
+  cursor: pointer;
 }
 
 .peek {
