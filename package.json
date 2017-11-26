@@ -17,6 +17,7 @@
     "webpack": "^3.8.1"
   },
   "electronWebpack": {
+    "title": "YUFFIE",
     "renderer": {
       "webpackConfig": "webpack.renderer.js"
     }
