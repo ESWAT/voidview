@@ -11,11 +11,11 @@ body {
 }
 
 .item {
-  width: calc(20% - 4px);
+  width: calc(16.666666667% - 4px);
   margin: 2px;
   background-size: cover;
   background-position: center;
-  height: calc(20vw - 4px);
+  height: calc(16.666666667vw - 4px);
   cursor: pointer;
 }
 
