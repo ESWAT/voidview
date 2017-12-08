@@ -66,3 +66,11 @@ body {
 .is-frozen {
   overflow: hidden;
 }
+
+.edge {
+  position: absolute;
+  bottom: 5%;
+  height: 10px;
+  width: 100%;
+  display: block;
+}

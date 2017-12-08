@@ -2,6 +2,7 @@
 
 require("./index.css");
 
+import inView from 'in-view';
 import { shell, list, peek } from './templates';
 import { readDir } from './utils';
 
@@ -10,24 +11,41 @@ const PUSH_LIMIT = 24;
 const {dialog} = require('electron').remote
 
 let files = [];
-const lastPushedFile = null;
+let lastPushedFile = 0;
 
 const path = dialog.showOpenDialog({properties: ['openDirectory']});
 
 document.getElementById('app').innerHTML = shell;
 
 readDir(path[0]).then(dir => {
-  const items = [];
-
   for (let i = 0; i < dir.length; i++) {
-    files.push(dir[i]);
+    if (dir[i] !== undefined) {
+      files.push(dir[i]);
+    }
   }
 
-  for (let i = 0; i < PUSH_LIMIT; i++) {
-    items.push({
-      backgroundUrl: `file://${path + '/' + files[i]}`,
-      datasetUrl: files[i]
-    });
+  renderFiles();
+  renderFiles();
+
+  inView('.js-edge')
+    .on('enter', () => {
+      console.log('Rendering more items');
+      renderFiles();
+    })
+});
+
+function renderFiles() {
+  const pushToThis = lastPushedFile !== 0 ? lastPushedFile + PUSH_LIMIT : PUSH_LIMIT;
+
+  const items = [];
+
+  for (lastPushedFile; lastPushedFile < pushToThis; lastPushedFile++) {
+    if (files[lastPushedFile] !== undefined) {
+      items.push({
+        backgroundUrl: `file://${path + '/' + files[lastPushedFile]}`,
+        datasetUrl: files[lastPushedFile]
+      });
+    }
   }
 
   list(items).then(list => {
@@ -39,7 +57,7 @@ readDir(path[0]).then(dir => {
       }, false);
     })
   });
-});
+}
 
 function openPeek(image) {
   const peekEl = document.querySelector('.js-peek');

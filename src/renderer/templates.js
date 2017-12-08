@@ -1,5 +1,6 @@
 export const shell = `
   <div class="js-list list"></div>
+  <div class="js-edge edge"></div>
 `;
 
 function renderItem(backgroundUrl, datasetUrl) {
