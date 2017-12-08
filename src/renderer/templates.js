@@ -3,22 +3,23 @@ export const shell = `
   <div class="js-edge edge"></div>
 `;
 
-function renderItem(backgroundUrl, datasetUrl) {
+function renderItem(backgroundUrl, datasetUrl, index) {
   return `
     <div
       class="js-item item"
       style="background-image: url(${backgroundUrl})"
       data-image="${datasetUrl}"
+      data-index="${index}"
     >
     </div>
   `;
 }
 
-export function list(items, callback) {
+export function list(items, startingIndex) {
   return new Promise(res => {
     const list = [];
-    items.map(item => {
-      list.push(renderItem(item.backgroundUrl, item.datasetUrl));
+    items.map((item, index) => {
+      list.push(renderItem(item.backgroundUrl, item.datasetUrl, startingIndex + index));
     });
 
     res(list);

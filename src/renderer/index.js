@@ -48,7 +48,7 @@ function renderFiles() {
     }
   }
 
-  list(items).then(list => {
+  list(items, lastPushedFile - PUSH_LIMIT).then(list => {
     document.querySelector('.list').insertAdjacentHTML('beforeend', list.join(''));
 
     document.querySelectorAll('.item').forEach(node => {
