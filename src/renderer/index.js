@@ -2,23 +2,18 @@
 
 require("./index.css");
 
+import { shell, list, peek } from './templates';
+
 const FILE_LIMIT = 100;
 
 const fs = require('fs');
 const {dialog} = require('electron').remote
 
+const items = [];
+
 const path = dialog.showOpenDialog({properties: ['openDirectory']});
 
-const frame = `
-  <div class="js-list list"></div>
-  <div class="js-peek peek is-none">
-    <div class="js-peek-image peek-image">
-        <button class="js-close-peek close-peek">×</button>
-    </div>
-  </div>
-`;
-
-document.getElementById('app').innerHTML = frame;
+document.getElementById('app').innerHTML = shell;
 
 fs.readdir(path[0], function(err, dir) {
   if (dir) {
@@ -31,30 +26,33 @@ fs.readdir(path[0], function(err, dir) {
     }
 
     for (let file of files) {
-      let node = document.createElement('div');
-      node.classList.add('js-item', 'item');
-      node.setAttribute('style', `background-image: url('file://${path + '/' + file}')`)
-      node.dataset.image = file;
-
-      const item = document.querySelector('.js-list').appendChild(node);
-
-      item.addEventListener('click', function(event) {
-        openPeek(event.target.dataset.image);
-      }, false);
+      items.push({
+        backgroundUrl: `file://${path + '/' + file}`,
+        datasetUrl: file
+      });
     }
+
+    list(items)
+      .then(list => {
+        document.querySelector('.list').insertAdjacentHTML('beforeend', list.join(''));
+
+        document.querySelectorAll('.item').forEach(node => {
+          node.addEventListener('click', function(event) {
+            openPeek(event.target.dataset.image);
+          }, false);
+        })
+      });
   }
 });
 
 function openPeek(image) {
   const peekEl = document.querySelector('.js-peek');
 
-  if (peekEl.classList.contains('is-none')) {
-    const node = peekEl.querySelector('.js-peek-image');
-    node.setAttribute('style', `background-image: url('file://${path + '/' + image}')`)
-    peekEl.classList.remove('is-none');
+  if (!peekEl) {
+    document.querySelector('.list').insertAdjacentHTML('afterend', peek(`file://${path + '/' + image}`));
     document.body.classList.add('is-frozen');
 
-    node.querySelector('.js-close-peek').addEventListener('click', function(event) {
+    document.querySelector('.js-close-peek').addEventListener('click', function(event) {
       closePeek();
     }, false);
 
@@ -65,9 +63,8 @@ function openPeek(image) {
 function closePeek() {
   const peekEl = document.querySelector('.js-peek');
 
-  if (peekEl.classList.contains('is-none') === false) {
-    peekEl.querySelector('.js-peek-image').removeAttribute('style');
-    peekEl.classList.add('is-none');
+  if (peekEl) {
+    peekEl.remove();
     document.body.classList.remove('is-frozen');
   }
 

@@ -14,7 +14,7 @@ module.exports =
 /******/ 			hotAddUpdateChunk(chunk.id, chunk.modules);
 /******/ 		});
 /******/ 	}
-/******/
+/******/ 	
 /******/ 	function hotDownloadManifest() { // eslint-disable-line no-unused-vars
 /******/ 		var filename = require("path").join(__dirname, "" + hotCurrentHash + ".hot-update.json");
 /******/ 		return new Promise(function(resolve, reject) {
@@ -29,7 +29,7 @@ module.exports =
 /******/ 			});
 /******/ 		});
 /******/ 	}
-/******/
+/******/ 	
 /******/ 	function hotDisposeChunk(chunkId) { //eslint-disable-line no-unused-vars
 /******/ 		delete installedChunks[chunkId];
 /******/ 	}
