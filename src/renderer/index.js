@@ -53,17 +53,19 @@ function renderFiles() {
 
     document.querySelectorAll('.item').forEach(node => {
       node.addEventListener('click', function(event) {
-        openPeek(event.target.dataset.image);
+        openPeek(event.target);
       }, false);
     })
   });
 }
 
-function openPeek(image) {
+function openPeek(item) {
   const peekEl = document.querySelector('.js-peek');
 
   if (!peekEl) {
-    document.querySelector('.list').insertAdjacentHTML('afterend', peek(`file://${path + '/' + image}`));
+    const peekEl = peek(`file://${path + '/' + item.dataset.image}`, item.dataset.index);
+
+    document.querySelector('.list').insertAdjacentHTML('afterend', peekEl);
     document.body.classList.add('is-frozen');
 
     document.querySelector('.js-close-peek').addEventListener('click', function(event) {
@@ -72,6 +74,10 @@ function openPeek(image) {
 
     document.addEventListener('keyup', handleEscOnPeek);
   }
+}
+
+function changePeek(image) {
+  document.querySelector('.js-peek-image').setAttribute('style', `background-image: url(file://${path + '/' + image})`)
 }
 
 function closePeek() {
