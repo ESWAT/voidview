@@ -5,11 +5,12 @@ require("./index.css");
 import { shell, list, peek } from './templates';
 import { readDir } from './utils';
 
-const FILE_LIMIT = 100;
+const PUSH_LIMIT = 24;
 
 const {dialog} = require('electron').remote
 
-const files = [];
+let files = [];
+const lastPushedFile = null;
 
 const path = dialog.showOpenDialog({properties: ['openDirectory']});
 
@@ -18,16 +19,14 @@ document.getElementById('app').innerHTML = shell;
 readDir(path[0]).then(dir => {
   const items = [];
 
-  for (let i = 0; i < FILE_LIMIT; i++) {
-    if (dir[i] !== undefined) {
-      files.push(dir[i]);
-    }
+  for (let i = 0; i < dir.length; i++) {
+    files.push(dir[i]);
   }
 
-  for (let file of files) {
+  for (let i = 0; i < PUSH_LIMIT; i++) {
     items.push({
-      backgroundUrl: `file://${path + '/' + file}`,
-      datasetUrl: file
+      backgroundUrl: `file://${path + '/' + files[i]}`,
+      datasetUrl: files[i]
     });
   }
 
