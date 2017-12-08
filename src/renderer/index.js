@@ -3,46 +3,43 @@
 require("./index.css");
 
 import { shell, list, peek } from './templates';
+import { readDir } from './utils';
 
 const FILE_LIMIT = 100;
 
-const fs = require('fs');
 const {dialog} = require('electron').remote
 
-const items = [];
+const files = [];
 
 const path = dialog.showOpenDialog({properties: ['openDirectory']});
 
 document.getElementById('app').innerHTML = shell;
 
-fs.readdir(path[0], function(err, dir) {
-  if (dir) {
-    const files = [];
+readDir(path[0]).then(dir => {
+  const items = [];
 
-    for (let i = 0; i < FILE_LIMIT; i++) {
-      if (dir[i] !== undefined) {
-        files.push(dir[i]);
-      }
+  for (let i = 0; i < FILE_LIMIT; i++) {
+    if (dir[i] !== undefined) {
+      files.push(dir[i]);
     }
-
-    for (let file of files) {
-      items.push({
-        backgroundUrl: `file://${path + '/' + file}`,
-        datasetUrl: file
-      });
-    }
-
-    list(items)
-      .then(list => {
-        document.querySelector('.list').insertAdjacentHTML('beforeend', list.join(''));
-
-        document.querySelectorAll('.item').forEach(node => {
-          node.addEventListener('click', function(event) {
-            openPeek(event.target.dataset.image);
-          }, false);
-        })
-      });
   }
+
+  for (let file of files) {
+    items.push({
+      backgroundUrl: `file://${path + '/' + file}`,
+      datasetUrl: file
+    });
+  }
+
+  list(items).then(list => {
+    document.querySelector('.list').insertAdjacentHTML('beforeend', list.join(''));
+
+    document.querySelectorAll('.item').forEach(node => {
+      node.addEventListener('click', function(event) {
+        openPeek(event.target.dataset.image);
+      }, false);
+    })
+  });
 });
 
 function openPeek(image) {
