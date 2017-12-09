@@ -18,6 +18,9 @@
   },
   "electronWebpack": {
     "title": "YUFFIE",
+    "main": {
+      "webpackConfig": "webpack.main.js"
+    },
     "renderer": {
       "webpackConfig": "webpack.renderer.js"
     }

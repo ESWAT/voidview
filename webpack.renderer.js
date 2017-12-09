@@ -1,4 +1,5 @@
 module.exports = {
+  devtool: 'none',
   module: {
     rules: [
       {
