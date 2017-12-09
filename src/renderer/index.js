@@ -12,6 +12,7 @@ const {dialog} = require('electron').remote
 
 let files = [];
 let lastPushedFile = 0;
+let currentPeekIndex = 0;
 
 const path = dialog.showOpenDialog({properties: ['openDirectory']});
 
@@ -63,7 +64,7 @@ function openPeek(item) {
   const peekEl = document.querySelector('.js-peek');
 
   if (!peekEl) {
-    const peekEl = peek(`file://${path + '/' + item.dataset.image}`, item.dataset.index);
+    const peekEl = peek(`file://${path + '/' + item.dataset.image}`);
 
     document.querySelector('.list').insertAdjacentHTML('afterend', peekEl);
     document.body.classList.add('is-frozen');
@@ -72,12 +73,19 @@ function openPeek(item) {
       closePeek();
     }, false);
 
-    document.addEventListener('keyup', handleEscOnPeek);
+    currentPeekIndex = item.dataset.index;
+
+    document.addEventListener('keyup', handleKeysOnPeek);
   }
 }
 
-function changePeek(image) {
-  document.querySelector('.js-peek-image').setAttribute('style', `background-image: url(file://${path + '/' + image})`)
+function changePeek() {
+  const image = document.querySelector(`.js-item[data-index="${currentPeekIndex}"]`).dataset.image;
+  const peekImageEl = document.querySelector('.js-peek-image');
+
+  console.log(`Changing peek to ${currentPeekIndex}`);
+
+  peekImageEl.setAttribute('style', `background-image: url(file://${path + '/' + image})`);
 }
 
 function closePeek() {
@@ -88,11 +96,24 @@ function closePeek() {
     document.body.classList.remove('is-frozen');
   }
 
-  document.removeEventListener('keyup', handleEscOnPeek);
+  document.removeEventListener('keyup', handleKeysOnPeek);
 }
 
-function handleEscOnPeek(event) {
-  if (event.key == 'Escape') {
-    closePeek();
+function handleKeysOnPeek(event) {
+  let currentIndex = parseInt(document.querySelector('.js-peek-image').dataset.index);
+  let newImage = null;
+
+  switch (event.key) {
+    case 'Escape':
+      closePeek();
+      break;
+    case 'ArrowLeft':
+      currentPeekIndex--;
+      changePeek();
+      break;
+    case 'ArrowRight':
+      currentPeekIndex++;
+      changePeek();
+      break;
   }
 }

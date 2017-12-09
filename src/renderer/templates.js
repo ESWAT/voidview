@@ -26,13 +26,12 @@ export function list(items, startingIndex) {
   });
 }
 
-export function peek(backgroundUrl, index) {
+export function peek(backgroundUrl) {
   return `
   <div class="js-peek peek">
     <div
       class="js-peek-image peek-image"
       style="background-image: url(${backgroundUrl})"
-      data-index="${index}"
     >
         <button class="js-close-peek close-peek">×</button>
     </div>
