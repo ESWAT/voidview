@@ -30,12 +30,6 @@ function createWindow () {
 
   window.loadURL(url);
 
-  fs.readFile(path.join(__dirname + 'static/app.css'), function(err, dat) {
-    if (!err) {
-      window.webContents.insertCSS(dat)
-    }
-  });
-
   window.on('closed', () => {
     window = null;
   });
