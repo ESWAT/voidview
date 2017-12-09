@@ -30,7 +30,6 @@ readDir(path[0]).then(dir => {
 
   inView('.js-edge')
     .on('enter', () => {
-      console.log('Rendering more items');
       renderFiles();
     })
 });
@@ -58,6 +57,8 @@ function renderFiles() {
       }, false);
     })
   });
+
+  console.log("Rendering more items…");
 }
 
 function openPeek(item) {
@@ -83,9 +84,13 @@ function changePeek() {
   const image = document.querySelector(`.js-item[data-index="${currentPeekIndex}"]`).dataset.image;
   const peekImageEl = document.querySelector('.js-peek-image');
 
-  console.log(`Changing peek to ${currentPeekIndex}`);
+  console.log(`Changing peek to ${currentPeekIndex}…`);
 
   peekImageEl.setAttribute('style', `background-image: url(file://${path + '/' + image})`);
+
+  if (lastPushedFile - currentPeekIndex < PUSH_LIMIT) {
+    renderFiles();
+  }
 }
 
 function closePeek() {
