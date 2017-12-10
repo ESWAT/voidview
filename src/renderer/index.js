@@ -3,20 +3,18 @@
 require("./index.css");
 
 import inView from 'in-view';
+import { remote } from 'electron';
 import { shell, list, peek } from './templates';
 import { readDir } from './utils';
-
-const PUSH_LIMIT = 24;
-
-const {dialog} = require('electron').remote
+import { PUSH_LIMIT } from './constants';
 
 let files = [];
 let lastPushedFile = 0;
 let currentPeekIndex = 0;
 
-const path = dialog.showOpenDialog({properties: ['openDirectory']});
-
 document.getElementById('app').innerHTML = shell;
+
+const path = remote.dialog.showOpenDialog({properties: ['openDirectory']});
 
 readDir(path[0]).then(dir => {
   for (let i = 0; i < dir.length; i++) {
