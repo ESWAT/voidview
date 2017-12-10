@@ -1,31 +1,25 @@
-'use strict'
-
 import { app, BrowserWindow } from 'electron';
-
-const path = require('path');
-const url = require('path');
-const fs = require('fs');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 let window;
 
-function createWindow () {
+function createWindow() {
   window = new BrowserWindow({
-    "webPreferences": {
-      "webSecurity": false
-    }
+    webPreferences: {
+      webSecurity: false,
+    },
   });
 
   window.maximize();
 
   const url = isDevelopment
     ? `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`
-    : `file://${__dirname}/index.html`
+    : `file://${__dirname}/index.html`;
 
   // Open the DevTools.
   if (isDevelopment) {
-    window.webContents.openDevTools()
+    window.webContents.openDevTools();
   }
 
   window.loadURL(url);
@@ -35,11 +29,11 @@ function createWindow () {
   });
 
   window.webContents.on('devtools-opened', () => {
-    window.focus()
+    window.focus();
     setImmediate(() => {
-      window.focus()
-    })
-  })
+      window.focus();
+    });
+  });
 
   return window;
 }
@@ -56,9 +50,9 @@ app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    app.quit()
+    app.quit();
   }
-})
+});
 
 app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
@@ -66,4 +60,4 @@ app.on('activate', () => {
   if (window === null) {
     createWindow();
   }
-})
+});

@@ -3,17 +3,6 @@ export const shell = `
   <div class="js-edge edge"></div>
 `;
 
-export function list(items, startingIndex) {
-  return new Promise(res => {
-    const list = [];
-    items.map((item, index) => {
-      list.push(_item(item.backgroundUrl, item.datasetUrl, startingIndex + index));
-    });
-
-    res(list);
-  });
-}
-
 export function peek(backgroundUrl) {
   return `
   <div class="js-peek peek">
@@ -27,7 +16,7 @@ export function peek(backgroundUrl) {
   `;
 }
 
-function _item(backgroundUrl, datasetUrl, index) {
+function getItem(backgroundUrl, datasetUrl, index) {
   return `
     <div
       class="js-item item"
@@ -37,4 +26,15 @@ function _item(backgroundUrl, datasetUrl, index) {
     >
     </div>
   `;
+}
+
+export function list(items, startingIndex) {
+  return new Promise((res) => {
+    const listOfItems = [];
+    items.forEach((item, index) => {
+      listOfItems.push(getItem(item.backgroundUrl, item.datasetUrl, startingIndex + index));
+    });
+
+    res(listOfItems);
+  });
 }
