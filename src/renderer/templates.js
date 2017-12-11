@@ -8,7 +8,7 @@ export function peek(backgroundUrl) {
   <div class="js-peek peek">
     <div
       class="js-peek-image peek-image"
-      style="background-image: url(${backgroundUrl})"
+      style='background-image: url("${backgroundUrl})"'
     >
         <button class="js-close-peek close-peek">×</button>
     </div>
@@ -20,7 +20,7 @@ function getItem(backgroundUrl, datasetUrl, index) {
   return `
     <div
       class="js-item item"
-      style="background-image: url(${backgroundUrl})"
+      style='background-image: url("${backgroundUrl}")'
       data-image="${datasetUrl}"
       data-index="${index}"
     >
