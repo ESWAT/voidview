@@ -3,7 +3,7 @@
 import inView from 'in-view';
 import { remote } from 'electron';
 import { shell, list, peek } from './templates';
-import { readDir } from './utils';
+import readDir from './utils';
 import { PUSH_LIMIT } from './constants';
 
 require('./index.css');
