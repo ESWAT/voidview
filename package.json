@@ -1,6 +1,6 @@
 {
   "name": "yuffie",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Local image viewer",
   "main": "main.js",
   "scripts": {
@@ -13,6 +13,7 @@
   "author": "Philip Karpiak <philip@eswat.ca>",
   "devDependencies": {
     "css-loader": "^0.28.7",
+    "electron": "~1.7.8",
     "electron-builder": "^19.48.3",
     "electron-webpack": "^1.11.0",
     "eslint": "^4.13.0",
@@ -30,7 +31,6 @@
     }
   },
   "dependencies": {
-    "electron": "~1.7.8",
     "in-view": "^0.6.1",
     "source-map-support": "^0.5.0"
   }
