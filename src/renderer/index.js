@@ -69,7 +69,7 @@ function openPeek(item) {
       closePeek();
     }, false);
 
-    currentPeekIndex = item.dataset.index;
+    currentPeekIndex = parseInt(item.dataset.index, 10);
 
     document.addEventListener('keyup', handleKeysOnPeek);
   }
