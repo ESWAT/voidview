@@ -75,7 +75,8 @@ function openPeek(item) {
   }
 }
 
-function changePeek() {
+function changePeek(newIndex) {
+  currentPeekIndex = newIndex;
   const { image } = document.querySelector(`.js-item[data-index="${currentPeekIndex}"]`).dataset;
   const peekImageEl = document.querySelector('.js-peek-image');
 
@@ -84,6 +85,10 @@ function changePeek() {
   if (lastPushedFile - currentPeekIndex < PUSH_LIMIT) {
     renderFiles();
   }
+}
+
+function checkNewPeek(index) {
+  return document.querySelector(`.js-item[data-index="${index}"]`);
 }
 
 function closePeek() {
@@ -103,12 +108,14 @@ function handleKeysOnPeek(event) {
       closePeek();
       break;
     case 'ArrowLeft':
-      currentPeekIndex -= 1;
-      changePeek();
+      if (checkNewPeek(currentPeekIndex - 1)) {
+        changePeek(currentPeekIndex - 1);
+      }
       break;
     case 'ArrowRight':
-      currentPeekIndex += 1;
-      changePeek();
+      if (checkNewPeek(currentPeekIndex + 1)) {
+        changePeek(currentPeekIndex + 1);
+      }
       break;
     default:
       break;
