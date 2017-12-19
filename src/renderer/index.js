@@ -3,6 +3,7 @@
 import inView from 'in-view';
 import fileType from 'file-type';
 import readChunk from 'read-chunk';
+import * as fs from 'fs';
 import { remote } from 'electron';
 import { shell, list, peek } from './templates';
 import readDir from './utils';
@@ -46,11 +47,15 @@ function renderFiles() {
 readDir(path[0]).then((dir) => {
   for (let i = 0; i < dir.length; i += 1) {
     if (dir[i] !== undefined) {
-      const buf = readChunk.sync(`${path}/${dir[i]}`, 0, 4100);
-      const type = fileType(buf);
+      const fullPath = `${path}/${dir[i]}`;
 
-      if (type && SUPPORTED_EXTENSIONS.includes(type.ext)) {
-        files.push(dir[i]);
+      if (fs.statSync(fullPath).isFile()) {
+        const buf = readChunk.sync(`${path}/${dir[i]}`, 0, 4100);
+        const type = fileType(buf);
+
+        if (type && SUPPORTED_EXTENSIONS.includes(type.ext)) {
+          files.push(dir[i]);
+        }
       }
     }
   }
