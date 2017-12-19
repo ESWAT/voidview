@@ -79,7 +79,7 @@ function changePeek() {
   const { image } = document.querySelector(`.js-item[data-index="${currentPeekIndex}"]`).dataset;
   const peekImageEl = document.querySelector('.js-peek-image');
 
-  peekImageEl.setAttribute('style', `background-image: url(file://${path}/${image})`);
+  peekImageEl.setAttribute('style', `background-image: url("file://${path}/${image}")`);
 
   if (lastPushedFile - currentPeekIndex < PUSH_LIMIT) {
     renderFiles();
