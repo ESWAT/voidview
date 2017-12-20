@@ -16,7 +16,7 @@ body {
   background-size: cover;
   background-position: center;
   height: calc(16.666666667vw - 4px);
-  cursor: pointer;
+  cursor: zoom-in;
 }
 
 .peek {
@@ -27,27 +27,7 @@ body {
   left: 0;
   z-index: 2;
   background-color: #040404;
-}
-
-.close-peek {
-  position: absolute;
-  top: 0;
-  right: 0;
-  -webkit-appearance: none;
-  border: 0;
-  border-radius: 0;
-  background-color: #040404;
-  color: #fff;
-  font-size: 24px;
-  font-weight: 100;
-  width: 40px;
-  height: 40px;
-  line-height: 0;
-  cursor: pointer;
-}
-
-.close-peek:hover {
-  background-color: #111;
+  cursor: zoom-out;
 }
 
 .peek-image {

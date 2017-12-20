@@ -77,7 +77,7 @@ function openPeek(item) {
     document.querySelector('.list').insertAdjacentHTML('afterend', newPeekEl);
     document.body.classList.add('is-frozen');
 
-    document.querySelector('.js-close-peek').addEventListener('click', () => {
+    document.querySelector('.js-peek-image').addEventListener('click', () => {
       closePeek();
     }, false);
 
@@ -115,8 +115,10 @@ function closePeek() {
 }
 
 function handleKeysOnPeek(event) {
+  console.log(event.key);
   switch (event.key) {
     case 'Escape':
+    case ' ':
       closePeek();
       break;
     case 'ArrowLeft':
