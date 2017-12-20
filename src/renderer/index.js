@@ -4,8 +4,8 @@ import inView from 'in-view';
 import fileType from 'file-type';
 import readChunk from 'read-chunk';
 import * as fs from 'fs';
-import { remote } from 'electron';
-import { shell, list, peek } from './templates';
+import { remote, shell } from 'electron';
+import { layout, list, peek } from './templates';
 import readDir from './utils';
 import { PUSH_LIMIT, SUPPORTED_EXTENSIONS } from './constants';
 
@@ -15,7 +15,7 @@ const files = [];
 let lastPushedFile = 0;
 let currentPeekIndex = 0;
 
-document.getElementById('app').innerHTML = shell;
+document.getElementById('app').innerHTML = layout;
 
 const path = remote.dialog.showOpenDialog({ properties: ['openDirectory'] });
 
@@ -99,6 +99,12 @@ function changePeek(newIndex) {
   }
 }
 
+function openFile() {
+  const { image } = document.querySelector(`.js-item[data-index="${currentPeekIndex}"]`).dataset;
+
+  shell.showItemInFolder(`${path}/${image}`);
+}
+
 function checkNewPeek(index) {
   return document.querySelector(`.js-item[data-index="${index}"]`);
 }
@@ -120,6 +126,9 @@ function handleKeysOnPeek(event) {
     case 'Escape':
     case ' ':
       closePeek();
+      break;
+    case 'o':
+      openFile();
       break;
     case 'ArrowLeft':
       if (checkNewPeek(currentPeekIndex - 1)) {

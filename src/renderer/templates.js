@@ -1,4 +1,4 @@
-export const shell = `
+export const layout = `
   <div class="js-list list"></div>
   <div class="js-edge edge"></div>
 `;
