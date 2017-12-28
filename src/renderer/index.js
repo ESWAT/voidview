@@ -13,7 +13,7 @@ require('./index.css');
 
 const files = [];
 let lastPushedFile = 0;
-let currentItem = 0;
+let currentItem = -1;
 
 document.getElementById('app').innerHTML = layout;
 
@@ -49,13 +49,29 @@ function selectItem(newIndex) {
   document.querySelector(`.js-item[data-index="${currentItem}"]`).focus();
 }
 
+document.addEventListener('keydown', (event) => {
+  switch (event.key) {
+    case ' ':
+      event.preventDefault();
+      break;
+    default:
+      break;
+  }
+});
+
 document.addEventListener('keyup', (event) => {
   const peekEl = document.querySelector('.js-peek');
 
   if (!peekEl) {
     switch (event.key) {
+      case 'Tab':
+        currentItem = parseInt(document.activeElement.dataset.index, 10);
+        break;
       case 'Enter':
-        openPeek(document.activeElement);
+      case ' ':
+        if (currentItem >= 0) {
+          openPeek(document.activeElement);
+        }
         break;
       case 'ArrowLeft':
         selectItem(currentItem >= 0 ? currentItem - 1 : currentItem);
@@ -66,6 +82,7 @@ document.addEventListener('keyup', (event) => {
       default:
         break;
     }
+    console.log(currentItem);
   }
 });
 
@@ -114,8 +131,11 @@ function openPeek(item) {
 
 function changePeek(newIndex) {
   currentItem = newIndex;
-  const { image } = document.querySelector(`.js-item[data-index="${currentItem}"]`).dataset;
+  const newItem = document.querySelector(`.js-item[data-index="${currentItem}"]`);
+  const { image } = newItem.dataset;
   const peekImageEl = document.querySelector('.js-peek-image');
+
+  newItem.focus();
 
   peekImageEl.setAttribute('style', `background-image: url("file://${path}/${image}")`);
 

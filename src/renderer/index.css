@@ -18,10 +18,12 @@ body {
   height: calc(16.666666667vw - 4px);
   cursor: zoom-in;
   outline: 0;
+  transition: opacity 0.1s ease-out;
 }
 
 .item:focus {
-  border-color: red;
+  border-color: #5C30ED;
+  opacity: 0.9;
 }
 
 .peek {
