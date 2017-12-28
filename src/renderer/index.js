@@ -2,6 +2,7 @@
 
 import inView from 'in-view';
 import fileType from 'file-type';
+import shuffle from 'shuffle-array';
 import readChunk from 'read-chunk';
 import * as fs from 'fs';
 import { remote, shell } from 'electron';
@@ -49,6 +50,16 @@ function selectItem(newIndex) {
   document.querySelector(`.js-item[data-index="${currentItem}"]`).focus();
 }
 
+function shuffleFiles() {
+  shuffle(files);
+  lastPushedFile = 0;
+  currentItem = -1;
+
+  document.querySelector('.js-list').innerHTML = '';
+  renderFiles();
+  document.scrollTop = 0;
+}
+
 document.addEventListener('keydown', (event) => {
   switch (event.key) {
     case ' ':
@@ -66,6 +77,10 @@ document.addEventListener('keyup', (event) => {
 
   if (!peekEl) {
     switch (event.key) {
+      case 'r':
+        console.log('Shuffling files…');
+        shuffleFiles();
+        break;
       case 'Tab':
         currentItem = parseInt(document.activeElement.dataset.index, 10);
         break;
