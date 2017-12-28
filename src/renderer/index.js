@@ -13,7 +13,7 @@ require('./index.css');
 
 const files = [];
 let lastPushedFile = 0;
-let currentPeekIndex = 0;
+let currentItem = 0;
 
 document.getElementById('app').innerHTML = layout;
 
@@ -81,26 +81,26 @@ function openPeek(item) {
       closePeek();
     }, false);
 
-    currentPeekIndex = parseInt(item.dataset.index, 10);
+    currentItem = parseInt(item.dataset.index, 10);
 
     document.addEventListener('keyup', handleKeysOnPeek);
   }
 }
 
 function changePeek(newIndex) {
-  currentPeekIndex = newIndex;
-  const { image } = document.querySelector(`.js-item[data-index="${currentPeekIndex}"]`).dataset;
+  currentItem = newIndex;
+  const { image } = document.querySelector(`.js-item[data-index="${currentItem}"]`).dataset;
   const peekImageEl = document.querySelector('.js-peek-image');
 
   peekImageEl.setAttribute('style', `background-image: url("file://${path}/${image}")`);
 
-  if (lastPushedFile - currentPeekIndex < PUSH_LIMIT) {
+  if (lastPushedFile - currentItem < PUSH_LIMIT) {
     renderFiles();
   }
 }
 
 function openFile() {
-  const { image } = document.querySelector(`.js-item[data-index="${currentPeekIndex}"]`).dataset;
+  const { image } = document.querySelector(`.js-item[data-index="${currentItem}"]`).dataset;
 
   shell.showItemInFolder(`${path}/${image}`);
 }
@@ -131,13 +131,13 @@ function handleKeysOnPeek(event) {
       openFile();
       break;
     case 'ArrowLeft':
-      if (checkNewPeek(currentPeekIndex - 1)) {
-        changePeek(currentPeekIndex - 1);
+      if (checkNewPeek(currentItem - 1)) {
+        changePeek(currentItem - 1);
       }
       break;
     case 'ArrowRight':
-      if (checkNewPeek(currentPeekIndex + 1)) {
-        changePeek(currentPeekIndex + 1);
+      if (checkNewPeek(currentItem + 1)) {
+        changePeek(currentItem + 1);
       }
       break;
     default:
