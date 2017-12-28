@@ -44,6 +44,31 @@ function renderFiles() {
   });
 }
 
+function selectItem(newIndex) {
+  currentItem = newIndex;
+  document.querySelector(`.js-item[data-index="${currentItem}"]`).focus();
+}
+
+document.addEventListener('keyup', (event) => {
+  const peekEl = document.querySelector('.js-peek');
+
+  if (!peekEl) {
+    switch (event.key) {
+      case 'Enter':
+        openPeek(document.activeElement);
+        break;
+      case 'ArrowLeft':
+        selectItem(currentItem >= 0 ? currentItem - 1 : currentItem);
+        break;
+      case 'ArrowRight':
+        selectItem(currentItem < files.length ? currentItem + 1 : currentItem);
+        break;
+      default:
+        break;
+    }
+  }
+});
+
 readDir(path[0]).then((dir) => {
   for (let i = 0; i < dir.length; i += 1) {
     if (dir[i] !== undefined) {
@@ -121,7 +146,6 @@ function closePeek() {
 }
 
 function handleKeysOnPeek(event) {
-  console.log(event.key);
   switch (event.key) {
     case 'Escape':
     case ' ':

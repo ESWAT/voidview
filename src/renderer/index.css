@@ -12,11 +12,16 @@ body {
 
 .item {
   width: calc(16.666666667% - 4px);
-  margin: 2px;
+  border: 2px solid #040404;
   background-size: cover;
   background-position: center;
   height: calc(16.666666667vw - 4px);
   cursor: zoom-in;
+  outline: 0;
+}
+
+.item:focus {
+  border-color: red;
 }
 
 .peek {

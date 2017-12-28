@@ -22,6 +22,7 @@ function getItem(backgroundUrl, datasetUrl, index) {
       style='background-image: url("${backgroundUrl}")'
       data-image="${datasetUrl}"
       data-index="${index}"
+      tabindex="0"
     >
     </div>
   `;
