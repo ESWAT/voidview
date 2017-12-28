@@ -112,7 +112,15 @@ document.addEventListener('keyup', (event) => {
       default:
         break;
     }
-    console.log(currentItem);
+  } else {
+    switch (event.key) {
+      case 'Tab':
+        currentItem = parseInt(document.activeElement.dataset.index, 10);
+        changePeek(currentItem);
+        break;
+      default:
+        break;
+    }
   }
 });
 
@@ -155,7 +163,7 @@ function openPeek(item) {
 
     currentItem = parseInt(item.dataset.index, 10);
 
-    document.addEventListener('keyup', handleKeysOnPeek);
+    document.addEventListener('keyup', handleKeyUpOnPeek);
   }
 }
 
@@ -192,10 +200,10 @@ function closePeek() {
     document.body.classList.remove('is-frozen');
   }
 
-  document.removeEventListener('keyup', handleKeysOnPeek);
+  document.removeEventListener('keyup', handleKeyUpOnPeek);
 }
 
-function handleKeysOnPeek(event) {
+function handleKeyUpOnPeek(event) {
   switch (event.key) {
     case 'Escape':
     case ' ':
