@@ -52,6 +52,8 @@ function selectItem(newIndex) {
 document.addEventListener('keydown', (event) => {
   switch (event.key) {
     case ' ':
+    case 'ArrowUp':
+    case 'ArrowDown':
       event.preventDefault();
       break;
     default:
@@ -73,11 +75,21 @@ document.addEventListener('keyup', (event) => {
           openPeek(document.activeElement);
         }
         break;
-      case 'ArrowLeft':
-        selectItem(currentItem >= 0 ? currentItem - 1 : currentItem);
+      case 'ArrowUp':
+        selectItem(currentItem - 6 >= 0 ? currentItem - 6 : currentItem);
         break;
       case 'ArrowRight':
         selectItem(currentItem < files.length ? currentItem + 1 : currentItem);
+        break;
+      case 'ArrowDown':
+        if (currentItem < 0) {
+          selectItem(currentItem + 1);
+        } else {
+          selectItem(currentItem + 6 <= lastPushedFile ? currentItem + 6 : currentItem);
+        }
+        break;
+      case 'ArrowLeft':
+        selectItem(currentItem > 0 ? currentItem - 1 : currentItem);
         break;
       default:
         break;
