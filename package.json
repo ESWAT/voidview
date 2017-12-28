@@ -1,6 +1,6 @@
 {
   "name": "yuffie",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Local image viewer",
   "main": "main.js",
   "scripts": {
