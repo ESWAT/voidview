@@ -81,6 +81,9 @@ document.addEventListener('keyup', (event) => {
         console.log('Shuffling files…');
         shuffleFiles();
         break;
+      case 'o':
+        openFile();
+        break;
       case 'Tab':
         currentItem = parseInt(document.activeElement.dataset.index, 10);
         break;
