@@ -5,20 +5,36 @@ import fileType from 'file-type';
 import shuffle from 'shuffle-array';
 import readChunk from 'read-chunk';
 import * as fs from 'fs';
-import { remote, shell } from 'electron';
+import { ipcRenderer, remote, shell } from 'electron';
 import { layout, list, peek } from './templates';
 import readDir from './utils';
 import { PUSH_LIMIT, SUPPORTED_EXTENSIONS } from './constants';
 
 require('./index.css');
 
-const files = [];
+let files = [];
 let lastPushedFile = 0;
 let currentItem = -1;
 
 document.getElementById('app').innerHTML = layout;
 
-const path = remote.dialog.showOpenDialog({ properties: ['openDirectory'] });
+let path = [];
+
+function bootstrap() {
+  path = remote.dialog.showOpenDialog({ properties: ['openDirectory'] });
+  readPath();
+}
+
+bootstrap();
+
+ipcRenderer.on('open', () => {
+  lastPushedFile = 0;
+  currentItem = -1;
+
+  document.querySelector('.js-list').innerHTML = '';
+  document.scrollTop = 0;
+  bootstrap();
+});
 
 function renderFiles() {
   const pushToThis = lastPushedFile !== 0 ? lastPushedFile + PUSH_LIMIT : PUSH_LIMIT;
@@ -124,29 +140,34 @@ document.addEventListener('keyup', (event) => {
   }
 });
 
-readDir(path[0]).then((dir) => {
-  for (let i = 0; i < dir.length; i += 1) {
-    if (dir[i] !== undefined) {
-      const fullPath = `${path}/${dir[i]}`;
+function readPath() {
+  files = [];
+  readDir(path[0]).then((dir) => {
+    for (let i = 0; i < dir.length; i += 1) {
+      if (dir[i] !== undefined) {
+        const fullPath = `${path}/${dir[i]}`;
 
-      if (fs.statSync(fullPath).isFile()) {
-        const buf = readChunk.sync(`${path}/${dir[i]}`, 0, 4100);
-        const type = fileType(buf);
+        if (fs.statSync(fullPath).isFile()) {
+          const buf = readChunk.sync(`${path}/${dir[i]}`, 0, 4100);
+          const type = fileType(buf);
 
-        if (type && SUPPORTED_EXTENSIONS.includes(type.ext)) {
-          files.push(dir[i]);
+          if (type && SUPPORTED_EXTENSIONS.includes(type.ext)) {
+            files.push(dir[i]);
+          }
         }
       }
     }
-  }
 
-  renderFiles();
-  renderFiles();
-
-  inView('.js-edge').on('enter', () => {
     renderFiles();
+    renderFiles();
+
+    inView('.js-edge').on('enter', () => {
+      renderFiles();
+    });
+
+    console.log(files.length);
   });
-});
+}
 
 function openPeek(item) {
   const peekEl = document.querySelector('.js-peek');

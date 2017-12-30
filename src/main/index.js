@@ -1,8 +1,23 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 let window;
+
+const menuTemplate = [
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'Open…',
+        accelerator: 'Cmd+O',
+        click: (item, focusedWindow) => {
+          if (focusedWindow) window.webContents.send('open');
+        },
+      },
+    ],
+  },
+];
 
 function createWindow() {
   window = new BrowserWindow({
@@ -10,6 +25,9 @@ function createWindow() {
       webSecurity: false,
     },
   });
+
+  const menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
 
   window.maximize();
 
