@@ -6,6 +6,38 @@ let window;
 
 const menuTemplate = [
   {
+    submenu: [
+      {
+        role: 'about',
+      },
+      {
+        type: 'separator',
+      },
+      {
+        role: 'services',
+        submenu: [],
+      },
+      {
+        type: 'separator',
+      },
+      {
+        role: 'hide',
+      },
+      {
+        role: 'hideothers',
+      },
+      {
+        role: 'unhide',
+      },
+      {
+        type: 'separator',
+      },
+      {
+        role: 'quit',
+      },
+    ],
+  },
+  {
     label: 'File',
     submenu: [
       {
@@ -16,6 +48,9 @@ const menuTemplate = [
         },
       },
     ],
+  },
+  {
+    role: 'windowMenu',
   },
 ];
 
