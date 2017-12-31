@@ -21,6 +21,23 @@ document.getElementById('app').innerHTML = splash;
 let path = [];
 
 function bootstrap() {
+  document.addEventListener('dragover', (event) => {
+    event.preventDefault();
+  });
+
+  document.addEventListener('drop', (event) => {
+    event.preventDefault();
+    path = [event.dataTransfer.files[0].path];
+    console.log(event.dataTransfer.files[0]);
+    document.getElementById('app').innerHTML = layout;
+    files = [];
+    lastPushedFile = 0;
+    currentItem = -1;
+
+    document.querySelector('.js-list').innerHTML = '';
+    readPath();
+  });
+
   document.querySelector('.js-splash-open').addEventListener('click', () => {
     path = remote.dialog.showOpenDialog({ properties: ['openDirectory'] });
     document.getElementById('app').innerHTML = layout;
