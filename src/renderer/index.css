@@ -70,6 +70,26 @@ body {
   display: block;
 }
 
+.splash {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.splash-open {
+    appearance: none;
+    background: #5C30ED;
+    border: 0;
+    border-radius: 2px;
+    color: #fff;
+    font: 14px 'helvetica neue', 'helvetica', arials, sans-serif;
+    font-weight: 400p;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
 @keyframes select {
   0% {
     transform: scale(1.05);

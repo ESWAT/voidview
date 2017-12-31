@@ -3,6 +3,14 @@ export const layout = `
   <div class="js-edge edge"></div>
 `;
 
+export const splash = `
+  <div
+    class="js-splash splash"
+  >
+    <button class="js-splash-open splash-open">Open Folder</button>
+  </div>
+`;
+
 export function peek(backgroundUrl) {
   return `
   <div class="js-peek peek">

@@ -6,7 +6,7 @@ import shuffle from 'shuffle-array';
 import readChunk from 'read-chunk';
 import * as fs from 'fs';
 import { ipcRenderer, remote, shell } from 'electron';
-import { layout, list, peek } from './templates';
+import { layout, list, peek, splash } from './templates';
 import readDir from './utils';
 import { PUSH_LIMIT, SUPPORTED_EXTENSIONS } from './constants';
 
@@ -16,13 +16,16 @@ let files = [];
 let lastPushedFile = 0;
 let currentItem = -1;
 
-document.getElementById('app').innerHTML = layout;
+document.getElementById('app').innerHTML = splash;
 
 let path = [];
 
 function bootstrap() {
-  path = remote.dialog.showOpenDialog({ properties: ['openDirectory'] });
-  readPath();
+  document.querySelector('.js-splash-open').addEventListener('click', () => {
+    path = remote.dialog.showOpenDialog({ properties: ['openDirectory'] });
+    document.getElementById('app').innerHTML = layout;
+    readPath();
+  });
 }
 
 bootstrap();
