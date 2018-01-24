@@ -181,6 +181,8 @@ function readPath() {
     renderFiles();
     renderFiles();
 
+    document.title = path.toString().split('/').slice(-1);
+
     inView('.js-edge').on('enter', () => {
       renderFiles();
     });
