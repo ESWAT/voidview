@@ -28,7 +28,6 @@ function bootstrap() {
   document.addEventListener('drop', (event) => {
     event.preventDefault();
     path = [event.dataTransfer.files[0].path];
-    console.log(event.dataTransfer.files[0]);
     document.getElementById('app').innerHTML = layout;
     files = [];
     lastPushedFile = 0;
@@ -114,7 +113,6 @@ document.addEventListener('keyup', (event) => {
   if (!peekEl) {
     switch (event.key) {
       case 'r':
-        console.log('Shuffling files…');
         shuffleFiles();
         break;
       case 'o':
@@ -186,8 +184,6 @@ function readPath() {
     inView('.js-edge').on('enter', () => {
       renderFiles();
     });
-
-    console.log(files.length);
   });
 }
 
