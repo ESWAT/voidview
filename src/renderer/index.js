@@ -47,12 +47,17 @@ function bootstrap() {
 bootstrap();
 
 ipcRenderer.on('open', () => {
-  lastPushedFile = 0;
-  currentItem = -1;
+  const newPath = remote.dialog.showOpenDialog({ properties: ['openDirectory'] });
 
-  document.querySelector('.js-list').innerHTML = '';
-  document.scrollTop = 0;
-  bootstrap();
+  if (newPath) {
+    path = newPath;
+    lastPushedFile = 0;
+    currentItem = -1;
+
+    document.querySelector('.js-list').innerHTML = '';
+    document.scrollTop = 0;
+    readPath();
+  }
 });
 
 ipcRenderer.on('shuffle', () => {
