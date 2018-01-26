@@ -50,6 +50,18 @@ const menuTemplate = [
     ],
   },
   {
+    label: 'View',
+    submenu: [
+      {
+        label: 'Shuffle Images',
+        accelerator: 'Cmd+R',
+        click: (item, focusedWindow) => {
+          if (focusedWindow) window.webContents.send('shuffle');
+        },
+      },
+    ],
+  },
+  {
     role: 'windowMenu',
   },
 ];

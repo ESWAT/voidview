@@ -55,6 +55,10 @@ ipcRenderer.on('open', () => {
   bootstrap();
 });
 
+ipcRenderer.on('shuffle', () => {
+  shuffleFiles();
+});
+
 function renderFiles() {
   const pushToThis = lastPushedFile !== 0 ? lastPushedFile + PUSH_LIMIT : PUSH_LIMIT;
 
@@ -112,9 +116,6 @@ document.addEventListener('keyup', (event) => {
 
   if (!peekEl) {
     switch (event.key) {
-      case 'r':
-        shuffleFiles();
-        break;
       case 'o':
         openFile();
         break;
