@@ -47,16 +47,21 @@ const menuTemplate = [
           if (focusedWindow) window.webContents.send('open');
         },
       },
-    ],
-  },
-  {
-    label: 'View',
-    submenu: [
+      {
+        type: 'separator',
+      },
       {
         label: 'Shuffle Images',
         accelerator: 'Cmd+R',
         click: (item, focusedWindow) => {
           if (focusedWindow) window.webContents.send('shuffle');
+        },
+      },
+      {
+        label: 'Show in Finder',
+        accelerator: 'Cmd+Shift+O',
+        click: (item, focusedWindow) => {
+          if (focusedWindow)window.webContents.send('reveal');
         },
       },
     ],

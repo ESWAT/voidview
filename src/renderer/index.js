@@ -59,6 +59,10 @@ ipcRenderer.on('shuffle', () => {
   shuffleFiles();
 });
 
+ipcRenderer.on('reveal', () => {
+  openFile();
+});
+
 function renderFiles() {
   const pushToThis = lastPushedFile !== 0 ? lastPushedFile + PUSH_LIMIT : PUSH_LIMIT;
 
@@ -116,9 +120,6 @@ document.addEventListener('keyup', (event) => {
 
   if (!peekEl) {
     switch (event.key) {
-      case 'o':
-        openFile();
-        break;
       case 'Tab':
         currentItem = parseInt(document.activeElement.dataset.index, 10);
         break;
@@ -248,9 +249,6 @@ function handleKeyUpOnPeek(event) {
     case 'Escape':
     case ' ':
       closePeek();
-      break;
-    case 'o':
-      openFile();
       break;
     case 'ArrowLeft':
       if (checkNewPeek(currentItem - 1)) {
