@@ -67,7 +67,38 @@ const menuTemplate = [
     ],
   },
   {
-    role: 'windowMenu',
+    label: 'Window',
+    submenu: [
+      {
+        role: 'close',
+      },
+      {
+        role: 'minimize',
+      },
+      {
+        role: 'zoom',
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'YUFFIE',
+        accelerator: 'Cmd+Alt+1',
+        click: (item, focusedWindow) => {
+          if (!focusedWindow && window) {
+            window.focus();
+          } else if (window === null) {
+            window = createWindow();
+          }
+        },
+      },
+      {
+        type: 'separator',
+      },
+      {
+        role: 'front',
+      },
+    ],
   },
 ];
 
