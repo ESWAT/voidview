@@ -248,6 +248,7 @@ function handleKeyUpOnPeek(event) {
   switch (event.key) {
     case 'Escape':
     case ' ':
+    case 'Enter':
       closePeek();
       break;
     case 'ArrowLeft':
