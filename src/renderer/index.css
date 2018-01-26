@@ -1,5 +1,5 @@
 body {
-  background: #040404;
+  background: #000;
   margin: 0;
   position: relative;
 }
@@ -23,11 +23,10 @@ body {
 .item:focus:after {
   content: '';
   display: block;
-  width: 100%;
-  height: 100%;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
   position: relative;
-  border: 4px solid #5C30ED;
-  border-radius: 2px;
+  border: 2px solid #d12a2a;
   top: -4px;
   left: -4px;
   z-index: 2;
@@ -41,7 +40,7 @@ body {
   bottom: 0;
   left: 0;
   z-index: 2;
-  background-color: #040404;
+  background-color: #000;
   cursor: zoom-out;
 }
 
@@ -92,7 +91,7 @@ body {
 
 @keyframes select {
   0% {
-    transform: scale(1.05);
+    transform: scale(1.025);
   }
   100% {
     transform: scale(1);
