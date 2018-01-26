@@ -6,7 +6,7 @@ import shuffle from 'shuffle-array';
 import readChunk from 'read-chunk';
 import * as fs from 'fs';
 import { ipcRenderer, remote, shell } from 'electron';
-import { layout, list, peek, splash } from './templates';
+import { titlebar, layout, list, peek, splash } from './templates';
 import readDir from './utils';
 import { PUSH_LIMIT, SUPPORTED_EXTENSIONS } from './constants';
 
@@ -16,6 +16,7 @@ let files = [];
 let lastPushedFile = 0;
 let currentItem = -1;
 
+document.body.appendChild(document.createRange().createContextualFragment(titlebar));
 document.getElementById('app').innerHTML = splash;
 
 let path = [];
@@ -186,7 +187,7 @@ function readPath() {
     renderFiles();
     renderFiles();
 
-    document.title = path.toString().split('/').slice(-1);
+    document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1);
 
     inView('.js-edge').on('enter', () => {
       renderFiles();

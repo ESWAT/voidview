@@ -3,6 +3,10 @@ export const layout = `
   <div class="js-edge edge"></div>
 `;
 
+export const titlebar = `
+  <div class="js-titlebar titlebar">YUFFIE</div>
+`;
+
 export const splash = `
   <div
     class="js-splash splash"

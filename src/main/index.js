@@ -76,6 +76,7 @@ function createWindow() {
     webPreferences: {
       webSecurity: false,
     },
+    titleBarStyle: 'hidden',
   });
 
   const menu = Menu.buildFromTemplate(menuTemplate);

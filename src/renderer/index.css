@@ -1,7 +1,20 @@
 body {
   background: #000;
-  margin: 0;
+  margin: 22px 0 0;
   position: relative;
+}
+
+.titlebar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 22px;
+  text-align: center;
+  color: #fff;
+  background-color: #000;
+  font: 13px system-ui;
+  line-height: 22px;
 }
 
 .list {
