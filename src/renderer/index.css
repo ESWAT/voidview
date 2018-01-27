@@ -72,7 +72,7 @@ body {
   top: -4px;
   left: -4px;
   z-index: 2;
-  animation: select 0.1s ease-in;
+  animation: select 0.1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .peek {
@@ -120,15 +120,20 @@ body {
 }
 
 .splash-open {
-    appearance: none;
-    background: #5C30ED;
-    border: 0;
-    border-radius: 2px;
-    color: #fff;
-    font: 14px 'helvetica neue', 'helvetica', arials, sans-serif;
-    font-weight: 400p;
-    padding: 8px 16px;
-    cursor: pointer;
+  appearance: none;
+  background: transparent;
+  border: 2px solid #d12a2a;
+  color: #fff;
+  font: 19px system-ui;
+  font-weight: 300;
+  padding: 32px;
+  cursor: pointer;
+  outline: 0;
+  animation: appear 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.splash-open:active {
+  color: #d12a2a;
 }
 
 @keyframes select {
@@ -137,5 +142,14 @@ body {
   }
   100% {
     transform: scale(1);
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

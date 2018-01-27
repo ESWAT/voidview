@@ -11,7 +11,7 @@ export const splash = `
   <div
     class="js-splash splash"
   >
-    <button class="js-splash-open splash-open">Open Folder</button>
+    <button class="js-splash-open splash-open">Open or drop folder here</button>
   </div>
 `;
 
