@@ -39,9 +39,13 @@ function bootstrap() {
   });
 
   document.querySelector('.js-splash-open').addEventListener('click', () => {
-    path = remote.dialog.showOpenDialog({ properties: ['openDirectory'] });
-    document.getElementById('app').innerHTML = layout;
-    readPath();
+    const newPath = remote.dialog.showOpenDialog({ properties: ['openDirectory'] });
+
+    if (newPath) {
+      path = newPath;
+      document.getElementById('app').innerHTML = layout;
+      readPath();
+    }
   });
 }
 
