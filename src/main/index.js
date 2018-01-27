@@ -84,7 +84,7 @@ const menuTemplate = [
         type: 'separator',
       },
       {
-        label: 'YUFFIE',
+        label: 'Yuffie',
         accelerator: 'Cmd+Alt+1',
         click: (item, focusedWindow) => {
           if (!focusedWindow && window) {

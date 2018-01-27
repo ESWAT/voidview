@@ -1,5 +1,5 @@
 {
-  "name": "yuffie",
+  "name": "Yuffie",
   "version": "0.2.0",
   "description": "Local image viewer",
   "main": "main.js",
@@ -22,7 +22,7 @@
     "webpack": "^3.10.0"
   },
   "electronWebpack": {
-    "title": "YUFFIE",
+    "title": "Yuffie",
     "main": {
       "webpackConfig": "webpack.main.js"
     },

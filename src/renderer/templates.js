@@ -4,7 +4,7 @@ export const layout = `
 `;
 
 export const titlebar = `
-  <div class="js-titlebar titlebar">YUFFIE</div>
+  <div class="js-titlebar titlebar">Yuffie</div>
 `;
 
 export const splash = `
