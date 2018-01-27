@@ -184,6 +184,8 @@ function readPath() {
       }
     }
 
+    ipcRenderer.send('path-loaded', true);
+
     renderFiles();
     renderFiles();
 

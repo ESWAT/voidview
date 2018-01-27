@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -53,6 +53,7 @@ const menuTemplate = [
       {
         label: 'Shuffle Images',
         accelerator: 'Cmd+R',
+        enabled: false,
         click: (item, focusedWindow) => {
           if (focusedWindow) window.webContents.send('shuffle');
         },
@@ -60,6 +61,7 @@ const menuTemplate = [
       {
         label: 'Show in Finder',
         accelerator: 'Cmd+Shift+O',
+        enabled: false,
         click: (item, focusedWindow) => {
           if (focusedWindow)window.webContents.send('reveal');
         },
@@ -125,6 +127,12 @@ function createWindow() {
   }
 
   window.loadURL(url);
+
+
+  ipcMain.on('path-loaded', (event, arg) => {
+    menu.items[1].submenu.items[2].enabled = arg;
+    menu.items[1].submenu.items[3].enabled = arg;
+  });
 
   window.on('closed', () => {
     window = null;
