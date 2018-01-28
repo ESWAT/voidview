@@ -19,6 +19,10 @@ body {
   -webkit-app-region: drag;
 }
 
+.titlebar.is-blurred {
+  color: #aaa;
+}
+
 .list {
   display: flex;
   flex-wrap: wrap;

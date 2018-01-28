@@ -181,3 +181,15 @@ app.on('activate', () => {
     createWindow();
   }
 });
+
+app.on('browser-window-blur', () => {
+  if (window !== null) {
+    window.webContents.send('blur');
+  }
+});
+
+app.on('browser-window-focus', () => {
+  if (window !== null) {
+    window.webContents.send('focus');
+  }
+});

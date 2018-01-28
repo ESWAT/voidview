@@ -73,6 +73,14 @@ ipcRenderer.on('reveal', () => {
   openFile();
 });
 
+ipcRenderer.on('blur', () => {
+  document.querySelector('.js-titlebar').classList.add('is-blurred');
+});
+
+ipcRenderer.on('focus', () => {
+  document.querySelector('.js-titlebar').classList.remove('is-blurred');
+});
+
 function renderFiles() {
   const pushToThis = lastPushedFile !== 0 ? lastPushedFile + PUSH_LIMIT : PUSH_LIMIT;
 
