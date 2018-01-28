@@ -1,4 +1,5 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, screen } from 'electron';
+import * as windowStateKeeper from 'electron-window-state';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -105,17 +106,27 @@ const menuTemplate = [
 ];
 
 function createWindow() {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  const mainWindowState = windowStateKeeper({
+    defaultWidth: width,
+    defaultHeight: height,
+  });
+
   window = new BrowserWindow({
     webPreferences: {
       webSecurity: false,
     },
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     titleBarStyle: 'hidden',
   });
 
+  mainWindowState.manage(window);
+
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
-
-  window.maximize();
 
   const url = isDevelopment
     ? `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`
@@ -127,7 +138,6 @@ function createWindow() {
   }
 
   window.loadURL(url);
-
 
   ipcMain.on('path-loaded', (event, arg) => {
     menu.items[1].submenu.items[2].enabled = arg;
