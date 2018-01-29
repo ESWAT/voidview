@@ -121,6 +121,7 @@ function createWindow() {
     width: mainWindowState.width,
     height: mainWindowState.height,
     titleBarStyle: 'hidden',
+    frame: false,
   });
 
   mainWindowState.manage(window);
