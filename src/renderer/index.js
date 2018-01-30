@@ -42,8 +42,8 @@ function bootstrap() {
     const newPath = remote.dialog.showOpenDialog({ properties: ['openDirectory'] });
 
     if (newPath) {
-      path = newPath;
       document.getElementById('app').innerHTML = layout;
+      path = newPath;
       readPath();
     }
   });
@@ -53,14 +53,19 @@ bootstrap();
 
 ipcRenderer.on('open', () => {
   const newPath = remote.dialog.showOpenDialog({ properties: ['openDirectory'] });
+  const alreadyRendering = document.querySelector('.js-list');
 
   if (newPath) {
-    path = newPath;
-    lastPushedFile = 0;
-    currentItem = -1;
+    if (alreadyRendering !== null) {
+      lastPushedFile = 0;
+      currentItem = -1;
 
-    document.querySelector('.js-list').innerHTML = '';
-    document.scrollTop = 0;
+      document.querySelector('.js-list').innerHTML = '';
+      document.scrollTop = 0;
+    } else {
+      document.getElementById('app').innerHTML = layout;
+    }
+    path = newPath;
     readPath();
   }
 });
