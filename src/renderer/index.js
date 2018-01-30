@@ -1,6 +1,6 @@
 // Bootstrap starting state for Yuffie
 
-import inView from 'in-view';
+import inView from 'element-in-view';
 import fileType from 'file-type';
 import shuffle from 'shuffle-array';
 import readChunk from 'read-chunk';
@@ -228,8 +228,12 @@ function readPath() {
 
     document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1);
 
-    inView('.js-edge').on('enter', () => {
-      renderFiles();
+    document.querySelector('#app').addEventListener('scroll', () => {
+      const shouldRenderNext = inView(document.querySelector('.js-edge'));
+
+      if (shouldRenderNext) {
+        renderFiles();
+      }
     });
   });
 }

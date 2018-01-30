@@ -15,6 +15,10 @@ body {
   left: 0;
 }
 
+.wrap {
+  position: relative;
+}
+
 .titlebar {
   position: fixed;
   top: 0;
