@@ -148,7 +148,7 @@ document.addEventListener('keyup', (event) => {
         }
         break;
       case 'ArrowUp':
-        selectItem(currentItem - 6 >= 0 ? currentItem - 6 : currentItem);
+        navigateUp();
         break;
       case 'ArrowRight':
         selectItem(currentItem < files.length ? currentItem + 1 : currentItem);
@@ -157,7 +157,7 @@ document.addEventListener('keyup', (event) => {
         if (currentItem < 0) {
           selectItem(currentItem + 1);
         } else {
-          selectItem(currentItem + 6 <= lastPushedFile ? currentItem + 6 : currentItem);
+          navigateDown();
         }
         break;
       case 'ArrowLeft':
@@ -177,6 +177,31 @@ document.addEventListener('keyup', (event) => {
     }
   }
 });
+
+function navigateUp() {
+  let nextEl = document.elementFromPoint(document.activeElement.getBoundingClientRect().left, document.activeElement.getBoundingClientRect().top - 30);
+  if (nextEl === null) {
+    document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop - 52;
+
+    nextEl = document.elementFromPoint(document.activeElement.getBoundingClientRect().left, 30);
+  }
+  if (nextEl !== null) {
+    selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem);
+  }
+}
+
+function navigateDown() {
+  let nextEl = document.elementFromPoint(document.activeElement.getBoundingClientRect().left, document.activeElement.getBoundingClientRect().top + document.activeElement.clientHeight + 8);
+  if (nextEl === null) {
+    document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop + 50;
+
+    nextEl = document.elementFromPoint(document.activeElement.getBoundingClientRect().left, document.activeElement.getBoundingClientRect().top + document.activeElement.clientHeight + 8);
+  }
+  if (nextEl !== null) {
+    selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem);
+  }
+}
+
 
 function readPath() {
   files = [];
