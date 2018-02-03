@@ -45,7 +45,7 @@ export function list (files, path) {
     let row = '<li class="row">'
 
     files.forEach((file, index) => {
-      if ((index % 5 === 0 && index !== 0)) {
+      if ((index % 6 === 0 && index !== 0)) {
         row = row.concat('</li>')
         itemsToRender.push(row)
 
