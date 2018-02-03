@@ -1,11 +1,11 @@
+import * as fs from 'fs'
 import imageType from 'image-type'
 import shuffle from 'shuffle-array'
 import readChunk from 'read-chunk'
-import * as fs from 'fs'
 import Clusterize from 'clusterize.js'
-import { ipcRenderer, remote, shell } from 'electron'
-import { titlebar, layout, list, peek, splash } from './templates'
-import readDir from './utils'
+import {ipcRenderer, remote, shell} from 'electron'
+import {createFrag, readDir} from './utils'
+import {layout, list, peek, splash, titlebar} from './templates'
 import {KEY_COMBO_COOLDOWN, SUPPORTED_EXTENSIONS} from './constants'
 
 require('./index.css')
@@ -16,12 +16,42 @@ let currentItem = -1
 let clusterize
 let lastKey = new KeyboardEvent(0)
 
-bootstrap()
+// Prevent default viewport scrolling with arrow keys
+document.addEventListener('keydown', (event) => {
+  switch (event.key) {
+    case ' ':
+    case 'ArrowUp':
+    case 'ArrowDown':
+      event.preventDefault()
+      break
+    default:
+      break
+  }
+})
 
-function bootstrap () {
-  document.body.appendChild(document.createRange().createContextualFragment(titlebar))
+setupSplashScreen()
+setupTitlebar()
+setupDropScreen()
+setupCommands()
+
+function setupSplashScreen () {
   document.getElementById('app').innerHTML = splash
+  document.querySelector('.js-splash-open').addEventListener('click', () => {
+    readPath(remote.dialog.showOpenDialog({ properties: ['openDirectory'] }))
+  })
+}
 
+function setupTitlebar () {
+  document.body.appendChild(createFrag(titlebar))
+  ipcRenderer.on('blur', () => {
+    document.querySelector('.js-titlebar').classList.add('is-blurred')
+  })
+  ipcRenderer.on('focus', () => {
+    document.querySelector('.js-titlebar').classList.remove('is-blurred')
+  })
+}
+
+function setupDropScreen () {
   document.addEventListener('dragover', (event) => {
     event.preventDefault()
   })
@@ -30,42 +60,17 @@ function bootstrap () {
     event.preventDefault()
     readPath([event.dataTransfer.files[0].path])
   })
+}
 
-  // Prevent default viewport scrolling with arrow keys
-  document.addEventListener('keydown', (event) => {
-    switch (event.key) {
-      case ' ':
-      case 'ArrowUp':
-      case 'ArrowDown':
-        event.preventDefault()
-        break
-      default:
-        break
-    }
-  })
-
-  document.querySelector('.js-splash-open').addEventListener('click', () => {
-    readPath(remote.dialog.showOpenDialog({ properties: ['openDirectory'] }))
-  })
-
+function setupCommands () {
   ipcRenderer.on('open', () => {
     readPath(remote.dialog.showOpenDialog({ properties: ['openDirectory'] }))
   })
-
   ipcRenderer.on('shuffle', () => {
     shuffleFiles()
   })
-
   ipcRenderer.on('reveal', () => {
     openExternally()
-  })
-
-  ipcRenderer.on('blur', () => {
-    document.querySelector('.js-titlebar').classList.add('is-blurred')
-  })
-
-  ipcRenderer.on('focus', () => {
-    document.querySelector('.js-titlebar').classList.remove('is-blurred')
   })
 }
 

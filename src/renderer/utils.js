@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 
-export default function readDir (path) {
+export function readDir (path) {
   return new Promise((resolve, reject) => {
     fs.readdir(path, (err, dir) => {
       if (err) {
@@ -10,4 +10,8 @@ export default function readDir (path) {
       }
     })
   })
+}
+
+export function createFrag (string) {
+  return document.createRange().createContextualFragment(string)
 }
