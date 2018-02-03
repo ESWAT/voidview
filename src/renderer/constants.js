@@ -1,4 +1,4 @@
-const SUPPORTED_EXTENSIONS = [
+export const SUPPORTED_EXTENSIONS = [
   'jpg',
   'png',
   'gif',
@@ -7,4 +7,4 @@ const SUPPORTED_EXTENSIONS = [
   'bmp'
 ]
 
-export default SUPPORTED_EXTENSIONS
+export const KEY_COMBO_COOLDOWN = 500

@@ -6,7 +6,7 @@ import Clusterize from 'clusterize.js'
 import { ipcRenderer, remote, shell } from 'electron'
 import { titlebar, layout, list, peek, splash } from './templates'
 import readDir from './utils'
-import SUPPORTED_EXTENSIONS from './constants'
+import {KEY_COMBO_COOLDOWN, SUPPORTED_EXTENSIONS} from './constants'
 
 require('./index.css')
 
@@ -119,7 +119,7 @@ function handleKeyUp (event) {
         }
         break
       case 'g':
-        if (lastKey.key === 'g' && performance.now() < (lastKey.timeStamp + 500)) {
+        if (lastKey.key === 'g' && performance.now() < (lastKey.timeStamp + KEY_COMBO_COOLDOWN)) {
           document.querySelector('#app').scrollTop = 0
         }
         break
@@ -157,7 +157,10 @@ function handleKeyUp (event) {
 function renderFiles () {
   list(files, path).then((nodes) => {
     currentItem = -1
-    document.querySelector('.js-list').innerHTML = ''
+
+    if (clusterize) {
+      clusterize.destroy(true)
+    }
 
     clusterize = new Clusterize({
       rows: nodes,
@@ -182,10 +185,6 @@ function selectItem (newIndex) {
 
 function shuffleFiles () {
   shuffle(files)
-  if (clusterize) {
-    clusterize.destroy()
-  }
-  document.querySelector('.js-list').innerHTML = ''
   renderFiles()
   document.querySelector('#app').scrollTop = 0
 }
@@ -255,9 +254,6 @@ function readPath (newPath) {
     window.files = files
 
     ipcRenderer.send('path-loaded', true)
-    if (clusterize) {
-      clusterize.destroy(true)
-    }
 
     renderFiles()
 
