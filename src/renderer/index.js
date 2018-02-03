@@ -159,6 +159,7 @@ function selectItem(newIndex) {
 
 function shuffleFiles() {
   shuffle(files);
+  currentItem = -1;
   if (clusterize) {
     clusterize.destroy();
   }
