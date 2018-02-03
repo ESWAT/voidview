@@ -1,8 +1,5 @@
 export const layout = `
-  <div class="wrap">
-    <div class="js-list list"></div>
-    <div class="js-edge edge"></div>
-  </div>
+  <div id="list" class="js-list list" class="clusterize-content"></div>
 `;
 
 export const titlebar = `
@@ -42,11 +39,22 @@ function getItem(backgroundUrl, datasetUrl, index) {
   `;
 }
 
-export function list(items, startingIndex) {
+export function list(items) {
   return new Promise((res) => {
     const listOfItems = [];
+    let row = '<li class="row">';
+
     items.forEach((item, index) => {
-      listOfItems.push(getItem(item.backgroundUrl, item.datasetUrl, startingIndex + index));
+      if (index % 5 === 0 && index !== 0) {
+        row = row.concat('</li>');
+        listOfItems.push(row);
+
+        if (index < items.length) {
+          row = '<li class="row">';
+        }
+      }
+
+      row = row.concat(getItem(item.backgroundUrl, item.datasetUrl, index));
     });
 
     res(listOfItems);

@@ -1,5 +1,4 @@
-export const PUSH_LIMIT = 24;
-export const SUPPORTED_EXTENSIONS = [
+const SUPPORTED_EXTENSIONS = [
   'bmp',
   'jpg',
   'gif',
@@ -7,3 +6,5 @@ export const SUPPORTED_EXTENSIONS = [
   'svg',
   'tiff',
 ];
+
+export default SUPPORTED_EXTENSIONS;

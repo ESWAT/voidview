@@ -1,20 +1,20 @@
 // Bootstrap starting state for Yuffie
 
-import inView from 'element-in-view';
 import fileType from 'file-type';
 import shuffle from 'shuffle-array';
 import readChunk from 'read-chunk';
 import * as fs from 'fs';
+import Clusterize from 'clusterize.js';
 import { ipcRenderer, remote, shell } from 'electron';
 import { titlebar, layout, list, peek, splash } from './templates';
 import readDir from './utils';
-import { PUSH_LIMIT, SUPPORTED_EXTENSIONS } from './constants';
+import SUPPORTED_EXTENSIONS from './constants';
 
 require('./index.css');
 
 let files = [];
-let lastPushedFile = 0;
 let currentItem = -1;
+let clusterize;
 
 document.body.appendChild(document.createRange().createContextualFragment(titlebar));
 document.getElementById('app').innerHTML = splash;
@@ -30,8 +30,8 @@ function bootstrap() {
     event.preventDefault();
     path = [event.dataTransfer.files[0].path];
     document.getElementById('app').innerHTML = layout;
+    document.querySelector('#app').classList.add('clusterize-scroll');
     files = [];
-    lastPushedFile = 0;
     currentItem = -1;
 
     document.querySelector('.js-list').innerHTML = '';
@@ -57,7 +57,6 @@ ipcRenderer.on('open', () => {
 
   if (newPath) {
     if (alreadyRendering !== null) {
-      lastPushedFile = 0;
       currentItem = -1;
 
       document.querySelector('.js-list').innerHTML = '';
@@ -86,29 +85,36 @@ ipcRenderer.on('focus', () => {
   document.querySelector('.js-titlebar').classList.remove('is-blurred');
 });
 
-function renderFiles() {
-  const pushToThis = lastPushedFile !== 0 ? lastPushedFile + PUSH_LIMIT : PUSH_LIMIT;
+function addPeekListeners() {
+  console.log('adding listeners');
+  document.querySelector('.list').addEventListener('click', (event) => {
+    if (event.target.classList.contains('item')) {
+      openPeek(event.target);
+    }
+  });
+}
 
+function renderFiles() {
   const items = [];
 
-  for (lastPushedFile; lastPushedFile < pushToThis; lastPushedFile += 1) {
-    if (files[lastPushedFile] !== undefined) {
-      items.push({
-        backgroundUrl: `file://${path}/${files[lastPushedFile]}`,
-        datasetUrl: files[lastPushedFile],
-      });
-    }
-  }
-
-  list(items, lastPushedFile - PUSH_LIMIT).then((list) => {
-    document.querySelector('.list').insertAdjacentHTML('beforeend', list.join(''));
-
-    document.querySelectorAll('.item').forEach((node) => {
-      node.addEventListener('click', (event) => {
-        openPeek(event.target);
-      }, false);
+  files.forEach((file) => {
+    items.push({
+      backgroundUrl: `file://${path}/${file}`,
+      datasetUrl: file,
     });
   });
+
+  list(items).then((nodes) => {
+    window.nodes = nodes
+    clusterize = new Clusterize({
+      rows: nodes,
+      scrollId: 'app',
+      contentId: 'list',
+    });
+    addPeekListeners();
+  });
+
+  window.files = files;
 }
 
 function selectItem(newIndex) {
@@ -118,10 +124,7 @@ function selectItem(newIndex) {
 
 function shuffleFiles() {
   shuffle(files);
-  lastPushedFile = 0;
-  currentItem = -1;
-
-  document.querySelector('.js-list').innerHTML = '';
+  clusterize.desstroy(true);
   renderFiles();
   document.scrollTop = 0;
 }
@@ -229,17 +232,9 @@ function readPath() {
     ipcRenderer.send('path-loaded', true);
 
     renderFiles();
-    renderFiles();
 
     document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1);
 
-    document.querySelector('#app').addEventListener('scroll', () => {
-      const shouldRenderNext = inView(document.querySelector('.js-edge'));
-
-      if (shouldRenderNext) {
-        renderFiles();
-      }
-    });
   });
 }
 
@@ -271,10 +266,6 @@ function changePeek(newIndex) {
   newItem.focus();
 
   peekImageEl.setAttribute('style', `background-image: url("file://${path}/${image}")`);
-
-  if (lastPushedFile - currentItem < PUSH_LIMIT) {
-    renderFiles();
-  }
 }
 
 function openFile() {
