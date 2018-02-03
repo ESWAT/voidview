@@ -86,6 +86,19 @@ ipcRenderer.on('focus', () => {
 })
 
 function addListeners () {
+  // Prevent default viewport scrolling with arrow keys
+  document.addEventListener('keydown', (event) => {
+    switch (event.key) {
+      case ' ':
+      case 'ArrowUp':
+      case 'ArrowDown':
+        event.preventDefault()
+        break
+      default:
+        break
+    }
+  })
+
   document.querySelector('.list').addEventListener('click', (event) => {
     if (event.target.classList.contains('item')) {
       openPeek(event.target)
@@ -167,18 +180,6 @@ function shuffleFiles () {
   renderFiles()
   document.querySelector('#app').scrollTop = 0
 }
-
-document.addEventListener('keydown', (event) => {
-  switch (event.key) {
-    case ' ':
-    case 'ArrowUp':
-    case 'ArrowDown':
-      event.preventDefault()
-      break
-    default:
-      break
-  }
-})
 
 function navigateUp () {
   let nextEl = document.elementFromPoint(document.activeElement.getBoundingClientRect().left, document.activeElement.getBoundingClientRect().top - 30)
