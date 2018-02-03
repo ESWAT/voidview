@@ -154,7 +154,8 @@ function renderFiles () {
       rows: nodes,
       scrollId: 'app',
       contentId: 'list',
-      rows_in_block: 16,
+      rows_in_block: 8,
+      blocks_in_cluster: 4,
       show_no_data_row: false,
       keep_parity: false
     })
