@@ -3,7 +3,6 @@ export const SUPPORTED_EXTENSIONS = [
   'png',
   'gif',
   'webp',
-  'tif',
   'bmp'
 ]
 
