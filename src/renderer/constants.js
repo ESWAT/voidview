@@ -4,7 +4,7 @@ const SUPPORTED_EXTENSIONS = [
   'gif',
   'png',
   'svg',
-  'tiff',
-];
+  'tiff'
+]
 
-export default SUPPORTED_EXTENSIONS;
+export default SUPPORTED_EXTENSIONS

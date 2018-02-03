@@ -1,13 +1,13 @@
-import * as fs from 'fs';
+import * as fs from 'fs'
 
-export default function readDir(path) {
-  return new Promise((res, rej) => {
+export default function readDir (path) {
+  return new Promise((resolve, reject) => {
     fs.readdir(path, (err, dir) => {
       if (err) {
-        rej(err);
+        reject(err)
       } else {
-        res(dir);
+        resolve(dir)
       }
-    });
-  });
+    })
+  })
 }

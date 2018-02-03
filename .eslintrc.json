@@ -1,15 +1,7 @@
 {
-    "extends": "airbnb-base",
+    "extends": "standard",
     "env": {
         "browser": true,
         "node": true
-    },
-    "rules": {
-        "import/no-extraneous-dependencies": [
-            "error",
-            {
-                "devDependencies": true
-            }
-        ]
     }
 }
