@@ -203,6 +203,12 @@ function navigateDown () {
   }
 }
 
+function openFile () {
+  const { image } = document.querySelector(`.js-item[data-index="${currentItem}"]`).dataset
+
+  shell.showItemInFolder(`${path}/${image}`)
+}
+
 function readPath () {
   files = []
 
@@ -243,31 +249,43 @@ function openPeek (item) {
     document.querySelector('.list').insertAdjacentHTML('afterend', newPeekEl)
     document.body.classList.add('is-frozen')
 
+    const peekImageEl = document.querySelector('.js-peek-image')
+
     document.querySelector('.js-peek-image').addEventListener('click', () => {
-      closePeek()
+      if (!document.querySelector('.js-peek').classList.contains('is-removing')) {
+        closePeek()
+      }
     }, false)
+
 
     currentItem = parseInt(item.dataset.index, 10)
 
     document.addEventListener('keyup', handleKeyUpOnPeek)
+
+    peekImageEl.classList.add('is-appearing')
+
+    peekImageEl.addEventListener('animationend', () => {
+      peekImageEl.classList.remove('sweep-left', 'sweep-right', 'is-appearing')
+    })
   }
 }
 
 function changePeek (newIndex) {
+  const peekImageEl = document.querySelector('.js-peek-image')
+
+  if (newIndex > currentItem) {
+    peekImageEl.classList.add('sweep-right')
+  } else {
+    peekImageEl.classList.add('sweep-left')
+  }
+
   currentItem = newIndex
   const newItem = document.querySelector(`.js-item[data-index="${currentItem}"]`)
   const { image } = newItem.dataset
-  const peekImageEl = document.querySelector('.js-peek-image')
 
   newItem.focus()
 
   peekImageEl.setAttribute('style', `background-image: url("file://${path}/${image}")`)
-}
-
-function openFile () {
-  const { image } = document.querySelector(`.js-item[data-index="${currentItem}"]`).dataset
-
-  shell.showItemInFolder(`${path}/${image}`)
 }
 
 function checkNewPeek (index) {
@@ -278,8 +296,11 @@ function closePeek () {
   const peekEl = document.querySelector('.js-peek')
 
   if (peekEl) {
-    peekEl.remove()
-    document.body.classList.remove('is-frozen')
+    peekEl.classList.add('is-animating')
+    peekEl.addEventListener('animationend', () => {
+      peekEl.remove()
+      document.body.classList.remove('is-frozen')
+    })
   }
 
   document.removeEventListener('keyup', handleKeyUpOnPeek)
