@@ -1,5 +1,3 @@
-// Bootstrap starting state for Yuffie
-
 import fileType from 'file-type'
 import shuffle from 'shuffle-array'
 import readChunk from 'read-chunk'
@@ -13,41 +11,9 @@ import SUPPORTED_EXTENSIONS from './constants'
 require('./index.css')
 
 let files = []
+let path = []
 let currentItem = -1
 let clusterize
-
-document.body.appendChild(document.createRange().createContextualFragment(titlebar))
-document.getElementById('app').innerHTML = splash
-
-let path = []
-
-function bootstrap () {
-  document.addEventListener('dragover', (event) => {
-    event.preventDefault()
-  })
-
-  document.addEventListener('drop', (event) => {
-    event.preventDefault()
-    path = [event.dataTransfer.files[0].path]
-    document.getElementById('app').innerHTML = layout
-    document.querySelector('#app').classList.add('clusterize-scroll')
-    files = []
-    currentItem = -1
-
-    document.querySelector('.js-list').innerHTML = ''
-    readPath()
-  })
-
-  document.querySelector('.js-splash-open').addEventListener('click', () => {
-    const newPath = remote.dialog.showOpenDialog({ properties: ['openDirectory'] })
-
-    if (newPath) {
-      document.getElementById('app').innerHTML = layout
-      path = newPath
-      readPath()
-    }
-  })
-}
 
 bootstrap()
 
@@ -84,6 +50,37 @@ ipcRenderer.on('blur', () => {
 ipcRenderer.on('focus', () => {
   document.querySelector('.js-titlebar').classList.remove('is-blurred')
 })
+
+function bootstrap () {
+  document.body.appendChild(document.createRange().createContextualFragment(titlebar))
+  document.getElementById('app').innerHTML = splash
+
+  document.addEventListener('dragover', (event) => {
+    event.preventDefault()
+  })
+
+  document.addEventListener('drop', (event) => {
+    event.preventDefault()
+    path = [event.dataTransfer.files[0].path]
+    document.getElementById('app').innerHTML = layout
+    document.querySelector('#app').classList.add('clusterize-scroll')
+    files = []
+    currentItem = -1
+
+    document.querySelector('.js-list').innerHTML = ''
+    readPath()
+  })
+
+  document.querySelector('.js-splash-open').addEventListener('click', () => {
+    const newPath = remote.dialog.showOpenDialog({ properties: ['openDirectory'] })
+
+    if (newPath) {
+      document.getElementById('app').innerHTML = layout
+      path = newPath
+      readPath()
+    }
+  })
+}
 
 function addListeners () {
   // Prevent default viewport scrolling with arrow keys
@@ -195,6 +192,7 @@ function navigateUp () {
 
 function navigateDown () {
   let nextEl = document.elementFromPoint(document.activeElement.getBoundingClientRect().left, document.activeElement.getBoundingClientRect().top + document.activeElement.clientHeight + 8)
+
   if (nextEl === null) {
     document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop + 50
 
@@ -207,21 +205,24 @@ function navigateDown () {
 
 function readPath () {
   files = []
+
   readDir(path[0]).then((dir) => {
-    for (let i = 0; i < dir.length; i += 1) {
-      if (dir[i] !== undefined) {
-        const fullPath = `${path}/${dir[i]}`
+    files = dir.filter((file) => {
+      if (file !== undefined) {
+        const fullPath = `${path}/${file}`
 
         if (fs.statSync(fullPath).isFile()) {
-          const buf = readChunk.sync(`${path}/${dir[i]}`, 0, 4100)
+          const buf = readChunk.sync(`${path}/${file}`, 0, 4100)
           const type = fileType(buf)
 
           if (type && SUPPORTED_EXTENSIONS.includes(type.ext)) {
-            files.push(dir[i])
+            return true
           }
         }
+      } else {
+        return false
       }
-    }
+    })
 
     ipcRenderer.send('path-loaded', true)
     if (clusterize) {
