@@ -95,21 +95,14 @@ function addPeekListeners() {
 }
 
 function renderFiles() {
-  const items = [];
-
-  files.forEach((file) => {
-    items.push({
-      backgroundUrl: `file://${path}/${file}`,
-      datasetUrl: file,
-    });
-  });
-
-  list(items).then((nodes) => {
-    window.nodes = nodes
+  list(files, path).then((nodes) => {
+    window.nodes = nodes;
     clusterize = new Clusterize({
       rows: nodes,
       scrollId: 'app',
       contentId: 'list',
+      rows_in_block: 16,
+      show_no_data_row: false,
     });
     addPeekListeners();
   });
@@ -124,9 +117,12 @@ function selectItem(newIndex) {
 
 function shuffleFiles() {
   shuffle(files);
-  clusterize.desstroy(true);
+  if (clusterize) {
+    clusterize.destroy();
+  }
+  document.querySelector('.js-list').innerHTML = '';
   renderFiles();
-  document.scrollTop = 0;
+  document.querySelector('#app').scrollTop = 0;
 }
 
 document.addEventListener('keydown', (event) => {
@@ -230,7 +226,9 @@ function readPath() {
     }
 
     ipcRenderer.send('path-loaded', true);
-
+    if (clusterize) {
+      clusterize.destroy(true);
+    }
     renderFiles();
 
     document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1);

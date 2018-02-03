@@ -39,24 +39,27 @@ function getItem(backgroundUrl, datasetUrl, index) {
   `;
 }
 
-export function list(items) {
+export function list(files, path) {
   return new Promise((res) => {
-    const listOfItems = [];
+    const itemsToRender = [];
     let row = '<li class="row">';
 
-    items.forEach((item, index) => {
-      if (index % 5 === 0 && index !== 0) {
+    files.forEach((file, index) => {
+      if ((index % 5 === 0 && index !== 0)) {
         row = row.concat('</li>');
-        listOfItems.push(row);
+        itemsToRender.push(row);
 
-        if (index < items.length) {
-          row = '<li class="row">';
-        }
+        row = '<li class="row">';
       }
 
-      row = row.concat(getItem(item.backgroundUrl, item.datasetUrl, index));
+      row = row.concat(getItem(`file://${path}/${file}`, file, index));
+
+      if (index === files.length - 1) {
+        row = row.concat('</li>');
+        itemsToRender.push(row);
+      }
     });
 
-    res(listOfItems);
+    res(itemsToRender);
   });
 }
