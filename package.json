@@ -18,6 +18,7 @@
     "electron-webpack": "^1.11.0",
     "eslint": "^4.13.0",
     "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
@@ -35,7 +36,6 @@
   "dependencies": {
     "clusterize.js": "^0.18.1",
     "electron-window-state": "^4.1.1",
-    "element-in-view": "^0.1.0",
     "file-type": "^7.4.0",
     "read-chunk": "^2.1.0",
     "shuffle-array": "^1.0.1",
