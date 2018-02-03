@@ -71,18 +71,6 @@ function bootstrap () {
     readPath()
   })
 
-  document.querySelector('.js-splash-open').addEventListener('click', () => {
-    const newPath = remote.dialog.showOpenDialog({ properties: ['openDirectory'] })
-
-    if (newPath) {
-      document.getElementById('app').innerHTML = layout
-      path = newPath
-      readPath()
-    }
-  })
-}
-
-function addListeners () {
   // Prevent default viewport scrolling with arrow keys
   document.addEventListener('keydown', (event) => {
     switch (event.key) {
@@ -96,56 +84,71 @@ function addListeners () {
     }
   })
 
-  document.querySelector('.list').addEventListener('click', (event) => {
-    if (event.target.classList.contains('item')) {
-      openPeek(event.target)
+  document.querySelector('.js-splash-open').addEventListener('click', () => {
+    const newPath = remote.dialog.showOpenDialog({ properties: ['openDirectory'] })
+
+    if (newPath) {
+      document.getElementById('app').innerHTML = layout
+      path = newPath
+      readPath()
     }
   })
+}
 
-  document.addEventListener('keyup', (event) => {
-    const peekEl = document.querySelector('.js-peek')
+function addListeners () {
+  document.querySelector('.list').addEventListener('click', listListeners)
+  document.addEventListener('keyup', peekListeners)
+}
 
-    if (peekEl) {
-      switch (event.key) {
-        case 'Tab':
-          currentItem = parseInt(document.activeElement.dataset.index, 10)
-          changePeek(currentItem)
-          break
-        default:
-          break
-      }
-    } else {
-      switch (event.key) {
-        case 'Tab':
-          currentItem = parseInt(document.activeElement.dataset.index, 10)
-          break
-        case 'Enter':
-        case ' ':
-          if (currentItem >= 0) {
-            openPeek(document.activeElement)
-          }
-          break
-        case 'ArrowUp':
-          navigateUp()
-          break
-        case 'ArrowRight':
-          selectItem(currentItem < files.length ? currentItem + 1 : currentItem)
-          break
-        case 'ArrowDown':
-          if (currentItem < 0) {
-            selectItem(currentItem + 1)
-          } else {
-            navigateDown()
-          }
-          break
-        case 'ArrowLeft':
-          selectItem(currentItem > 0 ? currentItem - 1 : currentItem)
-          break
-        default:
-          break
-      }
+function listListeners (event) {
+  if (event.target.classList.contains('item')) {
+    openPeek(event.target)
+  }
+}
+
+function peekListeners (event) {
+  const peekEl = document.querySelector('.js-peek')
+
+  if (peekEl) {
+    switch (event.key) {
+      case 'Tab':
+        currentItem = parseInt(document.activeElement.dataset.index, 10)
+        changePeek(currentItem)
+        break
+      default:
+        break
     }
-  })
+  } else {
+    switch (event.key) {
+      case 'Tab':
+        currentItem = parseInt(document.activeElement.dataset.index, 10)
+        break
+      case 'Enter':
+      case ' ':
+        if (currentItem >= 0) {
+          openPeek(document.activeElement)
+        }
+        break
+      case 'ArrowUp':
+        navigateUp()
+        break
+      case 'ArrowRight':
+        selectItem(currentItem < files.length ? currentItem + 1 : currentItem)
+        break
+      case 'ArrowDown':
+        if (currentItem < 0) {
+          selectItem(currentItem + 1)
+        } else {
+          navigateDown()
+        }
+        break
+      case 'ArrowLeft':
+        selectItem(currentItem > 0 ? currentItem - 1 : currentItem)
+        break
+      default:
+        break
+    }
+  }
 }
 
 function renderFiles () {
@@ -159,6 +162,7 @@ function renderFiles () {
       show_no_data_row: false,
       keep_parity: false
     })
+
     addListeners()
   })
 }
