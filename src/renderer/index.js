@@ -85,29 +85,71 @@ ipcRenderer.on('focus', () => {
   document.querySelector('.js-titlebar').classList.remove('is-blurred');
 });
 
-function addPeekListeners() {
-  console.log('adding listeners');
+function addListeners() {
   document.querySelector('.list').addEventListener('click', (event) => {
     if (event.target.classList.contains('item')) {
       openPeek(event.target);
+    }
+  });
+
+  document.addEventListener('keyup', (event) => {
+    const peekEl = document.querySelector('.js-peek');
+
+    if (!peekEl) {
+      switch (event.key) {
+        case 'Tab':
+          currentItem = parseInt(document.activeElement.dataset.index, 10);
+          break;
+        case 'Enter':
+        case ' ':
+          if (currentItem >= 0) {
+            openPeek(document.activeElement);
+          }
+          break;
+        case 'ArrowUp':
+          navigateUp();
+          break;
+        case 'ArrowRight':
+          selectItem(currentItem < files.length ? currentItem + 1 : currentItem);
+          break;
+        case 'ArrowDown':
+          if (currentItem < 0) {
+            selectItem(currentItem + 1);
+          } else {
+            navigateDown();
+          }
+          break;
+        case 'ArrowLeft':
+          selectItem(currentItem > 0 ? currentItem - 1 : currentItem);
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch (event.key) {
+        case 'Tab':
+          currentItem = parseInt(document.activeElement.dataset.index, 10);
+          changePeek(currentItem);
+          break;
+        default:
+          break;
+      }
     }
   });
 }
 
 function renderFiles() {
   list(files, path).then((nodes) => {
-    window.nodes = nodes;
     clusterize = new Clusterize({
       rows: nodes,
       scrollId: 'app',
       contentId: 'list',
       rows_in_block: 16,
       show_no_data_row: false,
+      keep_parity: false,
     });
-    addPeekListeners();
+    addListeners();
   });
-
-  window.files = files;
 }
 
 function selectItem(newIndex) {
@@ -134,51 +176,6 @@ document.addEventListener('keydown', (event) => {
       break;
     default:
       break;
-  }
-});
-
-document.addEventListener('keyup', (event) => {
-  const peekEl = document.querySelector('.js-peek');
-
-  if (!peekEl) {
-    switch (event.key) {
-      case 'Tab':
-        currentItem = parseInt(document.activeElement.dataset.index, 10);
-        break;
-      case 'Enter':
-      case ' ':
-        if (currentItem >= 0) {
-          openPeek(document.activeElement);
-        }
-        break;
-      case 'ArrowUp':
-        navigateUp();
-        break;
-      case 'ArrowRight':
-        selectItem(currentItem < files.length ? currentItem + 1 : currentItem);
-        break;
-      case 'ArrowDown':
-        if (currentItem < 0) {
-          selectItem(currentItem + 1);
-        } else {
-          navigateDown();
-        }
-        break;
-      case 'ArrowLeft':
-        selectItem(currentItem > 0 ? currentItem - 1 : currentItem);
-        break;
-      default:
-        break;
-    }
-  } else {
-    switch (event.key) {
-      case 'Tab':
-        currentItem = parseInt(document.activeElement.dataset.index, 10);
-        changePeek(currentItem);
-        break;
-      default:
-        break;
-    }
   }
 });
 

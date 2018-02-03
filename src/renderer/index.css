@@ -14,10 +14,7 @@ body {
   right: 0;
   bottom: 4px;
   left: 0;
-}
-
-.wrap {
-  position: relative;
+  will-change: scroll-position;
 }
 
 .titlebar {
@@ -46,10 +43,12 @@ body {
 }
 
 .row {
-  display: grid;
   padding: 0 2px;
+  display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-auto-rows: 20vw;
+  transform: translateZ(0);
+  will-change: contents;
 }
 
 .item {
