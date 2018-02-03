@@ -7,7 +7,9 @@
     "start": "electron-webpack dev",
     "compile": "electron-webpack",
     "lint": "eslint ./src",
-    "dist-mac": "yarn compile && electron-builder --x64 --mac zip"
+    "dist-mac": "yarn compile && electron-builder --x64 --mac zip",
+    "dist-linux": "yarn compile && electron-builder --x64 --linux zip",
+    "dist-win": "yarn compile && electron-builder --x64 --win zip"
   },
   "repository": "https://gitlab.com/eswat/yuffie",
   "author": "Philip Karpiak <philip@eswat.ca>",
