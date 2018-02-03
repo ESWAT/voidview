@@ -19,19 +19,10 @@ bootstrap()
 
 ipcRenderer.on('open', () => {
   const newPath = remote.dialog.showOpenDialog({ properties: ['openDirectory'] })
-  const alreadyRendering = document.querySelector('.js-list')
 
   if (newPath) {
-    if (alreadyRendering !== null) {
-      currentItem = -1
-
-      document.querySelector('.js-list').innerHTML = ''
-      document.scrollTop = 0
-    } else {
-      document.getElementById('app').innerHTML = layout
-    }
-    path = newPath
-    readPath()
+    document.getElementById('app').innerHTML = layout
+    readPath(path = newPath)
   }
 })
 
@@ -97,7 +88,7 @@ function bootstrap () {
 
 function addListeners () {
   document.querySelector('.list').addEventListener('click', listListeners)
-  document.addEventListener('keyup', peekListeners)
+  document.addEventListener('keyup', imageListeners)
 }
 
 function listListeners (event) {
@@ -106,7 +97,7 @@ function listListeners (event) {
   }
 }
 
-function peekListeners (event) {
+function imageListeners (event) {
   const peekEl = document.querySelector('.js-peek')
 
   if (peekEl) {
@@ -130,12 +121,15 @@ function peekListeners (event) {
         }
         break
       case 'ArrowUp':
+      case 'k':
         navigateUp()
         break
       case 'ArrowRight':
+      case 'l':
         selectItem(currentItem < files.length ? currentItem + 1 : currentItem)
         break
       case 'ArrowDown':
+      case 'j':
         if (currentItem < 0) {
           selectItem(currentItem + 1)
         } else {
@@ -143,6 +137,7 @@ function peekListeners (event) {
         }
         break
       case 'ArrowLeft':
+      case 'h':
         selectItem(currentItem > 0 ? currentItem - 1 : currentItem)
         break
       default:
@@ -153,6 +148,10 @@ function peekListeners (event) {
 
 function renderFiles () {
   list(files, path).then((nodes) => {
+    currentItem = -1
+    document.querySelector('.js-list').innerHTML = ''
+    document.scrollTop = 0
+
     clusterize = new Clusterize({
       rows: nodes,
       scrollId: 'app',
@@ -321,11 +320,13 @@ function handleKeyUpOnPeek (event) {
       closePeek()
       break
     case 'ArrowLeft':
+    case 'h':
       if (checkNewPeek(currentItem - 1)) {
         changePeek(currentItem - 1)
       }
       break
     case 'ArrowRight':
+    case 'l':
       if (checkNewPeek(currentItem + 1)) {
         changePeek(currentItem + 1)
       }
