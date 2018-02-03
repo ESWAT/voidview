@@ -17,31 +17,6 @@ let clusterize
 
 bootstrap()
 
-ipcRenderer.on('open', () => {
-  const newPath = remote.dialog.showOpenDialog({ properties: ['openDirectory'] })
-
-  if (newPath) {
-    document.getElementById('app').innerHTML = layout
-    readPath(path = newPath)
-  }
-})
-
-ipcRenderer.on('shuffle', () => {
-  shuffleFiles()
-})
-
-ipcRenderer.on('reveal', () => {
-  openFile()
-})
-
-ipcRenderer.on('blur', () => {
-  document.querySelector('.js-titlebar').classList.add('is-blurred')
-})
-
-ipcRenderer.on('focus', () => {
-  document.querySelector('.js-titlebar').classList.remove('is-blurred')
-})
-
 function bootstrap () {
   document.body.appendChild(document.createRange().createContextualFragment(titlebar))
   document.getElementById('app').innerHTML = splash
@@ -52,14 +27,7 @@ function bootstrap () {
 
   document.addEventListener('drop', (event) => {
     event.preventDefault()
-    path = [event.dataTransfer.files[0].path]
-    document.getElementById('app').innerHTML = layout
-    document.querySelector('#app').classList.add('clusterize-scroll')
-    files = []
-    currentItem = -1
-
-    document.querySelector('.js-list').innerHTML = ''
-    readPath()
+    readPath([event.dataTransfer.files[0].path])
   })
 
   // Prevent default viewport scrolling with arrow keys
@@ -76,47 +44,76 @@ function bootstrap () {
   })
 
   document.querySelector('.js-splash-open').addEventListener('click', () => {
-    const newPath = remote.dialog.showOpenDialog({ properties: ['openDirectory'] })
+    readPath(remote.dialog.showOpenDialog({ properties: ['openDirectory'] }))
+  })
 
-    if (newPath) {
-      document.getElementById('app').innerHTML = layout
-      path = newPath
-      readPath()
-    }
+  ipcRenderer.on('open', () => {
+    readPath(remote.dialog.showOpenDialog({ properties: ['openDirectory'] }))
+  })
+
+  ipcRenderer.on('shuffle', () => {
+    shuffleFiles()
+  })
+
+  ipcRenderer.on('reveal', () => {
+    openExternally()
+  })
+
+  ipcRenderer.on('blur', () => {
+    document.querySelector('.js-titlebar').classList.add('is-blurred')
+  })
+
+  ipcRenderer.on('focus', () => {
+    document.querySelector('.js-titlebar').classList.remove('is-blurred')
   })
 }
 
 function addListeners () {
-  document.querySelector('.list').addEventListener('click', listListeners)
-  document.addEventListener('keyup', imageListeners)
+  document.querySelector('.list').addEventListener('click', handleListClick)
+  document.addEventListener('keyup', handleKeyUp)
 }
 
-function listListeners (event) {
+function handleListClick (event) {
   if (event.target.classList.contains('item')) {
     openPeek(event.target)
   }
 }
 
-function imageListeners (event) {
+function handleKeyUp (event) {
   const peekEl = document.querySelector('.js-peek')
 
   if (peekEl) {
     switch (event.key) {
+      case 'Escape':
+      case ' ':
+      case 'Enter':
+        closePeek()
+        break
+      case 'ArrowLeft':
+      case 'h':
+      case 'Shift+Tab':
+        changePeek(currentItem - 1)
+        break
+      case 'ArrowRight':
+      case 'l':
       case 'Tab':
-        currentItem = parseInt(document.activeElement.dataset.index, 10)
-        changePeek(currentItem)
+        changePeek(currentItem + 1)
         break
       default:
         break
     }
   } else {
     switch (event.key) {
+      case 'Escape':
+        currentItem = -1
+        document.activeElement.blur()
+        break
       case 'Tab':
         currentItem = parseInt(document.activeElement.dataset.index, 10)
         break
       case 'Enter':
       case ' ':
-        if (currentItem >= 0) {
+        if (currentItem > -1) {
           openPeek(document.activeElement)
         }
         break
@@ -167,13 +164,14 @@ function renderFiles () {
 }
 
 function selectItem (newIndex) {
-  currentItem = newIndex
-  document.querySelector(`.js-item[data-index="${currentItem}"]`).focus()
+  if (newIndex >= 0 && newIndex < files.length) {
+    currentItem = newIndex
+    document.querySelector(`.js-item[data-index="${currentItem}"]`).focus()
+  }
 }
 
 function shuffleFiles () {
   shuffle(files)
-  currentItem = -1
   if (clusterize) {
     clusterize.destroy()
   }
@@ -183,11 +181,14 @@ function shuffleFiles () {
 }
 
 function navigateUp () {
-  let nextEl = document.elementFromPoint(document.activeElement.getBoundingClientRect().left, document.activeElement.getBoundingClientRect().top - 30)
+  let activeRect = document.activeElement.getBoundingClientRect()
+
+  let nextEl = document.elementFromPoint(activeRect.left, activeRect.top - 30)
   if (nextEl === null) {
     document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop - 52
 
-    nextEl = document.elementFromPoint(document.activeElement.getBoundingClientRect().left, 30)
+    activeRect = document.activeElement.getBoundingClientRect()
+    nextEl = document.elementFromPoint(activeRect.left, 30)
   }
   if (nextEl !== null) {
     selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
@@ -195,25 +196,35 @@ function navigateUp () {
 }
 
 function navigateDown () {
-  let nextEl = document.elementFromPoint(document.activeElement.getBoundingClientRect().left, document.activeElement.getBoundingClientRect().top + document.activeElement.clientHeight + 8)
+  let activeRect = document.activeElement.getBoundingClientRect()
+
+  let nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
 
   if (nextEl === null) {
     document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop + 50
 
-    nextEl = document.elementFromPoint(document.activeElement.getBoundingClientRect().left, document.activeElement.getBoundingClientRect().top + document.activeElement.clientHeight + 8)
+    activeRect = document.activeElement.getBoundingClientRect()
+    nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
   }
   if (nextEl !== null) {
     selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
   }
 }
 
-function openFile () {
+function openExternally () {
   const { image } = document.querySelector(`.js-item[data-index="${currentItem}"]`).dataset
 
   shell.showItemInFolder(`${path}/${image}`)
 }
 
-function readPath () {
+function readPath (newPath) {
+  if (!newPath) {
+    return
+  }
+
+  document.getElementById('app').innerHTML = layout
+
+  path = newPath
   files = []
 
   readDir(path[0]).then((dir) => {
@@ -222,15 +233,11 @@ function readPath () {
         const fullPath = `${path}/${file}`
 
         if (fs.statSync(fullPath).isFile()) {
-          const buf = readChunk.sync(`${path}/${file}`, 0, 4100)
+          const buf = readChunk.sync(fullPath, 0, 4100)
           const type = fileType(buf)
 
-          if (type && SUPPORTED_EXTENSIONS.includes(type.ext)) {
-            return true
-          }
+          return type && SUPPORTED_EXTENSIONS.includes(type.ext)
         }
-      } else {
-        return false
       }
     })
 
@@ -238,6 +245,7 @@ function readPath () {
     if (clusterize) {
       clusterize.destroy(true)
     }
+
     renderFiles()
 
     document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1)
@@ -261,10 +269,7 @@ function openPeek (item) {
       }
     }, false)
 
-
     currentItem = parseInt(item.dataset.index, 10)
-
-    document.addEventListener('keyup', handleKeyUpOnPeek)
 
     peekImageEl.classList.add('is-appearing')
 
@@ -275,25 +280,23 @@ function openPeek (item) {
 }
 
 function changePeek (newIndex) {
-  const peekImageEl = document.querySelector('.js-peek-image')
+  if (document.querySelector(`.js-item[data-index="${newIndex}"]`)) {
+    const peekImageEl = document.querySelector('.js-peek-image')
 
-  if (newIndex > currentItem) {
-    peekImageEl.classList.add('sweep-right')
-  } else {
-    peekImageEl.classList.add('sweep-left')
+    if (newIndex > currentItem) {
+      peekImageEl.classList.add('sweep-right')
+    } else {
+      peekImageEl.classList.add('sweep-left')
+    }
+
+    currentItem = newIndex
+    const newItem = document.querySelector(`.js-item[data-index="${currentItem}"]`)
+    const { image } = newItem.dataset
+
+    newItem.focus()
+
+    peekImageEl.setAttribute('style', `background-image: url("file://${path}/${image}")`)
   }
-
-  currentItem = newIndex
-  const newItem = document.querySelector(`.js-item[data-index="${currentItem}"]`)
-  const { image } = newItem.dataset
-
-  newItem.focus()
-
-  peekImageEl.setAttribute('style', `background-image: url("file://${path}/${image}")`)
-}
-
-function checkNewPeek (index) {
-  return document.querySelector(`.js-item[data-index="${index}"]`)
 }
 
 function closePeek () {
@@ -307,31 +310,5 @@ function closePeek () {
       peekEl.remove()
       document.body.classList.remove('is-frozen')
     })
-  }
-
-  document.removeEventListener('keyup', handleKeyUpOnPeek)
-}
-
-function handleKeyUpOnPeek (event) {
-  switch (event.key) {
-    case 'Escape':
-    case ' ':
-    case 'Enter':
-      closePeek()
-      break
-    case 'ArrowLeft':
-    case 'h':
-      if (checkNewPeek(currentItem - 1)) {
-        changePeek(currentItem - 1)
-      }
-      break
-    case 'ArrowRight':
-    case 'l':
-      if (checkNewPeek(currentItem + 1)) {
-        changePeek(currentItem + 1)
-      }
-      break
-    default:
-      break
   }
 }
