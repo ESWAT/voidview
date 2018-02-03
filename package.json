@@ -38,7 +38,7 @@
   "dependencies": {
     "clusterize.js": "^0.18.1",
     "electron-window-state": "^4.1.1",
-    "file-type": "^7.4.0",
+    "image-type": "^3.0.0",
     "read-chunk": "^2.1.0",
     "shuffle-array": "^1.0.1",
     "source-map-support": "^0.5.0"

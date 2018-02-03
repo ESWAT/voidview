@@ -1,4 +1,4 @@
-import fileType from 'file-type'
+import imageType from 'image-type'
 import shuffle from 'shuffle-array'
 import readChunk from 'read-chunk'
 import * as fs from 'fs'
@@ -233,13 +233,16 @@ function readPath (newPath) {
         const fullPath = `${path}/${file}`
 
         if (fs.statSync(fullPath).isFile()) {
-          const buf = readChunk.sync(fullPath, 0, 4100)
-          const type = fileType(buf)
+          const buf = readChunk.sync(fullPath, 0, 12)
+          const type = imageType(buf)
 
           return type && SUPPORTED_EXTENSIONS.includes(type.ext)
         }
       }
     })
+
+    // Helpful for debugging
+    window.files = files
 
     ipcRenderer.send('path-loaded', true)
     if (clusterize) {

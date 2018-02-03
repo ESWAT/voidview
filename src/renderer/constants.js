@@ -1,10 +1,10 @@
 const SUPPORTED_EXTENSIONS = [
-  'bmp',
   'jpg',
-  'gif',
   'png',
-  'svg',
-  'tiff'
+  'gif',
+  'webp',
+  'tif',
+  'bmp'
 ]
 
 export default SUPPORTED_EXTENSIONS
