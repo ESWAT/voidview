@@ -297,6 +297,8 @@ function closePeek () {
   const peekEl = document.querySelector('.js-peek')
 
   if (peekEl) {
+    document.querySelector(`.js-item[data-index="${currentItem}"]`).focus()
+
     peekEl.classList.add('is-animating')
     peekEl.addEventListener('animationend', () => {
       peekEl.remove()
