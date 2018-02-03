@@ -1,3 +1,5 @@
+
+
 body {
   background: #000;
   margin: 0;
@@ -15,6 +17,19 @@ body {
   bottom: 4px;
   left: 0;
   will-change: scroll-position;
+}
+
+#app::-webkit-scrollbar {
+  width: 8px;
+  border: 0;
+}
+
+#app::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+#app::-webkit-scrollbar-thumb {
+  background-color: #444;
 }
 
 .titlebar {
