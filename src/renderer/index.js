@@ -14,6 +14,7 @@ let files = []
 let path = []
 let currentItem = -1
 let clusterize
+let lastKey = new KeyboardEvent(0)
 
 bootstrap()
 
@@ -117,6 +118,14 @@ function handleKeyUp (event) {
           openPeek(document.activeElement)
         }
         break
+      case 'g':
+        if (lastKey.key === 'g' && performance.now() < (lastKey.timeStamp + 500)) {
+          document.querySelector('#app').scrollTop = 0
+        }
+        break
+      case 'G':
+        document.querySelector('#app').scrollTop = document.querySelector('.js-list').scrollHeight
+        break
       case 'ArrowUp':
       case 'k':
         navigateUp()
@@ -141,13 +150,14 @@ function handleKeyUp (event) {
         break
     }
   }
+
+  lastKey = event
 }
 
 function renderFiles () {
   list(files, path).then((nodes) => {
     currentItem = -1
     document.querySelector('.js-list').innerHTML = ''
-    document.scrollTop = 0
 
     clusterize = new Clusterize({
       rows: nodes,
