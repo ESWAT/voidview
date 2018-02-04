@@ -132,6 +132,10 @@ body {
   display: none;
 }
 
+.is-hidden {
+  visibility: hidden;
+}
+
 .is-frozen {
   overflow: hidden;
 }

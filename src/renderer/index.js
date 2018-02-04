@@ -203,8 +203,7 @@ function navigateUp () {
 
     activeRect = document.activeElement.getBoundingClientRect()
     nextEl = document.elementFromPoint(activeRect.left, 30)
-  }
-  if (nextEl !== null) {
+  } else {
     selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
   }
 }
@@ -219,8 +218,7 @@ function navigateDown () {
 
     activeRect = document.activeElement.getBoundingClientRect()
     nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
-  }
-  if (nextEl !== null) {
+  } else {
     selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
   }
 }
@@ -288,6 +286,9 @@ function openPeek (item) {
     peekImageEl.classList.add('is-appearing')
 
     peekImageEl.addEventListener('animationend', () => {
+      if (document.body.classList.contains('is-frozen')) {
+        document.querySelector('.js-list').classList.add('is-hidden')
+      }
       peekImageEl.classList.remove('sweep-left', 'sweep-right', 'is-appearing')
     })
   }
@@ -317,6 +318,7 @@ function closePeek () {
   const peekEl = document.querySelector('.js-peek')
 
   if (peekEl) {
+    document.querySelector('.js-list').classList.remove('is-hidden')
     document.querySelector(`.js-item[data-index="${currentItem}"]`).focus()
 
     peekEl.classList.add('is-animating')
