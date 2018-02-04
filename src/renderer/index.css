@@ -168,10 +168,23 @@ body {
   cursor: pointer;
   outline: 0;
   animation: appear 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .splash-open:active {
   color: #d12a2a;
+}
+
+.loader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #d12a2a;
+  font: 14px 'pt mono', 'monaco', system-ui;
+  font-weight: 400;
+  text-transform: uppercase;
 }
 
 @keyframes select {

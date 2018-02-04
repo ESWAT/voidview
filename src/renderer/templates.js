@@ -7,10 +7,14 @@ export const titlebar = `
 `
 
 export const splash = `
-  <div
-    class="js-splash splash"
-  >
+  <div class="js-splash splash">
     <button class="js-splash-open splash-open">Open or drop folder here</button>
+  </div>
+`
+
+export const loader = `
+  <div class="js-loader loader">
+    <p>Loading…</p>
   </div>
 `
 

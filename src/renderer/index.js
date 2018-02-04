@@ -5,7 +5,7 @@ import readChunk from 'read-chunk'
 import Clusterize from 'clusterize.js'
 import {ipcRenderer, remote, shell} from 'electron'
 import {createFrag, readDir} from './utils'
-import {layout, list, peek, splash, titlebar} from './templates'
+import {layout, list, loader, peek, splash, titlebar} from './templates'
 import {KEY_COMBO_COOLDOWN, SUPPORTED_EXTENSIONS} from './constants'
 
 require('./index.css')
@@ -234,7 +234,7 @@ function readPath (newPath) {
     return
   }
 
-  document.getElementById('app').innerHTML = layout
+  document.getElementById('app').innerHTML = loader
 
   path = newPath
   files = []
@@ -258,6 +258,7 @@ function readPath (newPath) {
 
     ipcRenderer.send('path-loaded', true)
 
+    document.getElementById('app').innerHTML = layout
     renderFiles()
 
     document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1)
