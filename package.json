@@ -7,9 +7,12 @@
     "start": "electron-webpack dev",
     "compile": "electron-webpack",
     "lint": "eslint ./src",
-    "dist-mac": "yarn compile && electron-builder --x64 --mac zip",
-    "dist-linux": "yarn compile && electron-builder --x64 --linux zip",
-    "dist-win": "yarn compile && electron-builder --x64 --win zip"
+    "dist-mac": "yarn compile && node scripts.js dist mac",
+    "dist-linux": "yarn compile && node scripts.js dist linux",
+    "dist-win": "yarn compile && node scripts.js dist win",
+    "push-mac": "node scripts.js push mac",
+    "push-linux": "node scripts.js push mac",
+    "push-win": "node scripts.js push mac"
   },
   "repository": "https://gitlab.com/eswat/yuffie",
   "author": "Philip Karpiak <philip@eswat.ca>",
