@@ -203,9 +203,9 @@ function navigateUp () {
 
     activeRect = document.activeElement.getBoundingClientRect()
     nextEl = document.elementFromPoint(activeRect.left, 30)
-  } else {
-    selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
   }
+
+  selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
 }
 
 function navigateDown () {
@@ -218,9 +218,9 @@ function navigateDown () {
 
     activeRect = document.activeElement.getBoundingClientRect()
     nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
-  } else {
-    selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
   }
+
+  selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
 }
 
 function openExternally () {
