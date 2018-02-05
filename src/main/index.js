@@ -121,7 +121,8 @@ function createWindow () {
     width: mainWindowState.width,
     height: mainWindowState.height,
     titleBarStyle: 'hidden',
-    frame: false
+    frame: false,
+    show: false
   })
 
   mainWindowState.manage(window)
@@ -154,6 +155,12 @@ function createWindow () {
     setImmediate(() => {
       window.focus()
     })
+  })
+
+  window.webContents.on('did-finish-load', () => {
+    if (!window.isVisible()) {
+      window.show()
+    }
   })
 
   return window
