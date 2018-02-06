@@ -12,6 +12,12 @@ export const splash = `
   </div>
 `
 
+export const drop = `
+  <div class="js-drop drop">
+    <p>Drop your folder to view</p>
+  </div>
+`
+
 export const loader = `
   <div class="js-loader loader">
     <p>Loading…</p>

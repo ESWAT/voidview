@@ -5,7 +5,7 @@ import readChunk from 'read-chunk'
 import Clusterize from 'clusterize.js'
 import {ipcRenderer, remote, shell} from 'electron'
 import {createFrag, readDir} from './utils'
-import {layout, list, loader, peek, splash, titlebar} from './templates'
+import {drop, layout, list, loader, peek, splash, titlebar} from './templates'
 import {KEY_COMBO_COOLDOWN, SUPPORTED_EXTENSIONS} from './constants'
 
 require('./index.css')
@@ -36,6 +36,7 @@ setupCommands()
 
 function setupSplashScreen () {
   document.getElementById('app').innerHTML = splash
+  document.getElementById('app').insertAdjacentHTML('afterend', drop)
   document.querySelector('.js-splash-open').addEventListener('click', () => {
     readPath(remote.dialog.showOpenDialog({ properties: ['openDirectory'] }))
   })
@@ -54,11 +55,18 @@ function setupTitlebar () {
 function setupDropScreen () {
   document.addEventListener('dragover', (event) => {
     event.preventDefault()
+    document.querySelector('.js-drop').classList.add('is-dragging')
+  })
+
+  document.addEventListener('dragleave', (event) => {
+    event.preventDefault()
+    document.querySelector('.js-drop').classList.remove('is-dragging')
   })
 
   document.addEventListener('drop', (event) => {
     event.preventDefault()
     readPath([event.dataTransfer.files[0].path])
+    document.querySelector('.js-drop').classList.remove('is-dragging')
   })
 }
 
@@ -259,6 +267,7 @@ function readPath (newPath) {
     ipcRenderer.send('path-loaded', true)
 
     document.getElementById('app').innerHTML = layout
+    document.getElementById('app').insertAdjacentHTML('afterend', drop)
     renderFiles()
 
     document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1)
