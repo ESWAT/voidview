@@ -36,7 +36,6 @@ setupCommands()
 
 function setupSplashScreen () {
   document.getElementById('app').innerHTML = splash
-  document.getElementById('app').insertAdjacentHTML('afterend', drop)
   document.querySelector('.js-splash-open').addEventListener('click', () => {
     readPath(remote.dialog.showOpenDialog({ properties: ['openDirectory'] }))
   })
@@ -53,6 +52,8 @@ function setupTitlebar () {
 }
 
 function setupDropScreen () {
+  document.body.appendChild(createFrag(drop))
+
   document.addEventListener('dragover', (event) => {
     event.preventDefault()
     document.querySelector('.js-drop').classList.add('is-dragging')
@@ -185,6 +186,8 @@ function renderFiles () {
       keep_parity: false
     })
 
+    document.querySelector('.js-loader').remove()
+
     addListeners()
   })
 }
@@ -242,7 +245,7 @@ function readPath (newPath) {
     return
   }
 
-  document.getElementById('app').innerHTML = loader
+  document.getElementById('app').insertAdjacentHTML('afterend', loader)
 
   path = newPath
   files = []
@@ -267,7 +270,6 @@ function readPath (newPath) {
     ipcRenderer.send('path-loaded', true)
 
     document.getElementById('app').innerHTML = layout
-    document.getElementById('app').insertAdjacentHTML('afterend', drop)
     renderFiles()
 
     document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1)
