@@ -161,6 +161,13 @@ body {
   transition: opacity 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
   transition-direction: forwards;
   pointer-events: none;
+  color: #fff;
+  font: 14px 'pt mono', 'monaco', system-ui;
+  font-weight: 400;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .drop.is-dragging {
@@ -203,7 +210,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #d12a2a;
+  color: #fff;
   font: 14px 'pt mono', 'monaco', system-ui;
   font-weight: 400;
   text-transform: uppercase;

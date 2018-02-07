@@ -20,7 +20,7 @@ export const drop = `
 
 export const loader = `
   <div class="js-loader loader">
-    <p>Loading…</p>
+    <p>Loading</p>
   </div>
 `
 
