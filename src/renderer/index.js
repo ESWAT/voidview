@@ -183,7 +183,12 @@ function renderFiles () {
       rows_in_block: 8,
       blocks_in_cluster: 4,
       show_no_data_row: false,
-      keep_parity: false
+      keep_parity: false,
+      callbacks: {
+        clusterChanged: () => {
+          selectItem(currentItem)
+        }
+      }
     })
 
     document.querySelector('.js-loader').remove()
