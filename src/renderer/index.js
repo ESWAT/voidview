@@ -15,6 +15,7 @@ let path = []
 let currentItem = -1
 let clusterize
 let lastKey = new KeyboardEvent(0)
+window.currentItem = currentItem
 
 // Prevent default viewport scrolling with arrow keys
 document.addEventListener('keydown', (event) => {
@@ -208,7 +209,11 @@ function renderFiles () {
 function selectItem (newIndex) {
   if (newIndex >= 0 && newIndex < files.length) {
     currentItem = newIndex
-    document.querySelector(`.js-item[data-index="${currentItem}"]`).focus()
+    const element = document.querySelector(`.js-item[data-index="${currentItem}"]`)
+
+    if (element) {
+      element.focus()
+    }
   }
 }
 
