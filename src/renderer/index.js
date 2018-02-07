@@ -227,7 +227,7 @@ function navigateUp () {
   if (currentItem === -1) {
     document.querySelector('#app').scrollTop = document.querySelector('.js-list').scrollHeight
     selectItem(files.length - 1)
-  } else {
+  } else if (document.querySelector(`.js-item[data-index="${currentItem}"]`)) {
     let activeRect = document.activeElement.getBoundingClientRect()
 
     let nextEl = document.elementFromPoint(activeRect.left, activeRect.top - 30)
@@ -243,18 +243,23 @@ function navigateUp () {
 }
 
 function navigateDown () {
-  let activeRect = document.activeElement.getBoundingClientRect()
+  if (currentItem === -1) {
+    document.querySelector('#app').scrollTop = document.querySelector('.js-list').scrollHeight
+    selectItem(files.length - 1)
+  } else if (document.querySelector(`.js-item[data-index="${currentItem}"]`)) {
+    let activeRect = document.activeElement.getBoundingClientRect()
 
-  let nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
+    let nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
 
-  if (nextEl === null) {
-    document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop + 50
+    if (nextEl === null) {
+      document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop + 50
 
-    activeRect = document.activeElement.getBoundingClientRect()
-    nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
+      activeRect = document.activeElement.getBoundingClientRect()
+      nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
+    }
+
+    selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
   }
-
-  selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
 }
 
 function openExternally () {
