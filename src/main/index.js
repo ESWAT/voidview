@@ -44,8 +44,8 @@ const menuTemplate = [
       {
         label: 'Open…',
         accelerator: 'Cmd+O',
-        click: (item, focusedWindow) => {
-          if (focusedWindow) window.webContents.send('open')
+        click: () => {
+          window.webContents.send('open')
         }
       },
       {
@@ -55,16 +55,16 @@ const menuTemplate = [
         label: 'Shuffle Images',
         accelerator: 'Cmd+R',
         enabled: false,
-        click: (item, focusedWindow) => {
-          if (focusedWindow) window.webContents.send('shuffle')
+        click: () => {
+          window.webContents.send('shuffle')
         }
       },
       {
         label: 'Show in Finder',
         accelerator: 'Cmd+Shift+O',
         enabled: false,
-        click: (item, focusedWindow) => {
-          if (focusedWindow)window.webContents.send('reveal')
+        click: () => {
+          window.webContents.send('reveal')
         }
       }
     ]
@@ -102,8 +102,18 @@ const menuTemplate = [
         role: 'front'
       }
     ]
-  }
-]
+  },
+  {
+    role: 'help',
+    submenu: [
+      {
+        label: 'Yuffie Help',
+        click () {
+          window.webContents.send('help')
+        }
+      }
+    ]
+  }]
 
 function createWindow () {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize

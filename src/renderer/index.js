@@ -5,7 +5,7 @@ import readChunk from 'read-chunk'
 import Clusterize from 'clusterize.js'
 import {ipcRenderer, remote, shell} from 'electron'
 import {createFrag, readDir} from './utils'
-import {drop, layout, list, loader, peek, splash, titlebar} from './templates'
+import {drop, help, layout, list, loader, peek, splash, titlebar} from './templates'
 import {KEY_COMBO_COOLDOWN, SUPPORTED_EXTENSIONS} from './constants'
 
 require('./index.css')
@@ -81,6 +81,9 @@ function setupCommands () {
   })
   ipcRenderer.on('reveal', () => {
     openExternally()
+  })
+  ipcRenderer.on('help', () => {
+    toggleHelp()
   })
 }
 
@@ -173,6 +176,26 @@ function handleKeyUp (event) {
   }
 
   lastKey = event
+}
+
+function toggleHelp (shouldDisplay = true) {
+  let helpEl = document.querySelector('.js-help')
+
+  if (!helpEl && shouldDisplay) {
+    document.body.appendChild(createFrag(help))
+    helpEl = document.querySelector('.js-help')
+    helpEl.addEventListener('click', () => {
+      helpEl.classList.add('is-removing')
+      helpEl.addEventListener('animationend', () => {
+        helpEl.remove()
+      })
+    })
+  } else {
+    helpEl.classList.add('is-removing')
+    helpEl.addEventListener('animationend', () => {
+      helpEl.remove()
+    })
+  }
 }
 
 function renderFiles () {

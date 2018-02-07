@@ -51,6 +51,21 @@ body {
   color: #aaa;
 }
 
+.help {
+  position: fixed;
+  top: 22px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.95);
+  z-index: 7;
+  animation: peek-appear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.help.is-removing {
+  animation: help-disappear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
 .list {
   position: relative;
 }
@@ -241,6 +256,22 @@ body {
     background-color: rgba(0,0,0,0);
   }
 }
+
+@keyframes help-appear {
+  0% {
+    background-color: rgba(0,0,0,0);
+  }
+}
+
+@keyframes help-disappear {
+  0% {
+    background-color: rgba(0,0,0,0.9);
+  }
+  100% {
+    background-color: rgba(0,0,0,0);
+  }
+}
+
 
 @keyframes peek-image-appear {
   0% {

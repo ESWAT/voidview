@@ -24,6 +24,12 @@ export const loader = `
   </div>
 `
 
+export const help = `
+  <div class="js-help help">
+    HALP
+  </div>
+`
+
 export function peek (backgroundUrl) {
   return `
   <div class="js-peek peek">
