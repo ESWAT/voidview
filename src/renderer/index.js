@@ -134,7 +134,13 @@ function handleKeyUp (event) {
         break
       case 'g':
         if (lastKey.key === 'g' && performance.now() < (lastKey.timeStamp + KEY_COMBO_COOLDOWN)) {
-          document.querySelector('#app').scrollTop = 0
+          const padding = document.querySelector('.clusterize-extra-row')
+          if (padding) {
+            document.querySelector('#app').scrollTop = 0 - padding.style.height
+          }
+          setTimeout(() => {
+            document.querySelector('#app').scrollTop = 0
+          }, 0)
         }
         break
       case 'G':
@@ -186,7 +192,9 @@ function renderFiles () {
       keep_parity: false,
       callbacks: {
         clusterChanged: () => {
-          selectItem(currentItem)
+          if (currentItem >= 0) {
+            selectItem(currentItem)
+          }
         }
       }
     })
@@ -211,17 +219,22 @@ function shuffleFiles () {
 }
 
 function navigateUp () {
-  let activeRect = document.activeElement.getBoundingClientRect()
+  if (currentItem === -1) {
+    document.querySelector('#app').scrollTop = document.querySelector('.js-list').scrollHeight
+    selectItem(files.length - 1)
+  } else {
+    let activeRect = document.activeElement.getBoundingClientRect()
 
-  let nextEl = document.elementFromPoint(activeRect.left, activeRect.top - 30)
-  if (nextEl === null) {
-    document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop - 52
+    let nextEl = document.elementFromPoint(activeRect.left, activeRect.top - 30)
+    if (nextEl === null) {
+      document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop - 52
 
-    activeRect = document.activeElement.getBoundingClientRect()
-    nextEl = document.elementFromPoint(activeRect.left, 30)
+      activeRect = document.activeElement.getBoundingClientRect()
+      nextEl = document.elementFromPoint(activeRect.left, 30)
+    }
+
+    selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
   }
-
-  selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
 }
 
 function navigateDown () {
