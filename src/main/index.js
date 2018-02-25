@@ -85,7 +85,7 @@ const menuTemplate = [
         type: 'separator'
       },
       {
-        label: 'Yuffie',
+        label: 'VoidView',
         accelerator: 'Cmd+Alt+1',
         click: (item, focusedWindow) => {
           if (!focusedWindow && window) {
@@ -107,7 +107,7 @@ const menuTemplate = [
     role: 'help',
     submenu: [
       {
-        label: 'Yuffie Help',
+        label: 'VoidView Help',
         accelerator: 'Cmd+Shift+h',
         click: () => {
           window.webContents.send('help')

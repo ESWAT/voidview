@@ -1,7 +1,7 @@
 {
-  "name": "Yuffie",
+  "name": "VoidView",
   "version": "0.3.0",
-  "description": "Local image viewer",
+  "description": "Stare into the endless void of your image collection.",
   "main": "main.js",
   "scripts": {
     "start": "electron-webpack dev",
@@ -31,7 +31,7 @@
     "webpack": "^3.10.0"
   },
   "electronWebpack": {
-    "title": "Yuffie",
+    "title": "VoidView",
     "main": {
       "webpackConfig": "webpack.main.js"
     },
