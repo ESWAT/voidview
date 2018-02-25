@@ -14,7 +14,7 @@ export const splash = `
 
 export const drop = `
   <div class="js-drop drop">
-    <p>Drop your folder to view</p>
+    <p>Drop folder to view</p>
   </div>
 `
 
