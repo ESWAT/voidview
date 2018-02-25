@@ -33,16 +33,16 @@ export const loader = `
 export const help = `
   <div class="js-help help">
     <div class="help-list">
-      <span class="help-command peek-command"><span class="help-stroke">H/⬅︎</span> Select Previous Image</span>
-      <span class="help-command peek-command"><span class="help-stroke">L/➡</span> Select Next Image</span>
+      <span class="help-command peek-command"><span class="help-stroke">⬅︎/H</span> Previous Image</span>
+      <span class="help-command peek-command"><span class="help-stroke">➡/L</span> Next Image</span>
       <span class="help-command peek-command"><span class="help-stroke">Enter/Space</span> Zoom Image</span>
-      <span class="help-command"><span class="help-stroke">J/⬇︎</span> Select Below Image</span>
-      <span class="help-command"><span class="help-stroke">K/⬆︎</span> Select Above Image</span>
-      <span class="help-command"><span class="help-stroke">gg</span> Go to First Image</span>
-      <span class="help-command"><span class="help-stroke">⇧G</span> Go to Last Image</span>
+      <span class="help-command"><span class="help-stroke">⬇︎/J</span> Below Image</span>
+      <span class="help-command"><span class="help-stroke">⬆︎/K</span> Above Image</span>
+      <span class="help-command"><span class="help-stroke">gg</span> Go to Top</span>
+      <span class="help-command"><span class="help-stroke">⇧G</span> Go to Bottom</span>
     </div>
     <div class="help-list">
-      <span class="help-command peek-command"><span class="help-stroke">⌘⇧O</span> Open Image in Finder</span>
+      <span class="help-command peek-command"><span class="help-stroke">⌘⇧O</span> Show in Finder</span>
       <span class="help-command peek-command"><span class="help-stroke">⌘O</span> Open…</span>
       <span class="help-command peek-command"><span class="help-stroke">⌘⇧H</span> Toggle Help</span>
       <span class="help-command"><span class="help-stroke">⌘R</span> Shuffle Images</span>
