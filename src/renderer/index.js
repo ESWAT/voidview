@@ -15,7 +15,6 @@ let path = []
 let currentItem = -1
 let clusterize
 let lastKey = new KeyboardEvent(0)
-window.currentItem = currentItem
 
 // Prevent default viewport scrolling with arrow keys
 document.addEventListener('keydown', (event) => {
@@ -128,6 +127,7 @@ function handleKeyUp (event) {
         break
       case 'Tab':
         currentItem = parseInt(document.activeElement.dataset.index, 10)
+        ipcRenderer.send('enable-finder-command', true)
         break
       case 'Enter':
       case ' ':
@@ -231,6 +231,7 @@ function renderFiles () {
 }
 
 function deselectItems () {
+  ipcRenderer.send('enable-finder-command', false)
   currentItem = -1
   document.activeElement.blur()
 }
@@ -241,6 +242,7 @@ function selectItem (newIndex) {
     const element = document.querySelector(`.js-item[data-index="${currentItem}"]`)
 
     if (element) {
+      ipcRenderer.send('enable-finder-command', true)
       element.focus()
     }
   }
@@ -333,7 +335,8 @@ function readPath (newPath) {
     // Helpful for debugging
     window.files = files
 
-    ipcRenderer.send('enable-aux-commands', true)
+    ipcRenderer.send('enable-shuffle-command', true)
+    ipcRenderer.send('enable-finder-command', false)
 
     document.getElementById('app').innerHTML = layout
     renderFiles()
@@ -346,7 +349,6 @@ function openPeek (item) {
   const peekEl = document.querySelector('.js-peek')
 
   if (!peekEl) {
-    ipcRenderer.send('enable-aux-commands', false)
     document.body.classList.add('body-in-peek')
     const newPeekEl = peek(`file://${path}/${item.dataset.image}`)
 
@@ -360,6 +362,9 @@ function openPeek (item) {
         closePeek()
       }
     }, false)
+
+    ipcRenderer.send('enable-shuffle-command', false)
+    ipcRenderer.send('enable-finder-command', true)
 
     currentItem = parseInt(item.dataset.index, 10)
 
@@ -398,7 +403,7 @@ function closePeek () {
   const peekEl = document.querySelector('.js-peek')
 
   if (peekEl) {
-    ipcRenderer.send('enable-aux-commands', true)
+    ipcRenderer.send('enable-shuffle-command', true)
     document.body.classList.remove('body-in-peek')
 
     document.querySelector('.js-list').classList.remove('is-hidden')

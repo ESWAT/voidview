@@ -153,8 +153,11 @@ function createWindow () {
 
   window.loadURL(url)
 
-  ipcMain.on('enable-aux-commands', (event, arg) => {
+  ipcMain.on('enable-shuffle-command', (event, arg) => {
     menu.items[1].submenu.items[2].enabled = arg
+  })
+
+  ipcMain.on('enable-finder-command', (event, arg) => {
     menu.items[1].submenu.items[3].enabled = arg
   })
 
