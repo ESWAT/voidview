@@ -60,7 +60,7 @@ body {
   padding: 0 12px;
   background-color: rgba(0,0,0,0.95);
   color: #fff;
-  font: 12px 'pt mono', 'monaco', system-ui;
+  font: 11px 'pt mono', 'monaco', system-ui;
   font-weight: 400;
   text-transform: uppercase;
   z-index: 5;

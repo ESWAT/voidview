@@ -34,6 +34,7 @@ export const help = `
     <span class="help-command">⌘⇧O Open Image in Finder</span>
     <span class="help-command">⌘R Shuffle Images</span>
     <span class="help-command">⌘O Open…</span>
+    <span class="help-command">⌘⇧H Toggle Help</span>
   </div>
 `
 
