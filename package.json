@@ -27,6 +27,7 @@
     "eslint-plugin-node": "^6.0.0",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
+    "file-loader": "^1.1.9",
     "webpack": "^3.10.0"
   },
   "electronWebpack": {

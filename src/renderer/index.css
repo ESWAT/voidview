@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'Source Code Pro';
+    src: url('/SourceCodePro-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Source Code Pro';
+    src: url('/SourceCodePro-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
 body {
   background: #000;
   margin: 0;
@@ -60,8 +74,8 @@ body {
   padding: 0 12px;
   background-color: rgba(0,0,0,0.95);
   color: #fff;
-  font: 11px 'pt mono', 'monaco', system-ui;
-  font-weight: 400;
+  font: 11px 'Source Code Pro', 'monaco', system-ui;
+  font-weight: 300;
   text-transform: uppercase;
   z-index: 5;
   display: flex;
@@ -189,8 +203,8 @@ body {
   transition-direction: forwards;
   pointer-events: none;
   color: #fff;
-  font: 14px 'pt mono', 'monaco', system-ui;
-  font-weight: 400;
+  font: 14px 'Source Code Pro', 'monaco', system-ui;
+  font-weight: 300;
   text-transform: uppercase;
   display: flex;
   justify-content: center;

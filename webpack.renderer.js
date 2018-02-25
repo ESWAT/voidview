@@ -5,6 +5,10 @@ module.exports = {
       {
         test: /\.css$/,
         use: 'css-loader'
+      },
+      {
+        test: /\.otf$/,
+        use: 'file-loader'
       }
     ]
   }
