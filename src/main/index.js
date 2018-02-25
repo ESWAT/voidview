@@ -153,7 +153,7 @@ function createWindow () {
 
   window.loadURL(url)
 
-  ipcMain.on('path-loaded', (event, arg) => {
+  ipcMain.on('enable-aux-commands', (event, arg) => {
     menu.items[1].submenu.items[2].enabled = arg
     menu.items[1].submenu.items[3].enabled = arg
   })

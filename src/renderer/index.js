@@ -315,7 +315,7 @@ function readPath (newPath) {
     // Helpful for debugging
     window.files = files
 
-    ipcRenderer.send('path-loaded', true)
+    ipcRenderer.send('enable-aux-commands', true)
 
     document.getElementById('app').innerHTML = layout
     renderFiles()
@@ -328,6 +328,7 @@ function openPeek (item) {
   const peekEl = document.querySelector('.js-peek')
 
   if (!peekEl) {
+    ipcRenderer.send('enable-aux-commands', false)
     document.body.classList.add('body-in-peek')
     const newPeekEl = peek(`file://${path}/${item.dataset.image}`)
 
@@ -379,6 +380,7 @@ function closePeek () {
   const peekEl = document.querySelector('.js-peek')
 
   if (peekEl) {
+    ipcRenderer.send('enable-aux-commands', true)
     document.body.classList.remove('body-in-peek')
 
     document.querySelector('.js-list').classList.remove('is-hidden')
