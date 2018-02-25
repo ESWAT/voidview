@@ -67,7 +67,6 @@ body {
 
 .help {
   position: fixed;
-  height: 64px;
   right: 12px;
   bottom: 0;
   left: 4px;
@@ -83,7 +82,7 @@ body {
 
 .help-list {
   display: block;
-  margin: 8px 0;
+  margin: 12px 0;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 }
