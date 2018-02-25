@@ -53,17 +53,29 @@ body {
 
 .help {
   position: fixed;
-  top: 22px;
-  right: 0;
+  height: 48px;
+  right: 12px;
   bottom: 0;
-  left: 0;
+  left: 4px;
+  padding: 0 12px;
   background-color: rgba(0,0,0,0.95);
-  z-index: 7;
-  animation: peek-appear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  color: #fff;
+  font: 12px 'pt mono', 'monaco', system-ui;
+  font-weight: 400;
+  text-transform: uppercase;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: help-appear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .help.is-removing {
   animation: help-disappear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.help-command {
+  display: inline-block;
 }
 
 .list {
@@ -259,16 +271,23 @@ body {
 
 @keyframes help-appear {
   0% {
-    background-color: rgba(0,0,0,0);
+    transform: translateY(48px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
 @keyframes help-disappear {
   0% {
-    background-color: rgba(0,0,0,0.9);
+    transform: translateY(0);
+    opacity: 1;
   }
   100% {
-    background-color: rgba(0,0,0,0);
+    transform: translateY(48px);
+    opacity: 0;
   }
 }
 

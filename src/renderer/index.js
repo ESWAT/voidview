@@ -178,23 +178,20 @@ function handleKeyUp (event) {
   lastKey = event
 }
 
-function toggleHelp (shouldDisplay = true) {
+function toggleHelp () {
   let helpEl = document.querySelector('.js-help')
 
-  if (!helpEl && shouldDisplay) {
+  if (!helpEl) {
     document.body.appendChild(createFrag(help))
     helpEl = document.querySelector('.js-help')
     helpEl.addEventListener('click', () => {
-      helpEl.classList.add('is-removing')
-      helpEl.addEventListener('animationend', () => {
-        helpEl.remove()
-      })
+      toggleHelp(false)
     })
   } else {
-    helpEl.classList.add('is-removing')
     helpEl.addEventListener('animationend', () => {
       helpEl.remove()
     })
+    helpEl.classList.add('is-removing')
   }
 }
 

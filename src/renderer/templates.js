@@ -26,7 +26,14 @@ export const loader = `
 
 export const help = `
   <div class="js-help help">
-    HALP
+    <span class="help-command">H/⬅︎ Select Left Image</span>
+    <span class="help-command">J/⬇︎ Select Below Image</span>
+    <span class="help-command">K/⬆︎ Select Above Image</span>
+    <span class="help-command">L/➡ Select Right Image</span>
+    <span class="help-command">Enter/Space View Image</span>
+    <span class="help-command">⌘⇧O Open Image in Finder</span>
+    <span class="help-command">⌘R Shuffle Images</span>
+    <span class="help-command">⌘O Open…</span>
   </div>
 `
 

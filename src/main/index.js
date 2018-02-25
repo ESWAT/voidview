@@ -108,7 +108,8 @@ const menuTemplate = [
     submenu: [
       {
         label: 'Yuffie Help',
-        click () {
+        accelerator: 'Cmd+Shift+h',
+        click: () => {
           window.webContents.send('help')
         }
       }
@@ -126,6 +127,7 @@ function createWindow () {
     webPreferences: {
       webSecurity: false
     },
+    backgroundColor: '#000',
     x: mainWindowState.x,
     y: mainWindowState.y,
     width: mainWindowState.width,
