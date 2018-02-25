@@ -67,7 +67,7 @@ body {
 
 .help {
   position: fixed;
-  height: 48px;
+  height: 64px;
   right: 12px;
   bottom: 0;
   left: 4px;
@@ -75,13 +75,22 @@ body {
   background-color: rgba(0,0,0,0.95);
   color: #fff;
   font: 11px 'Source Code Pro', 'monaco', system-ui;
-  font-weight: 300;
+  font-weight: 400;
   text-transform: uppercase;
   z-index: 5;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   animation: help-appear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.help-list {
+  display: block;
+  margin: 8px 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.help-stroke {
+  color: #0fe;
+  transition: color 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .help.is-removing {
@@ -90,6 +99,16 @@ body {
 
 .help-command {
   display: inline-block;
+  transition: opacity 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  margin-right: 16px;
+}
+
+.body-in-peek .help-command:not(.peek-command) {
+  opacity: 0.2;
+}
+
+.body-in-peek .help-command:not(.peek-command) .help-stroke {
+  color: #fff;
 }
 
 .list {
@@ -119,7 +138,7 @@ body {
   width: calc(100% + 4px);
   height: calc(100% + 4px);
   position: relative;
-  border: 2px solid #d12a2a;
+  border: 2px solid #0fe;
   top: -4px;
   left: -4px;
   z-index: 2;
@@ -226,7 +245,7 @@ body {
 .splash-open {
   appearance: none;
   background: transparent;
-  border: 2px solid #d12a2a;
+  border: 2px solid #0fe;
   color: #fff;
   font: 14px 'pt mono', 'monaco', system-ui;
   font-weight: 400;
@@ -239,7 +258,7 @@ body {
 }
 
 .splash-open:active {
-  color: #d12a2a;
+  color: #0fe;
 }
 
 .loader {

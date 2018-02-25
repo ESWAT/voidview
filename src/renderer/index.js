@@ -328,6 +328,7 @@ function openPeek (item) {
   const peekEl = document.querySelector('.js-peek')
 
   if (!peekEl) {
+    document.body.classList.add('body-in-peek')
     const newPeekEl = peek(`file://${path}/${item.dataset.image}`)
 
     document.querySelector('.list').insertAdjacentHTML('afterend', newPeekEl)
@@ -378,6 +379,8 @@ function closePeek () {
   const peekEl = document.querySelector('.js-peek')
 
   if (peekEl) {
+    document.body.classList.remove('body-in-peek')
+
     document.querySelector('.js-list').classList.remove('is-hidden')
     document.querySelector(`.js-item[data-index="${currentItem}"]`).focus()
 
