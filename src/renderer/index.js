@@ -124,8 +124,7 @@ function handleKeyUp (event) {
   } else {
     switch (event.key) {
       case 'Escape':
-        currentItem = -1
-        document.activeElement.blur()
+        deselectItems()
         break
       case 'Tab':
         currentItem = parseInt(document.activeElement.dataset.index, 10)
@@ -145,14 +144,12 @@ function handleKeyUp (event) {
           setTimeout(() => {
             document.querySelector('#app').scrollTop = 0
           }, 0)
-          currentItem = -1
-          document.activeElement.blur()
+          deselectItems()
         }
         break
       case 'G':
         document.querySelector('#app').scrollTop = document.querySelector('.js-list').scrollHeight
-        currentItem = -1
-        document.activeElement.blur()
+        deselectItems()
         break
       case 'ArrowUp':
       case 'k':
@@ -231,6 +228,11 @@ function renderFiles () {
 
     addListeners()
   })
+}
+
+function deselectItems () {
+  currentItem = -1
+  document.activeElement.blur()
 }
 
 function selectItem (newIndex) {
