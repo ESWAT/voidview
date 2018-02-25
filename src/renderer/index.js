@@ -284,7 +284,7 @@ function navigateDown () {
     let nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
 
     if (nextEl === null) {
-      document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop + 50
+      document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop + 100
 
       activeRect = document.activeElement.getBoundingClientRect()
       nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
