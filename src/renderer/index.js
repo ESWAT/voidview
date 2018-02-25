@@ -5,7 +5,7 @@ import readChunk from 'read-chunk'
 import Clusterize from 'clusterize.js'
 import {ipcRenderer, remote, shell} from 'electron'
 import {createFrag, readDir} from './utils'
-import {drop, help, layout, list, loader, peek, splash, titlebar} from './templates'
+import {drop, help, layout, list, loader, peek, shuffler, splash, titlebar} from './templates'
 import {KEY_COMBO_COOLDOWN, SUPPORTED_EXTENSIONS} from './constants'
 
 require('./index.css')
@@ -220,7 +220,10 @@ function renderFiles () {
       }
     })
 
-    document.querySelector('.js-loader').remove()
+    const jsLoader = document.querySelector('.js-loader')
+    if (jsLoader) {
+      jsLoader.remove()
+    }
 
     addListeners()
   })
@@ -240,7 +243,16 @@ function selectItem (newIndex) {
 function shuffleFiles () {
   shuffle(files)
   renderFiles()
+
   document.querySelector('#app').scrollTop = 0
+
+  let shufflerEl = document.querySelector('.js-shuffler')
+  if (!shufflerEl) {
+    shufflerEl = document.body.appendChild(createFrag(shuffler))
+  } else {
+    shufflerEl.remove()
+    shufflerEl = document.body.appendChild(createFrag(shuffler))
+  }
 }
 
 function navigateUp () {

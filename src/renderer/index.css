@@ -233,6 +233,25 @@ body {
   opacity: 1;
 }
 
+.shuffler {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  font: 256px 'Source Code Pro', 'monaco', system-ui;
+  font-weight: 400;
+  text-align: center;
+  opacity: 0;
+  color: #0fe;
+  z-index: 6;
+  pointer-events: none;
+  animation: shuffler-appear 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
 .splash {
   width: 100%;
   height: 100%;
@@ -364,5 +383,16 @@ body {
   }
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes shuffler-appear {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-64px);
   }
 }

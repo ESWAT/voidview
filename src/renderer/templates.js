@@ -18,6 +18,12 @@ export const drop = `
   </div>
 `
 
+export const shuffler = `
+  <div class="js-shuffler shuffler">
+    ⤱
+  </div>
+`
+
 export const loader = `
   <div class="js-loader loader">
     <p>Loading</p>
