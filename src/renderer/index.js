@@ -5,7 +5,7 @@ import readChunk from 'read-chunk'
 import Clusterize from 'clusterize.js'
 import {ipcRenderer, remote, shell} from 'electron'
 import {createFrag, readDir} from './utils'
-import {layout, list, loader, peek, splash, titlebar} from './templates'
+import {drop, help, layout, list, loader, peek, shuffler, splash, titlebar} from './templates'
 import {KEY_COMBO_COOLDOWN, SUPPORTED_EXTENSIONS} from './constants'
 
 require('./index.css')
@@ -15,6 +15,7 @@ let path = []
 let currentItem = -1
 let clusterize
 let lastKey = new KeyboardEvent(0)
+window.currentItem = currentItem
 
 // Prevent default viewport scrolling with arrow keys
 document.addEventListener('keydown', (event) => {
@@ -52,13 +53,22 @@ function setupTitlebar () {
 }
 
 function setupDropScreen () {
+  document.body.appendChild(createFrag(drop))
+
   document.addEventListener('dragover', (event) => {
     event.preventDefault()
+    document.querySelector('.js-drop').classList.add('is-dragging')
+  })
+
+  document.addEventListener('dragleave', (event) => {
+    event.preventDefault()
+    document.querySelector('.js-drop').classList.remove('is-dragging')
   })
 
   document.addEventListener('drop', (event) => {
     event.preventDefault()
     readPath([event.dataTransfer.files[0].path])
+    document.querySelector('.js-drop').classList.remove('is-dragging')
   })
 }
 
@@ -71,6 +81,9 @@ function setupCommands () {
   })
   ipcRenderer.on('reveal', () => {
     openExternally()
+  })
+  ipcRenderer.on('help', () => {
+    toggleHelp()
   })
 }
 
@@ -125,11 +138,21 @@ function handleKeyUp (event) {
         break
       case 'g':
         if (lastKey.key === 'g' && performance.now() < (lastKey.timeStamp + KEY_COMBO_COOLDOWN)) {
-          document.querySelector('#app').scrollTop = 0
+          const padding = document.querySelector('.clusterize-extra-row')
+          if (padding) {
+            document.querySelector('#app').scrollTop = 0 - padding.style.height
+          }
+          setTimeout(() => {
+            document.querySelector('#app').scrollTop = 0
+          }, 0)
+          currentItem = -1
+          document.activeElement.blur()
         }
         break
       case 'G':
         document.querySelector('#app').scrollTop = document.querySelector('.js-list').scrollHeight
+        currentItem = -1
+        document.activeElement.blur()
         break
       case 'ArrowUp':
       case 'k':
@@ -159,6 +182,23 @@ function handleKeyUp (event) {
   lastKey = event
 }
 
+function toggleHelp () {
+  let helpEl = document.querySelector('.js-help')
+
+  if (!helpEl) {
+    document.body.appendChild(createFrag(help))
+    helpEl = document.querySelector('.js-help')
+    helpEl.addEventListener('click', () => {
+      toggleHelp(false)
+    })
+  } else {
+    helpEl.addEventListener('animationend', () => {
+      helpEl.remove()
+    })
+    helpEl.classList.add('is-removing')
+  }
+}
+
 function renderFiles () {
   list(files, path).then((nodes) => {
     currentItem = -1
@@ -174,8 +214,20 @@ function renderFiles () {
       rows_in_block: 8,
       blocks_in_cluster: 4,
       show_no_data_row: false,
-      keep_parity: false
+      keep_parity: false,
+      callbacks: {
+        clusterChanged: () => {
+          if (currentItem >= 0) {
+            selectItem(currentItem)
+          }
+        }
+      }
     })
+
+    const jsLoader = document.querySelector('.js-loader')
+    if (jsLoader) {
+      jsLoader.remove()
+    }
 
     addListeners()
   })
@@ -184,41 +236,64 @@ function renderFiles () {
 function selectItem (newIndex) {
   if (newIndex >= 0 && newIndex < files.length) {
     currentItem = newIndex
-    document.querySelector(`.js-item[data-index="${currentItem}"]`).focus()
+    const element = document.querySelector(`.js-item[data-index="${currentItem}"]`)
+
+    if (element) {
+      element.focus()
+    }
   }
 }
 
 function shuffleFiles () {
   shuffle(files)
   renderFiles()
+
   document.querySelector('#app').scrollTop = 0
+
+  let shufflerEl = document.querySelector('.js-shuffler')
+  if (!shufflerEl) {
+    shufflerEl = document.body.appendChild(createFrag(shuffler))
+  } else {
+    shufflerEl.remove()
+    shufflerEl = document.body.appendChild(createFrag(shuffler))
+  }
 }
 
 function navigateUp () {
-  let activeRect = document.activeElement.getBoundingClientRect()
+  if (currentItem === -1) {
+    document.querySelector('#app').scrollTop = document.querySelector('.js-list').scrollHeight
+    selectItem(files.length - 1)
+  } else if (document.querySelector(`.js-item[data-index="${currentItem}"]`)) {
+    let activeRect = document.activeElement.getBoundingClientRect()
 
-  let nextEl = document.elementFromPoint(activeRect.left, activeRect.top - 30)
-  if (nextEl === null) {
-    document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop - 52
+    let nextEl = document.elementFromPoint(activeRect.left, activeRect.top - 30)
+    if (nextEl === null) {
+      document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop - 52
 
-    activeRect = document.activeElement.getBoundingClientRect()
-    nextEl = document.elementFromPoint(activeRect.left, 30)
-  } else {
+      activeRect = document.activeElement.getBoundingClientRect()
+      nextEl = document.elementFromPoint(activeRect.left, 30)
+    }
+
     selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
   }
 }
 
 function navigateDown () {
-  let activeRect = document.activeElement.getBoundingClientRect()
+  if (currentItem === -1) {
+    document.querySelector('#app').scrollTop = document.querySelector('.js-list').scrollHeight
+    selectItem(files.length - 1)
+  } else if (document.querySelector(`.js-item[data-index="${currentItem}"]`)) {
+    let activeRect = document.activeElement.getBoundingClientRect()
 
-  let nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
+    let nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
 
-  if (nextEl === null) {
-    document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop + 50
+    if (nextEl === null) {
+      document.querySelector('#app').scrollTop = document.querySelector('#app').scrollTop + 100
 
-    activeRect = document.activeElement.getBoundingClientRect()
-    nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
-  } else {
+      activeRect = document.activeElement.getBoundingClientRect()
+      nextEl = document.elementFromPoint(activeRect.left, activeRect.top + document.activeElement.clientHeight + 8)
+    }
+
     selectItem(nextEl ? parseInt(nextEl.dataset.index, 10) : currentItem)
   }
 }
@@ -234,7 +309,7 @@ function readPath (newPath) {
     return
   }
 
-  document.getElementById('app').innerHTML = loader
+  document.getElementById('app').insertAdjacentHTML('afterend', loader)
 
   path = newPath
   files = []
@@ -256,7 +331,7 @@ function readPath (newPath) {
     // Helpful for debugging
     window.files = files
 
-    ipcRenderer.send('path-loaded', true)
+    ipcRenderer.send('enable-aux-commands', true)
 
     document.getElementById('app').innerHTML = layout
     renderFiles()
@@ -269,6 +344,8 @@ function openPeek (item) {
   const peekEl = document.querySelector('.js-peek')
 
   if (!peekEl) {
+    ipcRenderer.send('enable-aux-commands', false)
+    document.body.classList.add('body-in-peek')
     const newPeekEl = peek(`file://${path}/${item.dataset.image}`)
 
     document.querySelector('.list').insertAdjacentHTML('afterend', newPeekEl)
@@ -319,6 +396,9 @@ function closePeek () {
   const peekEl = document.querySelector('.js-peek')
 
   if (peekEl) {
+    ipcRenderer.send('enable-aux-commands', true)
+    document.body.classList.remove('body-in-peek')
+
     document.querySelector('.js-list').classList.remove('is-hidden')
     document.querySelector(`.js-item[data-index="${currentItem}"]`).focus()
 

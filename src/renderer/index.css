@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'Source Code Pro';
+    src: url('/SourceCodePro-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Source Code Pro';
+    src: url('/SourceCodePro-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
 body {
   background: #000;
   margin: 0;
@@ -51,6 +65,51 @@ body {
   color: #aaa;
 }
 
+.help {
+  position: fixed;
+  right: 8px;
+  bottom: 0;
+  left: 0;
+  padding: 0 12px;
+  background-color: rgba(0,0,0,0.95);
+  color: #fff;
+  font: 11px 'Source Code Pro', 'monaco', system-ui;
+  font-weight: 400;
+  text-transform: uppercase;
+  z-index: 5;
+  animation: help-appear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.help-list {
+  display: block;
+  margin: 12px 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.help-stroke {
+  color: #0fe;
+  transition: color 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.help.is-removing {
+  animation: help-disappear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.help-command {
+  display: inline-block;
+  transition: opacity 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  margin-right: 16px;
+}
+
+.body-in-peek .help-command:not(.peek-command) {
+  opacity: 0.2;
+}
+
+.body-in-peek .help-command:not(.peek-command) .help-stroke {
+  color: #fff;
+}
+
 .list {
   position: relative;
 }
@@ -78,7 +137,7 @@ body {
   width: calc(100% + 4px);
   height: calc(100% + 4px);
   position: relative;
-  border: 2px solid #d12a2a;
+  border: 2px solid #0fe;
   top: -4px;
   left: -4px;
   z-index: 2;
@@ -148,6 +207,51 @@ body {
   display: block;
 }
 
+.drop {
+  position: fixed;
+  top: 22px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.95);
+  cursor: copy;
+  z-index: 6;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition-direction: forwards;
+  pointer-events: none;
+  color: #fff;
+  font: 14px 'Source Code Pro', 'monaco', system-ui;
+  font-weight: 300;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drop.is-dragging {
+  opacity: 1;
+}
+
+.shuffler {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  font: 256px 'Source Code Pro', 'monaco', system-ui;
+  font-weight: 400;
+  text-align: center;
+  opacity: 0;
+  color: #0fe;
+  z-index: 6;
+  pointer-events: none;
+  animation: shuffler-appear 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
 .splash {
   width: 100%;
   height: 100%;
@@ -159,7 +263,7 @@ body {
 .splash-open {
   appearance: none;
   background: transparent;
-  border: 2px solid #d12a2a;
+  border: 2px solid #0fe;
   color: #fff;
   font: 14px 'pt mono', 'monaco', system-ui;
   font-weight: 400;
@@ -172,19 +276,24 @@ body {
 }
 
 .splash-open:active {
-  color: #d12a2a;
+  color: #0fe;
 }
 
 .loader {
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  top: 22px;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #d12a2a;
+  color: #fff;
   font: 14px 'pt mono', 'monaco', system-ui;
   font-weight: 400;
   text-transform: uppercase;
+  background-color: #000;
+  z-index: 6;
 }
 
 @keyframes select {
@@ -210,6 +319,29 @@ body {
     background-color: rgba(0,0,0,0);
   }
 }
+
+@keyframes help-appear {
+  0% {
+    transform: translateY(48px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes help-disappear {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(48px);
+    opacity: 0;
+  }
+}
+
 
 @keyframes peek-image-appear {
   0% {
@@ -251,5 +383,16 @@ body {
   }
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes shuffler-appear {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-64px);
   }
 }

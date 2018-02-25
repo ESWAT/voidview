@@ -44,8 +44,8 @@ const menuTemplate = [
       {
         label: 'Open…',
         accelerator: 'Cmd+O',
-        click: (item, focusedWindow) => {
-          if (focusedWindow) window.webContents.send('open')
+        click: () => {
+          window.webContents.send('open')
         }
       },
       {
@@ -55,16 +55,16 @@ const menuTemplate = [
         label: 'Shuffle Images',
         accelerator: 'Cmd+R',
         enabled: false,
-        click: (item, focusedWindow) => {
-          if (focusedWindow) window.webContents.send('shuffle')
+        click: () => {
+          window.webContents.send('shuffle')
         }
       },
       {
         label: 'Show in Finder',
         accelerator: 'Cmd+Shift+O',
         enabled: false,
-        click: (item, focusedWindow) => {
-          if (focusedWindow)window.webContents.send('reveal')
+        click: () => {
+          window.webContents.send('reveal')
         }
       }
     ]
@@ -85,7 +85,7 @@ const menuTemplate = [
         type: 'separator'
       },
       {
-        label: 'Yuffie',
+        label: 'VoidView',
         accelerator: 'Cmd+Alt+1',
         click: (item, focusedWindow) => {
           if (!focusedWindow && window) {
@@ -102,8 +102,19 @@ const menuTemplate = [
         role: 'front'
       }
     ]
-  }
-]
+  },
+  {
+    role: 'help',
+    submenu: [
+      {
+        label: 'VoidView Help',
+        accelerator: 'Cmd+Shift+h',
+        click: () => {
+          window.webContents.send('help')
+        }
+      }
+    ]
+  }]
 
 function createWindow () {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
@@ -116,12 +127,14 @@ function createWindow () {
     webPreferences: {
       webSecurity: false
     },
+    backgroundColor: '#000',
     x: mainWindowState.x,
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
     titleBarStyle: 'hidden',
-    frame: false
+    frame: false,
+    show: false
   })
 
   mainWindowState.manage(window)
@@ -140,7 +153,7 @@ function createWindow () {
 
   window.loadURL(url)
 
-  ipcMain.on('path-loaded', (event, arg) => {
+  ipcMain.on('enable-aux-commands', (event, arg) => {
     menu.items[1].submenu.items[2].enabled = arg
     menu.items[1].submenu.items[3].enabled = arg
   })
@@ -154,6 +167,12 @@ function createWindow () {
     setImmediate(() => {
       window.focus()
     })
+  })
+
+  window.webContents.on('did-finish-load', () => {
+    if (!window.isVisible()) {
+      window.show()
+    }
   })
 
   return window

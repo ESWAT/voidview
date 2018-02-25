@@ -1,3 +1,3 @@
-# 🦖 Yuffie
+# 👁 VoidView
 
-Local image viewer
+> Stare into the endless void of your image collection.

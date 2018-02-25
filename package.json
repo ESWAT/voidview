@@ -1,7 +1,7 @@
 {
-  "name": "Yuffie",
+  "name": "VoidView",
   "version": "0.3.0",
-  "description": "Local image viewer",
+  "description": "Stare into the endless void of your image collection.",
   "main": "main.js",
   "scripts": {
     "start": "electron-webpack dev",
@@ -17,20 +17,20 @@
   "repository": "https://gitlab.com/eswat/yuffie",
   "author": "Philip Karpiak <philip@eswat.ca>",
   "devDependencies": {
-    "css-loader": "^0.28.7",
-    "electron": "~1.7.8",
-    "electron-builder": "^19.48.3",
-    "electron-webpack": "^1.11.0",
-    "eslint": "^4.13.0",
+    "css-loader": "^0.28.10",
+    "electron": "^1.8.2",
+    "electron-builder": "^20.2.0",
+    "electron-webpack": "^1.13.0",
+    "eslint": "^4.18.1",
     "eslint-config-standard": "^11.0.0-beta.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "webpack": "^3.10.0"
+    "webpack": "^3.11.0"
   },
   "electronWebpack": {
-    "title": "Yuffie",
+    "title": "VoidView",
     "main": {
       "webpackConfig": "webpack.main.js"
     },
