@@ -145,10 +145,14 @@ function handleKeyUp (event) {
           setTimeout(() => {
             document.querySelector('#app').scrollTop = 0
           }, 0)
+          currentItem = -1
+          document.activeElement.blur()
         }
         break
       case 'G':
         document.querySelector('#app').scrollTop = document.querySelector('.js-list').scrollHeight
+        currentItem = -1
+        document.activeElement.blur()
         break
       case 'ArrowUp':
       case 'k':
