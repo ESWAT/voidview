@@ -45,6 +45,9 @@ const menuTemplate = [
         label: 'Open…',
         accelerator: 'Cmd+O',
         click: () => {
+          if (window === null) {
+            window = createWindow()
+          }
           window.webContents.send('open')
         }
       },
