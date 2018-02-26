@@ -223,7 +223,10 @@ function renderFiles () {
 
     const jsLoader = document.querySelector('.js-loader')
     if (jsLoader) {
-      jsLoader.remove()
+      jsLoader.classList.add('has-loaded')
+      jsLoader.addEventListener('animationend', () => {
+        jsLoader.remove()
+      })
     }
 
     addListeners()
@@ -313,12 +316,14 @@ function readPath (newPath) {
     return
   }
 
-  document.getElementById('app').insertAdjacentHTML('afterend', loader)
 
   path = newPath
   files = []
 
   readDir(path[0]).then((dir) => {
+    document.getElementById('app').innerHTML = layout
+    document.getElementById('app').insertAdjacentHTML('afterend', loader)
+
     files = dir.filter((file) => {
       if (file !== undefined) {
         const fullPath = `${path}/${file}`
@@ -332,13 +337,15 @@ function readPath (newPath) {
       }
     })
 
-    enableFinderCommand(false)
-    enableShuffleCommand(true)
+    document.querySelector('.js-loader').addEventListener('animationend', () => {
+      enableFinderCommand(false)
+      enableShuffleCommand(true)
 
-    document.getElementById('app').innerHTML = layout
-    renderFiles()
+      document.getElementById('app').innerHTML = layout
+      renderFiles()
 
-    document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1)
+      document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1)
+    })
   })
 }
 

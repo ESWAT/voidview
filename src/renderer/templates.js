@@ -26,7 +26,6 @@ export const shuffler = `
 
 export const loader = `
   <div class="js-loader loader">
-    <p>Loading</p>
   </div>
 `
 
