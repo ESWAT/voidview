@@ -127,7 +127,7 @@ function handleKeyUp (event) {
         break
       case 'Tab':
         currentItem = parseInt(document.activeElement.dataset.index, 10)
-        ipcRenderer.send('enable-finder-command', true)
+        enableFinderCommand(true)
         break
       case 'Enter':
       case ' ':
@@ -231,7 +231,7 @@ function renderFiles () {
 }
 
 function deselectItems () {
-  ipcRenderer.send('enable-finder-command', false)
+  enableFinderCommand(false)
   currentItem = -1
   document.activeElement.blur()
 }
@@ -242,7 +242,7 @@ function selectItem (newIndex) {
     const element = document.querySelector(`.js-item[data-index="${currentItem}"]`)
 
     if (element) {
-      ipcRenderer.send('enable-finder-command', true)
+      enableFinderCommand(true)
       element.focus()
     }
   }
@@ -335,8 +335,8 @@ function readPath (newPath) {
     // Helpful for debugging
     window.files = files
 
-    ipcRenderer.send('enable-shuffle-command', true)
-    ipcRenderer.send('enable-finder-command', false)
+    enableFinderCommand(false)
+    enableShuffleCommand(true)
 
     document.getElementById('app').innerHTML = layout
     renderFiles()
@@ -349,7 +349,7 @@ function openPeek (item) {
   const peekEl = document.querySelector('.js-peek')
 
   if (!peekEl) {
-    document.body.classList.add('body-in-peek')
+    document.body.classList.add('is-peeking')
     const newPeekEl = peek(`file://${path}/${item.dataset.image}`)
 
     document.querySelector('.list').insertAdjacentHTML('afterend', newPeekEl)
@@ -363,8 +363,8 @@ function openPeek (item) {
       }
     }, false)
 
-    ipcRenderer.send('enable-shuffle-command', false)
-    ipcRenderer.send('enable-finder-command', true)
+    enableFinderCommand(true)
+    enableShuffleCommand(false)
 
     currentItem = parseInt(item.dataset.index, 10)
 
@@ -403,8 +403,8 @@ function closePeek () {
   const peekEl = document.querySelector('.js-peek')
 
   if (peekEl) {
-    ipcRenderer.send('enable-shuffle-command', true)
-    document.body.classList.remove('body-in-peek')
+    enableShuffleCommand(true)
+    document.body.classList.remove('is-peeking')
 
     document.querySelector('.js-list').classList.remove('is-hidden')
     document.querySelector(`.js-item[data-index="${currentItem}"]`).focus()
@@ -414,5 +414,25 @@ function closePeek () {
       peekEl.remove()
       document.body.classList.remove('is-frozen')
     })
+  }
+}
+
+function enableFinderCommand (state) {
+  ipcRenderer.send('enable-finder-command', state)
+
+  if (state) {
+    document.body.classList.add('can-finder')
+  } else {
+    document.body.classList.remove('can-finder')
+  }
+}
+
+function enableShuffleCommand (state) {
+  ipcRenderer.send('enable-shuffle-command', state)
+
+  if (state) {
+    document.body.classList.add('can-shuffle')
+  } else {
+    document.body.classList.remove('can-shuffle')
   }
 }

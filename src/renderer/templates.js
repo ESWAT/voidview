@@ -33,19 +33,19 @@ export const loader = `
 export const help = `
   <div class="js-help help">
     <div class="help-list">
-      <span class="help-command peek-command"><span class="help-stroke">⬅︎/H</span> Previous Image</span>
-      <span class="help-command peek-command"><span class="help-stroke">➡/L</span> Next Image</span>
-      <span class="help-command peek-command"><span class="help-stroke">Enter/Space</span> Zoom Image</span>
-      <span class="help-command"><span class="help-stroke">⬆︎/K</span> Above Image</span>
-      <span class="help-command"><span class="help-stroke">⬇︎/J</span> Below Image</span>
-      <span class="help-command"><span class="help-stroke">gg</span> Go to Top</span>
-      <span class="help-command"><span class="help-stroke">⇧G</span> Go to Bottom</span>
+      <span class="help-command"><span class="help-stroke">⬅︎/H</span> Previous Image</span>
+      <span class="help-command"><span class="help-stroke">➡/L</span> Next Image</span>
+      <span class="help-command"><span class="help-stroke">Enter/Space</span> Zoom Image</span>
+      <span class="help-command grid-command"><span class="help-stroke">⬆︎/K</span> Above Image</span>
+      <span class="help-command grid-command"><span class="help-stroke">⬇︎/J</span> Below Image</span>
+      <span class="help-command grid-command"><span class="help-stroke">gg</span> Go to Top</span>
+      <span class="help-command grid-command"><span class="help-stroke">⇧G</span> Go to Bottom</span>
     </div>
     <div class="help-list">
-      <span class="help-command peek-command"><span class="help-stroke">⌘⇧O</span> Show in Finder</span>
-      <span class="help-command peek-command"><span class="help-stroke">⌘O</span> Open…</span>
-      <span class="help-command peek-command"><span class="help-stroke">⌘⇧H</span> Toggle Help</span>
-      <span class="help-command"><span class="help-stroke">⌘R</span> Shuffle Images</span>
+      <span class="help-command"><span class="help-stroke">⌘O</span> Open…</span>
+      <span class="help-command"><span class="help-stroke">⌘⇧H</span> Toggle Help</span>
+      <span class="help-command finder-command"><span class="help-stroke">⌘⇧O</span> Show in Finder</span>
+      <span class="help-command shuffle-command"><span class="help-stroke">⌘R</span> Shuffle Images</span>
     </div>
   </div>
 `

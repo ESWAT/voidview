@@ -103,11 +103,15 @@ body {
   margin-right: 16px;
 }
 
-.body-in-peek .help-command:not(.peek-command) {
-  opacity: 0.2;
+body.is-peeking .grid-command,
+body:not(.can-shuffle) .shuffle-command,
+body:not(.can-finder) .finder-command {
+  opacity: 0.2
 }
 
-.body-in-peek .help-command:not(.peek-command) .help-stroke {
+body.is-peeking .grid-command .help-stroke,
+body:not(.can-shuffle) .shuffle-command .help-stroke,
+body:not(.can-finder) .finder-command {
   color: #fff;
 }
 
