@@ -332,9 +332,6 @@ function readPath (newPath) {
       }
     })
 
-    // Helpful for debugging
-    window.files = files
-
     enableFinderCommand(false)
     enableShuffleCommand(true)
 
