@@ -240,14 +240,16 @@ function deselectItems () {
 }
 
 function selectItem (newIndex) {
-  if (newIndex >= 0 && newIndex < files.length) {
-    currentItem = newIndex
-    const element = document.querySelector(`.js-item[data-index="${currentItem}"]`)
+  if (newIndex < 0 || newIndex > files.length) {
+    return
+  }
 
-    if (element) {
-      enableFinderCommand(true)
-      element.focus()
-    }
+  currentItem = newIndex
+  const element = document.querySelector(`.js-item[data-index="${currentItem}"]`)
+
+  if (element) {
+    enableFinderCommand(true)
+    element.focus()
   }
 }
 
@@ -258,12 +260,12 @@ function shuffleFiles () {
   document.querySelector('#app').scrollTop = 0
 
   let shufflerEl = document.querySelector('.js-shuffler')
-  if (!shufflerEl) {
-    shufflerEl = document.body.appendChild(createFrag(shuffler))
-  } else {
+
+  if (shufflerEl) {
     shufflerEl.remove()
-    shufflerEl = document.body.appendChild(createFrag(shuffler))
   }
+
+  shufflerEl = document.body.appendChild(createFrag(shuffler))
 }
 
 function navigateUp () {
@@ -316,7 +318,6 @@ function readPath (newPath) {
     return
   }
 
-
   path = newPath
   files = []
 
@@ -352,73 +353,75 @@ function readPath (newPath) {
 function openPeek (item) {
   const peekEl = document.querySelector('.js-peek')
 
-  if (!peekEl) {
-    document.body.classList.add('is-peeking')
-    const newPeekEl = peek(`file://${path}/${item.dataset.image}`)
-
-    document.querySelector('.list').insertAdjacentHTML('afterend', newPeekEl)
-    document.body.classList.add('is-frozen')
-
-    const peekImageEl = document.querySelector('.js-peek-image')
-
-    document.querySelector('.js-peek-image').addEventListener('click', () => {
-      if (!document.querySelector('.js-peek').classList.contains('is-removing')) {
-        closePeek()
-      }
-    }, false)
-
-    enableFinderCommand(true)
-    enableShuffleCommand(false)
-
-    currentItem = parseInt(item.dataset.index, 10)
-
-    peekImageEl.classList.add('is-appearing')
-
-    peekImageEl.addEventListener('animationend', () => {
-      if (document.body.classList.contains('is-frozen')) {
-        document.querySelector('.js-list').classList.add('is-hidden')
-      }
-      peekImageEl.classList.remove('sweep-left', 'sweep-right', 'is-appearing')
-    })
+  if (peekEl) {
+    return
   }
+
+  document.body.classList.add('is-peeking')
+  const newPeekEl = peek(`file://${path}/${item.dataset.image}`)
+
+  document.querySelector('.list').insertAdjacentHTML('afterend', newPeekEl)
+  document.body.classList.add('is-frozen')
+
+  const peekImageEl = document.querySelector('.js-peek-image')
+
+  document.querySelector('.js-peek-image').addEventListener('click', () => {
+    if (!document.querySelector('.js-peek').classList.contains('is-removing')) {
+      closePeek()
+    }
+  }, false)
+
+  enableFinderCommand(true)
+  enableShuffleCommand(false)
+
+  currentItem = parseInt(item.dataset.index, 10)
+
+  peekImageEl.classList.add('is-appearing')
+
+  peekImageEl.addEventListener('animationend', () => {
+    if (document.body.classList.contains('is-frozen')) {
+      document.querySelector('.js-list').classList.add('is-hidden')
+    }
+    peekImageEl.classList.remove('sweep-left', 'sweep-right', 'is-appearing')
+  })
 }
 
 function changePeek (newIndex) {
-  if (document.querySelector(`.js-item[data-index="${newIndex}"]`)) {
-    const peekImageEl = document.querySelector('.js-peek-image')
-
-    if (newIndex > currentItem) {
-      peekImageEl.classList.add('sweep-right')
-    } else {
-      peekImageEl.classList.add('sweep-left')
-    }
-
-    currentItem = newIndex
-    const newItem = document.querySelector(`.js-item[data-index="${currentItem}"]`)
-    const { image } = newItem.dataset
-
-    newItem.focus()
-
-    peekImageEl.setAttribute('style', `background-image: url("file://${path}/${image}")`)
+  if (!document.querySelector(`.js-item[data-index="${newIndex}"]`)) {
+    return
   }
+
+  const peekImageEl = document.querySelector('.js-peek-image')
+
+  peekImageEl.classList.add(`sweep-${newIndex > currentItem ? 'right' : 'left'}`)
+
+  currentItem = newIndex
+  const newItem = document.querySelector(`.js-item[data-index="${currentItem}"]`)
+  const { image } = newItem.dataset
+
+  newItem.focus()
+
+  peekImageEl.setAttribute('style', `background-image: url("file://${path}/${image}")`)
 }
 
 function closePeek () {
   const peekEl = document.querySelector('.js-peek')
 
-  if (peekEl) {
-    enableShuffleCommand(true)
-    document.body.classList.remove('is-peeking')
-
-    document.querySelector('.js-list').classList.remove('is-hidden')
-    document.querySelector(`.js-item[data-index="${currentItem}"]`).focus()
-
-    peekEl.classList.add('is-animating')
-    peekEl.addEventListener('animationend', () => {
-      peekEl.remove()
-      document.body.classList.remove('is-frozen')
-    })
+  if (!peekEl) {
+    return
   }
+
+  enableShuffleCommand(true)
+  document.body.classList.remove('is-peeking')
+
+  document.querySelector('.js-list').classList.remove('is-hidden')
+  document.querySelector(`.js-item[data-index="${currentItem}"]`).focus()
+
+  peekEl.classList.add('is-animating')
+  peekEl.addEventListener('animationend', () => {
+    peekEl.remove()
+    document.body.classList.remove('is-frozen')
+  })
 }
 
 function enableFinderCommand (state) {
