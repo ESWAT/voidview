@@ -292,14 +292,14 @@ body:not(.can-finder) .finder-command {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #0fe;
+  background-color: #111;
   z-index: 6;
   animation: loader-appear 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .loader.has-loaded {
   animation: loader-disappear 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
-  animation-delay: 0.5s;
+  animation-delay: 1s;
 }
 
 @keyframes select {
