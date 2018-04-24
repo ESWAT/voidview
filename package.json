@@ -19,15 +19,15 @@
   "devDependencies": {
     "css-loader": "^0.28.11",
     "electron": "^1.8.4",
-    "electron-builder": "^20.8.1",
-    "electron-webpack": "^1.13.0",
+    "electron-builder": "^20.10.0",
+    "electron-webpack": "^2.0.1",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.0.1",
-    "webpack": "^3.11.0"
+    "webpack": "^4.6.0"
   },
   "electronWebpack": {
     "title": "VoidView",
