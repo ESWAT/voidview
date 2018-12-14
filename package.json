@@ -7,9 +7,9 @@
     "start": "electron-webpack dev",
     "compile": "electron-webpack",
     "lint": "eslint ./src",
-    "dist-mac": "yarn compile && node scripts.js dist mac",
-    "dist-linux": "yarn compile && node scripts.js dist linux",
-    "dist-win": "yarn compile && node scripts.js dist win",
+    "dist-mac": "npm run compile && node scripts.js dist mac",
+    "dist-linux": "npm run compile && node scripts.js dist linux",
+    "dist-win": "npm run compile && node scripts.js dist win",
     "push-mac": "node scripts.js push mac",
     "push-linux": "node scripts.js push mac",
     "push-win": "node scripts.js push mac"
@@ -17,17 +17,17 @@
   "repository": "https://gitlab.com/eswat/yuffie",
   "author": "Philip Karpiak <philip@eswat.ca>",
   "devDependencies": {
-    "css-loader": "^0.28.11",
-    "electron": "^1.8.4",
-    "electron-builder": "^20.10.0",
-    "electron-webpack": "^2.0.1",
-    "eslint": "^4.19.1",
-    "eslint-config-standard": "^11.0.0",
+    "css-loader": "^2.0.0",
+    "electron": "^3.0.11",
+    "electron-builder": "^20.38.3",
+    "electron-webpack": "^2.6.1",
+    "eslint": "^5.10.0",
+    "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.7.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "webpack": "^4.6.0"
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "webpack": "^4.27.1"
   },
   "electronWebpack": {
     "title": "VoidView",
@@ -40,9 +40,9 @@
   },
   "dependencies": {
     "clusterize.js": "^0.18.1",
-    "electron-window-state": "^4.1.1",
+    "electron-window-state": "^5.0.3",
     "image-type": "^3.0.0",
-    "read-chunk": "^2.1.0",
+    "read-chunk": "^3.0.0",
     "shuffle-array": "^1.0.1",
     "source-map-support": "^0.5.4"
   }
