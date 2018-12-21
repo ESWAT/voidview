@@ -7,6 +7,7 @@ let window
 
 const menuTemplate = [
   {
+    label: 'VoidView',
     submenu: [
       {
         role: 'about'
