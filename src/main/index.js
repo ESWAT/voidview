@@ -129,7 +129,10 @@ function createWindow () {
 
   window = new BrowserWindow({
     webPreferences: {
-      webSecurity: false
+      contextIsolation: false,
+      nodeIntegration: true,
+      webSecurity: false,
+      webviewTag: false
     },
     backgroundColor: '#000',
     x: mainWindowState.x,
