@@ -3,10 +3,10 @@ import imageType from 'image-type'
 import shuffle from 'shuffle-array'
 import readChunk from 'read-chunk'
 import Clusterize from 'clusterize.js'
-import {ipcRenderer, remote, shell} from 'electron'
-import {createFrag, readDir} from './utils'
-import {drop, help, layout, list, loader, peek, shuffler, splash, titlebar} from './templates'
-import {KEY_COMBO_COOLDOWN, SUPPORTED_EXTENSIONS} from './constants'
+import { ipcRenderer, remote, shell } from 'electron'
+import { createFrag, readDir } from './utils'
+import { drop, help, layout, list, loader, peek, shuffler, splash, titlebar } from './templates'
+import { KEY_COMBO_COOLDOWN, SUPPORTED_EXTENSIONS } from './constants'
 
 require('./index.css')
 
@@ -240,7 +240,7 @@ function deselectItems () {
 }
 
 function selectItem (newIndex) {
-  if (newIndex < 0 || newIndex > files.length) {
+  if (isNaN(newIndex) || newIndex < 0 || newIndex > files.length) {
     return
   }
 
