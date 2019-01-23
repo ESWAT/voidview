@@ -16,19 +16,6 @@ let currentItem = -1
 let clusterize
 let lastKey = new KeyboardEvent(0)
 
-// Prevent default viewport scrolling with arrow keys
-document.addEventListener('keydown', (event) => {
-  switch (event.key) {
-    case ' ':
-    case 'ArrowUp':
-    case 'ArrowDown':
-      event.preventDefault()
-      break
-    default:
-      break
-  }
-})
-
 setupSplashScreen()
 setupTitlebar()
 setupDropScreen()
@@ -38,7 +25,7 @@ function setupSplashScreen () {
   document.getElementById('app').innerHTML = splash
   document.querySelector('.js-splash-open').addEventListener('click', () => {
     readPath(remote.dialog.showOpenDialog({ properties: ['openDirectory'] }))
-  })
+  }, { once: true })
 }
 
 function setupTitlebar () {
@@ -89,6 +76,19 @@ function setupCommands () {
 function addListeners () {
   document.querySelector('.list').addEventListener('click', handleListClick)
   document.addEventListener('keyup', handleKeyUp)
+
+  // Prevent default viewport scrolling with arrow keys
+  document.addEventListener('keydown', (event) => {
+    switch (event.key) {
+      case ' ':
+      case 'ArrowUp':
+      case 'ArrowDown':
+        event.preventDefault()
+        break
+      default:
+        break
+    }
+  })
 }
 
 function handleListClick (event) {
@@ -189,10 +189,11 @@ function toggleHelp () {
       toggleHelp(false)
     })
   } else {
+    helpEl.classList.add('is-removing')
     helpEl.addEventListener('animationend', () => {
       helpEl.remove()
-    })
-    helpEl.classList.add('is-removing')
+      helpEl = null
+    }, { once: true })
   }
 }
 
@@ -221,12 +222,13 @@ function renderFiles () {
       }
     })
 
-    const jsLoader = document.querySelector('.js-loader')
+    let jsLoader = document.querySelector('.js-loader')
     if (jsLoader) {
       jsLoader.classList.add('has-loaded')
       jsLoader.addEventListener('animationend', () => {
         jsLoader.remove()
-      })
+        jsLoader = null
+      }, { once: true })
     }
 
     addListeners()
@@ -321,33 +323,33 @@ function readPath (newPath) {
   path = newPath
   files = []
 
-  readDir(path[0]).then((dir) => {
+  document.getElementById('app').insertAdjacentHTML('afterend', loader)
+
+  document.querySelector('.js-loader').addEventListener('animationend', () => {
     document.getElementById('app').innerHTML = layout
-    document.getElementById('app').insertAdjacentHTML('afterend', loader)
 
-    files = dir.filter((file) => {
-      if (file !== undefined) {
-        const fullPath = `${path}/${file}`
+    readDir(path[0]).then((dir) => {
+      files = dir.filter((file) => {
+        if (file !== undefined) {
+          const fullPath = `${path}/${file}`
 
-        if (fs.statSync(fullPath).isFile()) {
-          const buf = readChunk.sync(fullPath, 0, 12)
-          const type = imageType(buf)
+          if (fs.statSync(fullPath).isFile()) {
+            const buf = readChunk.sync(fullPath, 0, 12)
+            const type = imageType(buf)
 
-          return type && SUPPORTED_EXTENSIONS.includes(type.ext)
+            return type && SUPPORTED_EXTENSIONS.includes(type.ext)
+          }
         }
-      }
-    })
+      })
 
-    document.querySelector('.js-loader').addEventListener('animationend', () => {
       enableFinderCommand(false)
       enableShuffleCommand(true)
 
-      document.getElementById('app').innerHTML = layout
       renderFiles()
 
       document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1)
     })
-  })
+  }, { once: true })
 }
 
 function openPeek (item) {
@@ -369,7 +371,7 @@ function openPeek (item) {
     if (!document.querySelector('.js-peek').classList.contains('is-removing')) {
       closePeek()
     }
-  }, false)
+  }, { capture: false, once: true })
 
   enableFinderCommand(true)
   enableShuffleCommand(false)
@@ -421,7 +423,7 @@ function closePeek () {
   peekEl.addEventListener('animationend', () => {
     peekEl.remove()
     document.body.classList.remove('is-frozen')
-  })
+  }, { once: true })
 }
 
 function enableFinderCommand (state) {
