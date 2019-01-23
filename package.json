@@ -38,6 +38,12 @@
       "webpackConfig": "webpack.renderer.js"
     }
   },
+  "build": {
+    "appId": "voidview",
+    "mac": {
+      "darkModeSupport": true
+    }
+  },
   "dependencies": {
     "clusterize.js": "^0.18.1",
     "electron-window-state": "^5.0.3",
