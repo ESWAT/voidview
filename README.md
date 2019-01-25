@@ -1,5 +1,5 @@
 # 👁 VoidView
 
-> Stare into the endless void of your image collection.
+> Stare into image collection
 
-![Screenshot VoidView](https://i.imgur.com/nAKLwpE.jpg)
+[[https://github.com/eswat/voidview/blob/master/screenshot.png|alt=Screenshot]]
