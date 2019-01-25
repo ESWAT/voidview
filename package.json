@@ -1,6 +1,6 @@
 {
   "name": "VoidView",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Stare into the endless void of your image collection.",
   "main": "main.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "push-linux": "node scripts.js push mac",
     "push-win": "node scripts.js push mac"
   },
-  "repository": "https://gitlab.com/eswat/yuffie",
+  "repository": "https://gitlab.com/eswat/voiwview",
   "author": "Philip Karpiak <philip@eswat.ca>",
   "devDependencies": {
     "css-loader": "^2.1.0",
