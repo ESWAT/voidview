@@ -57,9 +57,9 @@ a:link {
 .button {
   display: flex;
   align-items: center;
-  height: 64px;
-  padding: 0 64px;
-  font-size: 32px;
+  height: 72px;
+  padding: 0 16px;
+  font-size: 48px;
   transform: skewX(-10deg);
   border-radius: 3px;
   text-align: center;
@@ -157,9 +157,8 @@ a:link {
   }
 
   .button {
-    height: 32px;
-    padding: 0 32px;
-    font-size: 20px;
+    height: 44px;
+    font-size: 24px;
   }
 
   .main__tagline {
