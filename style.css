@@ -120,9 +120,17 @@ a:link {
 .main__image {
   width: 60vw;
   z-index: -1;
-  opacity: 0.5;
+  opacity: 0;
+  animation: image-appear 10s ease 1s 1 forwards;
   position: relative;
   top: -80px;
+}
+
+@media (max-width: 1140px) {
+  .main__tagline {
+    font-size: 72px;
+    max-width: 720px;
+  }
 }
 
 @media (max-width: 960px) {
@@ -157,9 +165,21 @@ a:link {
   .main__tagline {
     margin: 0 10%;
     font-size: 40px;
+    max-width: 320px;
   }
 
   .main__tagline::first-letter {
     margin-left: 0;
+  }
+}
+
+@keyframes image-appear {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
