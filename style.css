@@ -1,0 +1,165 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #000;
+  color: #FFF;
+  font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  font-style: italic;
+  margin: 0;
+}
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 160px;
+  padding: 0 64px;
+  flex-grow: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo__icon {
+  width: 96px;
+}
+
+.logo__text {
+  font-size: 48px;
+  margin: 0 0 0 16px;
+  position: relative;
+  top: -5px;
+}
+
+.actions {
+  display: flex;
+}
+
+.button + .button {
+  margin-left: 16px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 64px;
+  font-size: 32px;
+  transform: skewX(-10deg);
+  border-radius: 3px;
+  text-align: center;
+  transition: background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.button__text {
+  transform: skewX(10deg);
+}
+
+.button--download {
+  background-color: #D5153F;
+  color: #fff;
+}
+
+.button--download:hover {
+  background-color: #FFF;
+  color: #000;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  position: relative;
+}
+
+.main__tagline {
+  max-width: 1200px;
+  line-height: 1;
+  font-size: 128px;
+  text-align: center;
+  position: relative;
+  top: -80px;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.4), 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.main__tagline::first-letter {
+  margin-left: 26px;
+}
+
+.main__image-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  -moz-user-select: none;
+  user-select: none;
+  z-index: -1;
+}
+
+.main__image {
+  width: 60vw;
+  z-index: -1;
+  opacity: 0.5;
+  position: relative;
+  top: -80px;
+}
+
+@media (max-width: 960px) {
+  .header {
+    flex-direction: column;
+    min-height: auto;
+    padding: 32px;
+  }
+
+  .logo {
+    margin-bottom: 32px;
+  }
+
+  .logo__icon {
+    width: 64px;
+  }
+
+  .logo__text {
+    font-size: 32px;
+  }
+
+  .actions {
+    display: flex;
+  }
+
+  .button {
+    height: 32px;
+    padding: 0 32px;
+    font-size: 20px;
+  }
+
+  .main__tagline {
+    margin: 0 10%;
+    font-size: 40px;
+  }
+
+  .main__tagline::first-letter {
+    margin-left: 0;
+  }
+}
