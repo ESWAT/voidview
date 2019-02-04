@@ -121,9 +121,12 @@ a:link {
   width: 60vw;
   z-index: -1;
   opacity: 0;
-  animation: image-appear 10s ease 1s 1 forwards;
   position: relative;
   top: -80px;
+}
+
+.main__image.is-loaded {
+  animation: image-appear 10s ease 1s 1 forwards;
 }
 
 @media (max-width: 1140px) {
