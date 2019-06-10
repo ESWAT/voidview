@@ -17,17 +17,17 @@
   "repository": "https://gitlab.com/eswat/voiwview",
   "author": "Philip Karpiak <philip@eswat.ca>",
   "devDependencies": {
-    "css-loader": "^2.1.0",
-    "electron": "^4.0.2",
-    "electron-builder": "^20.38.5",
-    "electron-webpack": "^2.6.1",
-    "eslint": "^5.12.1",
+    "css-loader": "^2.1.1",
+    "electron": "^5.0.3",
+    "electron-builder": "^20.43.0",
+    "electron-webpack": "^2.6.2",
+    "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.15.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
-    "webpack": "^4.29.0"
+    "webpack": "^4.33.0"
   },
   "electronWebpack": {
     "title": "VoidView",
@@ -47,9 +47,9 @@
   "dependencies": {
     "clusterize.js": "^0.18.1",
     "electron-window-state": "^5.0.3",
-    "image-type": "^3.0.0",
-    "read-chunk": "^3.0.0",
+    "image-type": "^4.1.0",
+    "read-chunk": "^3.2.0",
     "shuffle-array": "^1.0.1",
-    "source-map-support": "^0.5.10"
+    "source-map-support": "^0.5.12"
   }
 }
