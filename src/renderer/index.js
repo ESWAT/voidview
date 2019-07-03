@@ -1,11 +1,12 @@
 import * as fs from 'fs'
+import nodePath from 'path'
 import imageType from 'image-type'
 import shuffle from 'shuffle-array'
 import readChunk from 'read-chunk'
 import Clusterize from 'clusterize.js'
 import { ipcRenderer, remote, shell } from 'electron'
 import { createFrag, readDir } from './utils'
-import { drop, help, layout, list, loader, peek, shuffler, splash, titlebar } from './templates'
+import { help, layout, list, loader, peek, shuffler, splash, titlebar } from './templates'
 import { KEY_COMBO_COOLDOWN, OPEN_DIALOG_OPTIONS, SUPPORTED_EXTENSIONS } from './constants'
 
 require('./index.css')
@@ -22,7 +23,8 @@ setupDropScreen()
 setupCommands()
 
 function setupSplashScreen () {
-  document.body.appendChild(createFrag(splash))
+  const logo = nodePath.join(__static, '/voidview-logo.svg')
+  document.body.appendChild(createFrag(splash(logo)))
 
   document.querySelector('.js-splash').classList.add('is-showing')
   document.querySelector('.js-splash-open').addEventListener('click', () => {

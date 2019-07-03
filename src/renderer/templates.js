@@ -6,14 +6,16 @@ export const titlebar = `
   <div class="js-titlebar titlebar">VoidView</div>
 `
 
-export const splash = `
-  <div class="js-splash splash">
-    <button class="js-splash-open splash-open">
-      <img src="/voidview-logo.svg" width="96">
-      <span class="splash-open-text">Drop your images here</span>
-    </button>
-  </div>
-`
+export function splash (logoUrl) {
+  return `
+    <div class="js-splash splash">
+      <button class="js-splash-open splash-open">
+        <img src="${`file://${logoUrl}`}" width="96">
+        <span class="splash-open-text">Drop your images here</span>
+      </button>
+    </div>
+  `
+}
 
 export const drop = `
   <div class="js-drop drop">
