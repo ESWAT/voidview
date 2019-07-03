@@ -326,13 +326,18 @@ function readDesiredFiles (desiredFiles) {
     document.getElementById('app').innerHTML = layout
     if (desiredFiles.length === 1) {
       const fullPath = typeof desiredFiles[0] === 'object' ? desiredFiles[0].path : desiredFiles[0]
-      getImages(fullPath).then((paths) => {
-        paths.map((path) => {
-          files.push(path)
-        })
-
+      if (!isFilePathADirectory(fullPath)) {
+        files.push(fullPath)
         initialRender()
-      })
+      } else {
+        getImages(fullPath).then((paths) => {
+          paths.map((path) => {
+            files.push(path)
+          })
+
+          initialRender()
+        })
+      }
     } else {
       for (let i = 0; i < desiredFiles.length; i++) {
         const fullPath = typeof desiredFiles[0] === 'object' ? desiredFiles[i].path : desiredFiles[i]
