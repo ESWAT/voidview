@@ -68,7 +68,9 @@ function setupCommands () {
     openExternally()
   })
   ipcRenderer.on('help', () => {
-    toggleHelp()
+    if (files.length > 0) {
+      toggleHelp()
+    }
   })
 }
 
