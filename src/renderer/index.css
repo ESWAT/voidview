@@ -136,11 +136,13 @@ body:not(.can-finder) .finder-command {
   background-position: center;
   cursor: zoom-in;
   outline: 0;
+  transition: background-color 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .item:focus {
-  background-color: #0fe;
-  background-blend-mode: exclusion;
+  background-color: rgba(0, 255, 238, 0.8);
+  background-blend-mode: luminosity;
+  box-shadow: inset 0 0 0 1px #0fe
 }
 
 .peek {
