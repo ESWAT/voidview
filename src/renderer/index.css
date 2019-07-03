@@ -372,18 +372,22 @@ body:not(.can-finder) .finder-command {
 
 @keyframes peek-image-left {
   0% {
-    transform: translateX(12px);
+    opacity: 0;
+    transform: translateX(16px);
   }
   100% {
+    opacity: 1;
     transform: translateX(0);
   }
 }
 
 @keyframes peek-image-right {
   0% {
-    transform: translateX(-12px);
+    opacity: 0;
+    transform: translateX(-16px);
   }
   100% {
+    opacity: 1;
     transform: translateX(0);
   }
 }
