@@ -6,7 +6,7 @@ import Clusterize from 'clusterize.js'
 import { ipcRenderer, remote, shell } from 'electron'
 import { createFrag, readDir } from './utils'
 import { drop, help, layout, list, loader, peek, shuffler, splash, titlebar } from './templates'
-import { KEY_COMBO_COOLDOWN, SUPPORTED_EXTENSIONS } from './constants'
+import { KEY_COMBO_COOLDOWN, OPEN_DIALOG_OPTIONS, SUPPORTED_EXTENSIONS } from './constants'
 
 require('./index.css')
 
@@ -24,7 +24,7 @@ setupCommands()
 function setupSplashScreen () {
   document.getElementById('app').innerHTML = splash
   document.querySelector('.js-splash-open').addEventListener('click', () => {
-    readPath(remote.dialog.showOpenDialog({ properties: ['openDirectory'] }))
+    readDesiredFiles(remote.dialog.showOpenDialog({ properties: OPEN_DIALOG_OPTIONS }))
   }, { once: true })
 }
 
@@ -53,14 +53,14 @@ function setupDropScreen () {
 
   document.addEventListener('drop', (event) => {
     event.preventDefault()
-    readPath([event.dataTransfer.files[0].path])
+    readDesiredFiles(event.dataTransfer.files)
     document.querySelector('.js-drop').classList.remove('is-dragging')
   })
 }
 
 function setupCommands () {
   ipcRenderer.on('open', () => {
-    readPath(remote.dialog.showOpenDialog({ properties: ['openDirectory'] }))
+    readDesiredFiles(remote.dialog.showOpenDialog({ properties: OPEN_DIALOG_OPTIONS }))
   })
   ipcRenderer.on('shuffle', () => {
     shuffleFiles()
@@ -198,7 +198,7 @@ function toggleHelp () {
 }
 
 function renderFiles () {
-  list(files, path).then((nodes) => {
+  list(files).then((nodes) => {
     currentItem = -1
 
     if (clusterize) {
@@ -216,7 +216,6 @@ function renderFiles () {
       callbacks: {
         clusterChanged: () => {
           if (currentItem >= 0) {
-            console.log('cluster changed')
             selectItem(currentItem)
           }
         }
@@ -313,44 +312,81 @@ function navigateDown () {
 function openExternally () {
   const { image } = document.querySelector(`.js-item[data-index="${currentItem}"]`).dataset
 
-  shell.showItemInFolder(`${path}/${image}`)
+  shell.showItemInFolder(image)
 }
 
-function readPath (newPath) {
-  if (!newPath) {
+function readDesiredFiles (desiredFiles) {
+  if (!desiredFiles) {
     return
   }
-
-  path = newPath
   files = []
-
   document.getElementById('app').insertAdjacentHTML('afterend', loader)
 
   document.querySelector('.js-loader').addEventListener('animationend', () => {
     document.getElementById('app').innerHTML = layout
+    if (desiredFiles.length === 1) {
+      const fullPath = typeof desiredFiles[0] === 'object' ? desiredFiles[0].path : desiredFiles[0]
+      getImages(fullPath).then((paths) => {
+        paths.map((path) => {
+          files.push(path)
+        })
 
-    readDir(path[0]).then((dir) => {
-      files = dir.filter((file) => {
+        initialRender()
+      })
+    } else {
+      for (let i = 0; i < desiredFiles.length; i++) {
+        const fullPath = typeof desiredFiles[0] === 'object' ? desiredFiles[i].path : desiredFiles[i]
+
+        if (!isFilePathADirectory(fullPath)) {
+          files.push(fullPath)
+        }
+      }
+
+      initialRender()
+    }
+  }, { once: true })
+}
+
+function initialRender () {
+  enableFinderCommand(false)
+  enableShuffleCommand(true)
+
+  renderFiles()
+
+  document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1)
+}
+
+function getImages (path) {
+  return new Promise((resolve) => {
+    const paths = []
+
+    readDir(path).then((dir) => {
+      dir.map((file) => {
         if (file !== undefined) {
           const fullPath = `${path}/${file}`
 
-          if (fs.statSync(fullPath).isFile()) {
-            const buf = readChunk.sync(fullPath, 0, 12)
-            const type = imageType(buf)
-
-            return type && SUPPORTED_EXTENSIONS.includes(type.ext)
+          if (!isFilePathADirectory(fullPath)) {
+            paths.push(fullPath)
           }
         }
       })
-
-      enableFinderCommand(false)
-      enableShuffleCommand(true)
-
-      renderFiles()
-
-      document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1)
+    }).then(() => {
+      resolve(paths)
     })
-  }, { once: true })
+  })
+}
+
+function isFilePathADirectory (filePath) {
+  if (fs.statSync(filePath).isFile()) {
+    const buf = readChunk.sync(filePath, 0, 12)
+    const type = imageType(buf)
+
+    if (type && SUPPORTED_EXTENSIONS.includes(type.ext)) {
+      return false
+    }
+  }
+
+  return true
 }
 
 function openPeek (item) {
@@ -361,7 +397,7 @@ function openPeek (item) {
   }
 
   document.body.classList.add('is-peeking')
-  const newPeekEl = peek(`file://${path}/${item.dataset.image}`)
+  const newPeekEl = peek(item.dataset.image)
 
   document.querySelector('.list').insertAdjacentHTML('afterend', newPeekEl)
   document.body.classList.add('is-frozen')
@@ -404,7 +440,7 @@ function changePeek (newIndex) {
 
   newItem.focus()
 
-  peekImageEl.setAttribute('style', `background-image: url("file://${path}/${image}")`)
+  peekImageEl.setAttribute('style', `background-image: url("file://${image}")`)
 }
 
 function closePeek () {

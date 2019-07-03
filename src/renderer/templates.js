@@ -54,19 +54,20 @@ export function peek (backgroundUrl) {
   <div class="js-peek peek">
     <div
       class="js-peek-image peek-image"
-      style='background-image: url("${backgroundUrl}")'
+      style='background-image: url("${`file://${backgroundUrl}`}")'
+      data-image="${backgroundUrl}"
     >
     </div>
   </div>
   `
 }
 
-function getItem (backgroundUrl, datasetUrl, index) {
+function getItem (backgroundUrl, index) {
   return `
     <div
       class="js-item item"
-      style='background-image: url("${backgroundUrl}")'
-      data-image="${datasetUrl}"
+      style='background-image: url("${`file://${backgroundUrl}`}")'
+      data-image="${backgroundUrl}"
       data-index="${index}"
       tabindex="0"
     >
@@ -74,7 +75,7 @@ function getItem (backgroundUrl, datasetUrl, index) {
   `
 }
 
-export function list (files, path) {
+export function list (files) {
   return new Promise((resolve) => {
     const itemsToRender = []
     let row = '<li class="row">'
@@ -87,7 +88,7 @@ export function list (files, path) {
         row = '<li class="row">'
       }
 
-      row = row.concat(getItem(`file://${path}/${file}`, file, index))
+      row = row.concat(getItem(file, index))
 
       if (index === files.length - 1) {
         row = row.concat('</li>')
