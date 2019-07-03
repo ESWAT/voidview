@@ -22,7 +22,9 @@ setupDropScreen()
 setupCommands()
 
 function setupSplashScreen () {
-  document.getElementById('app').innerHTML = splash
+  document.body.appendChild(createFrag(splash))
+
+  document.querySelector('.js-splash').classList.add('is-showing')
   document.querySelector('.js-splash-open').addEventListener('click', () => {
     readDesiredFiles(remote.dialog.showOpenDialog({ properties: OPEN_DIALOG_OPTIONS }))
   }, { once: true })
@@ -39,22 +41,19 @@ function setupTitlebar () {
 }
 
 function setupDropScreen () {
-  document.body.appendChild(createFrag(drop))
-
   document.addEventListener('dragover', (event) => {
     event.preventDefault()
-    document.querySelector('.js-drop').classList.add('is-dragging')
+    document.querySelector('.js-splash').classList.add('is-dragging')
   })
 
   document.addEventListener('dragleave', (event) => {
     event.preventDefault()
-    document.querySelector('.js-drop').classList.remove('is-dragging')
+    document.querySelector('.js-splash').classList.remove('is-dragging')
   })
 
   document.addEventListener('drop', (event) => {
     event.preventDefault()
     readDesiredFiles(event.dataTransfer.files)
-    document.querySelector('.js-drop').classList.remove('is-dragging')
   })
 }
 
@@ -320,6 +319,7 @@ function readDesiredFiles (desiredFiles) {
     return
   }
   files = []
+  document.querySelector('.js-splash').classList.remove('is-showing', 'is-dragging')
   document.getElementById('app').insertAdjacentHTML('afterend', loader)
 
   document.querySelector('.js-loader').addEventListener('animationend', () => {

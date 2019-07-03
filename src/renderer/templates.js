@@ -8,7 +8,10 @@ export const titlebar = `
 
 export const splash = `
   <div class="js-splash splash">
-    <button class="js-splash-open splash-open">Open or drop folder here</button>
+    <button class="js-splash-open splash-open">
+      <img src="/voidview-logo.svg" width="96">
+      <span class="splash-open-text">Drop your images here</span>
+    </button>
   </div>
 `
 
