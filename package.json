@@ -41,7 +41,8 @@
   "build": {
     "appId": "voidview",
     "mac": {
-      "darkModeSupport": true
+      "darkModeSupport": true,
+      "gatekeeperAssess" : false
     }
   },
   "dependencies": {
