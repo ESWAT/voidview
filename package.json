@@ -1,6 +1,6 @@
 {
   "name": "VoidView",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Stare into the endless void of your image collection.",
   "main": "main.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "appId": "voidview",
     "mac": {
       "darkModeSupport": true,
-      "gatekeeperAssess" : false
+      "gatekeeperAssess": false
     }
   },
   "dependencies": {
