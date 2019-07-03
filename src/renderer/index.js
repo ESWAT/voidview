@@ -216,6 +216,7 @@ function renderFiles () {
       callbacks: {
         clusterChanged: () => {
           if (currentItem >= 0) {
+            console.log('cluster changed')
             selectItem(currentItem)
           }
         }
@@ -382,7 +383,7 @@ function openPeek (item) {
 
   peekImageEl.addEventListener('animationend', () => {
     if (document.body.classList.contains('is-frozen')) {
-      document.querySelector('.js-list').classList.add('is-hidden')
+      document.querySelector('.js-list').classList.add('is-zero')
     }
     peekImageEl.classList.remove('sweep-left', 'sweep-right', 'is-appearing')
   })
@@ -416,7 +417,7 @@ function closePeek () {
   enableShuffleCommand(true)
   document.body.classList.remove('is-peeking')
 
-  document.querySelector('.js-list').classList.remove('is-hidden')
+  document.querySelector('.js-list').classList.remove('is-zero')
   document.querySelector(`.js-item[data-index="${currentItem}"]`).focus()
 
   peekEl.classList.add('is-animating')

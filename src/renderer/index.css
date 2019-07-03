@@ -190,8 +190,8 @@ body:not(.can-finder) .finder-command {
   display: none;
 }
 
-.is-hidden {
-  visibility: hidden;
+.is-zero {
+  opacity: 0;
 }
 
 .is-frozen {
