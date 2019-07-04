@@ -6,8 +6,8 @@ import readChunk from 'read-chunk'
 import Clusterize from 'clusterize.js'
 import { ipcRenderer, remote, shell } from 'electron'
 import { createFrag, readDir } from './utils'
-import { help, layout, list, loader, peek, shuffler, splash, titlebar } from './templates'
-import { KEY_COMBO_COOLDOWN, OPEN_DIALOG_OPTIONS, SUPPORTED_EXTENSIONS } from './constants'
+import { gridStyle, help, layout, list, loader, peek, shuffler, splash, titlebar } from './templates'
+import { DEFAULT_COLUMNS, KEY_COMBO_COOLDOWN, OPEN_DIALOG_OPTIONS, SUPPORTED_EXTENSIONS } from './constants'
 
 require('./index.css')
 
@@ -16,11 +16,17 @@ let path = []
 let currentItem = -1
 let clusterize
 let lastKey = new KeyboardEvent(0)
+let columns = DEFAULT_COLUMNS
 
 setupSplashScreen()
 setupTitlebar()
 setupDropScreen()
 setupCommands()
+setupGridStyle()
+
+function setupGridStyle () {
+  document.head.appendChild(createFrag(gridStyle(columns)))
+}
 
 function setupSplashScreen () {
   const logo = nodePath.join(__static, '/voidview-logo.svg')
@@ -72,6 +78,15 @@ function setupCommands () {
     if (files.length > 0) {
       toggleHelp()
     }
+  })
+  ipcRenderer.on('increaseColumns', () => {
+    changeColumnSize(columns + 1)
+  })
+  ipcRenderer.on('decreaseColumns', () => {
+    changeColumnSize(columns - 1)
+  })
+  ipcRenderer.on('resetColumns', () => {
+    changeColumnSize(DEFAULT_COLUMNS)
   })
 }
 
@@ -184,6 +199,14 @@ function handleKeyUp (event) {
   lastKey = event
 }
 
+function changeColumnSize (size) {
+  document.querySelector('style').remove()
+
+  columns = size
+  document.head.appendChild(createFrag(gridStyle(columns)))
+  renderFiles()
+}
+
 function toggleHelp () {
   let helpEl = document.querySelector('.js-help')
 
@@ -203,7 +226,7 @@ function toggleHelp () {
 }
 
 function renderFiles () {
-  list(files).then((nodes) => {
+  list(files, columns).then((nodes) => {
     currentItem = -1
 
     if (clusterize) {
@@ -361,6 +384,7 @@ function readDesiredFiles (desiredFiles) {
 function initialRender () {
   enableFinderCommand(false)
   enableShuffleCommand(true)
+  enableColumnChanging(true)
 
   renderFiles()
 }
@@ -421,6 +445,7 @@ function openPeek (item) {
 
   enableFinderCommand(true)
   enableShuffleCommand(false)
+  enableColumnChanging(false)
 
   currentItem = parseInt(item.dataset.index, 10)
 
@@ -472,6 +497,7 @@ function closePeek () {
   }
 
   enableShuffleCommand(true)
+  enableColumnChanging(true)
   document.body.classList.remove('is-peeking')
 
   document.querySelector('.js-list').classList.remove('is-zero')
@@ -505,5 +531,15 @@ function enableShuffleCommand (state) {
     document.body.classList.add('can-shuffle')
   } else {
     document.body.classList.remove('can-shuffle')
+  }
+}
+
+function enableColumnChanging (state) {
+  ipcRenderer.send('enable-column-changing', state)
+
+  if (state) {
+    document.body.classList.add('can-columns')
+  } else {
+    document.body.classList.remove('can-columns')
   }
 }

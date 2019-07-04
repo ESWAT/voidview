@@ -74,6 +74,38 @@ const menuTemplate = [
     ]
   },
   {
+    label: 'View',
+    submenu: [
+      {
+        label: 'Add Columns',
+        accelerator: 'Cmd+=',
+        enabled: false,
+        click: () => {
+          window.webContents.send('increaseColumns')
+        }
+      },
+      {
+        label: 'Remove Columns',
+        accelerator: 'Cmd+-',
+        enabled: false,
+        click: () => {
+          window.webContents.send('decreaseColumns')
+        }
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Reset Columns',
+        accelerator: 'Cmd+0',
+        enabled: false,
+        click: () => {
+          window.webContents.send('resetColumns')
+        }
+      }
+    ]
+  },
+  {
     label: 'Window',
     submenu: [
       {
@@ -166,6 +198,12 @@ function createWindow () {
 
   ipcMain.on('enable-finder-command', (event, arg) => {
     menu.items[1].submenu.items[3].enabled = arg
+  })
+
+  ipcMain.on('enable-column-changing', (event, arg) => {
+    menu.items[2].submenu.items[0].enabled = arg
+    menu.items[2].submenu.items[1].enabled = arg
+    menu.items[2].submenu.items[3].enabled = arg
   })
 
   window.on('closed', () => {

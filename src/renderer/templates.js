@@ -51,6 +51,8 @@ export const help = `
       <span class="help-command grid-command"><span class="help-stroke">GG</span> Go to Top</span>
       <span class="help-command grid-command"><span class="help-stroke">⇧G</span> Go to Bottom</span>
       <span class="help-command shuffle-command"><span class="help-stroke">⌘R</span> Shuffle Images</span>
+      <span class="help-command shuffle-command"><span class="help-stroke">⌘=/⌘-</span> Add/Remove Columns</span>
+      <span class="help-command shuffle-command"><span class="help-stroke">⌘0</span> Reset Columns</span>
     </div>
   </div>
 `
@@ -80,13 +82,24 @@ function getItem (backgroundUrl, index) {
   `
 }
 
-export function list (files) {
+export function gridStyle (columns) {
+  return `
+    <style>
+      .row {
+        grid-template-columns: repeat(${columns}, 1fr);
+        grid-auto-rows: ${100 / columns}vw;
+      }
+    </style>
+  `
+}
+
+export function list (files, columns) {
   return new Promise((resolve) => {
     const itemsToRender = []
     let row = '<li class="row">'
 
     files.forEach((file, index) => {
-      if ((index % 6 === 0 && index !== 0)) {
+      if ((index % columns === 0 && index !== 0)) {
         row = row.concat('</li>')
         itemsToRender.push(row)
 

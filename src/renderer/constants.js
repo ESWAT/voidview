@@ -8,6 +8,8 @@ export const SUPPORTED_EXTENSIONS = [
 
 export const KEY_COMBO_COOLDOWN = 500
 
+export const DEFAULT_COLUMNS = 6
+
 export const OPEN_DIALOG_OPTIONS = [
   'openFile',
   'openDirectory',
