@@ -102,6 +102,12 @@ const menuTemplate = [
         click: () => {
           window.webContents.send('resetColumns')
         }
+      },
+      {
+        type: 'separator'
+      },
+      {
+        role: 'togglefullscreen'
       }
     ]
   },
