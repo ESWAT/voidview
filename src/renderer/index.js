@@ -38,6 +38,7 @@ function setupContain () {
 function setupSplashScreen () {
   const logo = nodePath.join(__static, '/voidview-logo.svg')
   document.body.appendChild(createFrag(splash(logo)))
+  enableFitCommand(false)
 
   document.querySelector('.js-splash').classList.add('is-showing')
   document.querySelector('.js-splash-open').addEventListener('click', () => {
@@ -195,11 +196,7 @@ function handleKeyUp (event) {
         break
       case 'ArrowDown':
       case 'j':
-        if (currentItem < 0) {
-          selectItem(currentItem + 1)
-        } else {
-          navigateDown()
-        }
+        currentItem < 0 ? selectItem(currentItem + 1) : navigateDown()
         break
       case 'ArrowLeft':
       case 'h':
@@ -361,6 +358,7 @@ function readDesiredFiles (desiredFiles) {
   if (!desiredFiles) {
     return
   }
+
   files = []
   document.querySelector('.js-splash').classList.remove('is-showing', 'is-dragging')
   document.getElementById('app').insertAdjacentHTML('afterend', loader)
@@ -460,7 +458,6 @@ function openPeek (item) {
   enableFinderCommand(true)
   enableShuffleCommand(false)
   enableColumnChanging(false)
-
   enableFitCommand(!store.get('contain'))
 
   currentItem = parseInt(item.dataset.index, 10)
@@ -530,49 +527,31 @@ function toggleZoom () {
   store.set('contain', !store.get('contain'))
   document.body.classList.toggle('no-contain')
 
-  if (document.querySelector('.js-peek') && !store.get('contain')) {
-    enableFitCommand(true)
-  } else {
-    enableFitCommand(false)
-  }
+  enableFitCommand(document.querySelector('.js-peek') && !store.get('contain'))
 }
 
 function enableFitCommand (state) {
-  ipcRenderer.send('enable-fit-command', state)
-
-  if (state) {
-    document.body.classList.add('can-fit')
-  } else {
-    document.body.classList.remove('can-fit')
-  }
+  toggleCommand('fit', state)
 }
 
 function enableFinderCommand (state) {
-  ipcRenderer.send('enable-finder-command', state)
-
-  if (state) {
-    document.body.classList.add('can-finder')
-  } else {
-    document.body.classList.remove('can-finder')
-  }
+  toggleCommand('finder', state)
 }
 
 function enableShuffleCommand (state) {
-  ipcRenderer.send('enable-shuffle-command', state)
-
-  if (state) {
-    document.body.classList.add('can-shuffle')
-  } else {
-    document.body.classList.remove('can-shuffle')
-  }
+  toggleCommand('shuffle', state)
 }
 
 function enableColumnChanging (state) {
-  ipcRenderer.send('enable-column-changing', state)
+  toggleCommand('columns', state)
+}
+
+function toggleCommand (command, state) {
+  ipcRenderer.send(`enable-${command}-command`, state)
 
   if (state) {
-    document.body.classList.add('can-columns')
+    document.body.classList.add(`can-${command}`)
   } else {
-    document.body.classList.remove('can-columns')
+    document.body.classList.remove(`can-${command}`)
   }
 }

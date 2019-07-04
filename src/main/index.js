@@ -108,6 +108,7 @@ const menuTemplate = [
       },
       {
         label: 'Always on Top',
+        accelerator: 'Cmd+Shift+A',
         type: 'checkbox',
         checked: window && window.isAlwaysOnTop(),
         click: () => {
@@ -172,7 +173,8 @@ const menuTemplate = [
         }
       }
     ]
-  }]
+  }
+]
 
 function createWindow () {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
@@ -232,7 +234,7 @@ function createWindow () {
     menu.items[1].submenu.items[3].enabled = arg
   })
 
-  ipcMain.on('enable-column-changing', (event, arg) => {
+  ipcMain.on('enable-columns-command', (event, arg) => {
     menu.items[2].submenu.items[0].enabled = arg
     menu.items[2].submenu.items[1].enabled = arg
     menu.items[2].submenu.items[3].enabled = arg
@@ -240,6 +242,14 @@ function createWindow () {
 
   window.on('closed', () => {
     window = null
+
+    menu.items[1].submenu.items[2].enabled = false
+    menu.items[1].submenu.items[3].enabled = false
+    menu.items[2].submenu.items[0].enabled = false
+    menu.items[2].submenu.items[1].enabled = false
+    menu.items[2].submenu.items[3].enabled = false
+    menu.items[2].submenu.items[5].enabled = false
+    menu.items[2].submenu.items[6].enabled = false
   })
 
   window.webContents.on('devtools-opened', () => {
