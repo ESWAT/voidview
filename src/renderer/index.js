@@ -41,7 +41,7 @@ function setupDropScreen () {
     event.preventDefault()
 
     if (event.dataTransfer.types[0] === 'Files') {
-    document.querySelector('.js-splash').classList.add('is-dragging')
+      document.querySelector('.js-splash').classList.add('is-dragging')
     }
   })
 
@@ -425,6 +425,7 @@ function openPeek (item) {
   currentItem = parseInt(item.dataset.index, 10)
 
   peekImageEl.classList.add('is-appearing')
+  positionPeekImage()
 
   peekImageEl.addEventListener('animationend', () => {
     if (document.body.classList.contains('is-frozen')) {
@@ -450,6 +451,17 @@ function changePeek (newIndex) {
   newItem.focus()
 
   peekImageEl.setAttribute('src', `file://${image}`)
+  positionPeekImage()
+}
+
+function positionPeekImage () {
+  if (document.body.classList.contains('no-contain')) {
+    const peek = document.querySelector('.js-peek')
+    const peekImageEl = document.querySelector('.js-peek-image')
+
+    peek.scrollTop = (peekImageEl.clientHeight - document.querySelector('#app').clientHeight) / 2
+    peek.scrollLeft = (peekImageEl.clientWidth - document.querySelector('#app').clientWidth) / 2
+  }
 }
 
 function closePeek () {
