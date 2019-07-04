@@ -42,7 +42,7 @@ function setupSplashScreen () {
   document.querySelector('.js-splash').classList.add('is-showing')
   document.querySelector('.js-splash-open').addEventListener('click', () => {
     readDesiredFiles(remote.dialog.showOpenDialog({ properties: OPEN_DIALOG_OPTIONS }))
-  }, { once: true })
+  })
 }
 
 function setupTitlebar () {
