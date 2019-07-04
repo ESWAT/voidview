@@ -5,6 +5,7 @@ import shuffle from 'shuffle-array'
 import readChunk from 'read-chunk'
 import Clusterize from 'clusterize.js'
 import Store from 'electron-store'
+import elementReady from 'element-ready'
 import { ipcRenderer, remote, shell } from 'electron'
 import { createFrag, readDir } from './utils'
 import { gridStyle, help, layout, list, loader, peek, shuffler, splash, titlebar } from './templates'
@@ -261,15 +262,6 @@ function renderFiles () {
       }
     })
 
-    let jsLoader = document.querySelector('.js-loader')
-    if (jsLoader) {
-      jsLoader.classList.add('has-loaded')
-      jsLoader.addEventListener('animationend', () => {
-        jsLoader.remove()
-        jsLoader = null
-      }, { once: true })
-    }
-
     addListeners()
   })
 }
@@ -398,7 +390,21 @@ function initialRender () {
   enableShuffleCommand(true)
   enableColumnChanging(true)
 
+  transitionToGrid()
   renderFiles()
+}
+
+async function transitionToGrid () {
+  const promise = await elementReady('.list')
+
+  if (promise) {
+    let jsLoader = document.querySelector('.js-loader')
+    jsLoader.classList.add('has-loaded')
+    jsLoader.addEventListener('animationend', () => {
+      jsLoader.remove()
+      jsLoader = null
+    }, { once: true })
+  }
 }
 
 function getImages (path) {
