@@ -8,11 +8,11 @@ import Store from 'electron-store'
 import { ipcRenderer, remote, shell } from 'electron'
 import { createFrag, readDir } from './utils'
 import { gridStyle, help, layout, list, loader, peek, shuffler, splash, titlebar } from './templates'
-import { DEFAULT_COLUMNS, KEY_COMBO_COOLDOWN, OPEN_DIALOG_OPTIONS, SUPPORTED_EXTENSIONS } from './constants'
+import { DEFAULT_COLUMNS, KEY_COMBO_COOLDOWN, OPEN_DIALOG_OPTIONS, SUPPORTED_EXTENSIONS, STORE_SCHEMA } from './constants'
 
 require('./index.css')
 
-const store = new Store()
+const store = new Store({ schema: STORE_SCHEMA })
 let files = []
 let currentItem = -1
 let clusterize
