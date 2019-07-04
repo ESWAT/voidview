@@ -265,6 +265,10 @@ function createWindow () {
     }
   })
 
+  window.webContents.on('will-navigate', () => {
+    event.preventDefault()
+  })
+
   return window
 }
 
