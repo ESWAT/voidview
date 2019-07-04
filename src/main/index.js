@@ -214,6 +214,12 @@ function createWindow () {
     window.webContents.openDevTools()
   }
 
+  if (!isDevelopment) {
+    window.webContents.on('will-navigate', () => {
+      event.preventDefault()
+    })
+  }
+
   window.loadURL(url)
 
   ipcMain.on('fit-image', (event, arg) => {
@@ -263,10 +269,6 @@ function createWindow () {
     if (!window.isVisible()) {
       window.show()
     }
-  })
-
-  window.webContents.on('will-navigate', () => {
-    event.preventDefault()
   })
 
   return window
