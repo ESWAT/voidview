@@ -34,12 +34,6 @@ function setupSplashScreen () {
 
 function setupTitlebar () {
   document.body.appendChild(createFrag(titlebar))
-  ipcRenderer.on('blur', () => {
-    document.querySelector('.js-titlebar').classList.add('is-blurred')
-  })
-  ipcRenderer.on('focus', () => {
-    document.querySelector('.js-titlebar').classList.remove('is-blurred')
-  })
 }
 
 function setupDropScreen () {
@@ -361,8 +355,6 @@ function initialRender () {
   enableShuffleCommand(true)
 
   renderFiles()
-
-  document.querySelector('.js-titlebar').textContent = path.toString().split('/').slice(-1)
 }
 
 function getImages (path) {

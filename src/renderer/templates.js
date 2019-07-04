@@ -3,7 +3,7 @@ export const layout = `
 `
 
 export const titlebar = `
-  <div class="js-titlebar titlebar">VoidView</div>
+  <div class="js-titlebar titlebar"></div>
 `
 
 export function splash (logoUrl) {
