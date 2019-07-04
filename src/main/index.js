@@ -107,6 +107,14 @@ const menuTemplate = [
         type: 'separator'
       },
       {
+        label: 'Always on Top',
+        type: 'checkbox',
+        checked: window && window.isAlwaysOnTop(),
+        click: () => {
+          window.setAlwaysOnTop(!window.isAlwaysOnTop())
+        }
+      },
+      {
         role: 'togglefullscreen'
       }
     ]
