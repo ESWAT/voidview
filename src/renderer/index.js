@@ -4,6 +4,7 @@ import imageType from 'image-type'
 import shuffle from 'shuffle-array'
 import readChunk from 'read-chunk'
 import Clusterize from 'clusterize.js'
+import Store from 'electron-store'
 import { ipcRenderer, remote, shell } from 'electron'
 import { createFrag, readDir } from './utils'
 import { gridStyle, help, layout, list, loader, peek, shuffler, splash, titlebar } from './templates'
@@ -11,21 +12,27 @@ import { DEFAULT_COLUMNS, KEY_COMBO_COOLDOWN, OPEN_DIALOG_OPTIONS, SUPPORTED_EXT
 
 require('./index.css')
 
+const store = new Store()
 let files = []
-let path = []
 let currentItem = -1
 let clusterize
 let lastKey = new KeyboardEvent(0)
-let columns = DEFAULT_COLUMNS
 
 setupSplashScreen()
 setupTitlebar()
 setupDropScreen()
 setupCommands()
 setupGridStyle()
+setupContain()
 
 function setupGridStyle () {
-  document.head.appendChild(createFrag(gridStyle(columns)))
+  document.head.appendChild(createFrag(gridStyle(store.get('columns'))))
+}
+
+function setupContain () {
+  if (store.get('contain') === false) {
+    document.body.classList.add('no-contain')
+  }
 }
 
 function setupSplashScreen () {
@@ -80,10 +87,10 @@ function setupCommands () {
     }
   })
   ipcRenderer.on('increaseColumns', () => {
-    changeColumnSize(columns + 1)
+    changeColumnSize(store.get('columns') + 1)
   })
   ipcRenderer.on('decreaseColumns', () => {
-    changeColumnSize(columns - 1)
+    changeColumnSize(store.get('columns') - 1)
   })
   ipcRenderer.on('resetColumns', () => {
     changeColumnSize(DEFAULT_COLUMNS)
@@ -202,8 +209,8 @@ function handleKeyUp (event) {
 function changeColumnSize (size) {
   document.querySelector('style').remove()
 
-  columns = size
-  document.head.appendChild(createFrag(gridStyle(columns)))
+  store.set('columns', size)
+  document.head.appendChild(createFrag(gridStyle(store.get('columns'))))
   renderFiles()
 }
 
@@ -226,7 +233,7 @@ function toggleHelp () {
 }
 
 function renderFiles () {
-  list(files, columns).then((nodes) => {
+  list(files, store.get('columns')).then((nodes) => {
     currentItem = -1
 
     if (clusterize) {
@@ -511,6 +518,7 @@ function closePeek () {
 }
 
 function toggleZoom () {
+  store.set('contain', !store.get('contain'))
   document.body.classList.toggle('no-contain')
 }
 
