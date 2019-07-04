@@ -49,7 +49,9 @@ function setupDropScreen () {
 
   document.addEventListener('drop', (event) => {
     event.preventDefault()
+    if (event.dataTransfer.files.length > 0) {
     readDesiredFiles(event.dataTransfer.files)
+    }
   })
 }
 
