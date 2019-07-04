@@ -39,7 +39,10 @@ function setupTitlebar () {
 function setupDropScreen () {
   document.addEventListener('dragover', (event) => {
     event.preventDefault()
+
+    if (event.dataTransfer.types[0] === 'Files') {
     document.querySelector('.js-splash').classList.add('is-dragging')
+    }
   })
 
   document.addEventListener('dragleave', (event) => {
