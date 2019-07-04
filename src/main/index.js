@@ -115,6 +115,14 @@ const menuTemplate = [
         }
       },
       {
+        label: 'Fit to Image',
+        accelerator: 'Cmd+F',
+        enable: false,
+        click: () => {
+          window.webContents.send('fitImage')
+        }
+      },
+      {
         role: 'togglefullscreen'
       }
     ]
@@ -205,6 +213,16 @@ function createWindow () {
   }
 
   window.loadURL(url)
+
+  ipcMain.on('fit-image', (event, arg) => {
+    if (window) {
+      window.setSize(arg[0], arg[1], true)
+    }
+  })
+
+  ipcMain.on('enable-fit-command', (event, arg) => {
+    menu.items[2].submenu.items[6].enabled = arg
+  })
 
   ipcMain.on('enable-shuffle-command', (event, arg) => {
     menu.items[1].submenu.items[2].enabled = arg

@@ -39,20 +39,23 @@ export const help = `
     <div class="help-list">
       <span class="help-command"><span class="help-stroke">⬅︎/H</span> Previous Image</span>
       <span class="help-command"><span class="help-stroke">➡/L</span> Next Image</span>
-      <span class="help-command"><span class="help-stroke">⏎/Space</span> Show Image</span>
-      <span class="help-command"><span class="help-stroke">F</span> Toggle Zoom</span>
-      <span class="help-command"><span class="help-stroke">⌘O</span> Open…</span>
-      <span class="help-command"><span class="help-stroke">⌘⇧H</span> Toggle Help</span>
-      <span class="help-command finder-command"><span class="help-stroke">⌘⇧O</span> Show in Finder</span>
-    </div>
-    <div class="help-list">
       <span class="help-command grid-command"><span class="help-stroke">⬆︎/K</span> Above Image</span>
       <span class="help-command grid-command"><span class="help-stroke">⬇︎/J</span> Below Image</span>
+      <span class="help-command"><span class="help-stroke">⏎/Space</span> Show Image</span>
+    </div>
+    <div class="help-list">
       <span class="help-command grid-command"><span class="help-stroke">GG</span> Go to Top</span>
       <span class="help-command grid-command"><span class="help-stroke">⇧G</span> Go to Bottom</span>
       <span class="help-command shuffle-command"><span class="help-stroke">⌘R</span> Shuffle Images</span>
       <span class="help-command shuffle-command"><span class="help-stroke">⌘=/⌘-</span> Add/Remove Columns</span>
       <span class="help-command shuffle-command"><span class="help-stroke">⌘0</span> Reset Columns</span>
+    </div>
+    <div class="help-list">
+      <span class="help-command"><span class="help-stroke">F</span> Toggle Zoom</span>
+      <span class="help-command"><span class="help-stroke">⌘O</span> Open…</span>
+      <span class="help-command fit-command"><span class="help-stroke">⌘F</span> Fit to Image</span>
+      <span class="help-command"><span class="help-stroke">⌘⇧H</span> Toggle Help</span>
+      <span class="help-command finder-command"><span class="help-stroke">⌘⇧O</span> Show in Finder</span>
     </div>
   </div>
 `

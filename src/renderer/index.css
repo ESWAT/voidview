@@ -62,7 +62,7 @@ body {
   display: block;
   margin: 12px 0;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .help-stroke {
@@ -82,13 +82,15 @@ body {
 
 body.is-peeking .grid-command,
 body:not(.can-shuffle) .shuffle-command,
-body:not(.can-finder) .finder-command {
+body:not(.can-finder) .finder-command,
+body:not(.can-fit) .fit-command {
   opacity: 0.2
 }
 
 body.is-peeking .grid-command .help-stroke,
 body:not(.can-shuffle) .shuffle-command .help-stroke,
-body:not(.can-finder) .finder-command {
+body:not(.can-finder) .finder-command .help-stroke,
+body:not(.can-fit) .fit-command .help-stroke {
   color: #fff;
 }
 

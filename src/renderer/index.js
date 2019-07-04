@@ -95,6 +95,13 @@ function setupCommands () {
   ipcRenderer.on('resetColumns', () => {
     changeColumnSize(DEFAULT_COLUMNS)
   })
+  ipcRenderer.on('fitImage', () => {
+    const peekImageEl = document.querySelector('.js-peek-image')
+
+    if (peekImageEl) {
+      ipcRenderer.send('fit-image', [peekImageEl.clientWidth, peekImageEl.clientHeight])
+    }
+  })
 }
 
 function addListeners () {
@@ -454,6 +461,8 @@ function openPeek (item) {
   enableShuffleCommand(false)
   enableColumnChanging(false)
 
+  enableFitCommand(!store.get('contain'))
+
   currentItem = parseInt(item.dataset.index, 10)
 
   peekImageEl.classList.add('is-appearing')
@@ -520,6 +529,22 @@ function closePeek () {
 function toggleZoom () {
   store.set('contain', !store.get('contain'))
   document.body.classList.toggle('no-contain')
+
+  if (document.querySelector('.js-peek') && !store.get('contain')) {
+    enableFitCommand(true)
+  } else {
+    enableFitCommand(false)
+  }
+}
+
+function enableFitCommand (state) {
+  ipcRenderer.send('enable-fit-command', state)
+
+  if (state) {
+    document.body.classList.add('can-fit')
+  } else {
+    document.body.classList.remove('can-fit')
+  }
 }
 
 function enableFinderCommand (state) {
