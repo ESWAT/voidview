@@ -183,32 +183,6 @@ body:not(.can-finder) .finder-command {
   display: block;
 }
 
-.drop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: rgba(0,0,0,0.95);
-  cursor: copy;
-  z-index: 6;
-  opacity: 0;
-  transition: opacity 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
-  transition-direction: forwards;
-  pointer-events: none;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 300;
-  text-transform: uppercase;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.drop.is-dragging {
-  opacity: 1;
-}
-
 .shuffler {
   position: fixed;
   display: flex;
@@ -242,6 +216,7 @@ body:not(.can-finder) .finder-command {
   transition: opacity 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
   transition-direction: forwards;
   pointer-events: none;
+  z-index: 6;
 }
 
 .splash.is-showing {
