@@ -50,7 +50,7 @@ function setupDropScreen () {
   document.addEventListener('drop', (event) => {
     event.preventDefault()
     if (event.dataTransfer.files.length > 0) {
-    readDesiredFiles(event.dataTransfer.files)
+      readDesiredFiles(event.dataTransfer.files)
     }
   })
 }
@@ -115,6 +115,9 @@ function handleKeyUp (event) {
       case 'l':
       case 'Tab':
         changePeek(currentItem + 1)
+        break
+      case 'f':
+        toggleZoom()
         break
       default:
         break
@@ -443,7 +446,7 @@ function changePeek (newIndex) {
 
   newItem.focus()
 
-  peekImageEl.setAttribute('style', `background-image: url("file://${image}")`)
+  peekImageEl.setAttribute('src', `file://${image}`)
 }
 
 function closePeek () {
@@ -464,6 +467,10 @@ function closePeek () {
     peekEl.remove()
     document.body.classList.remove('is-frozen')
   }, { once: true })
+}
+
+function toggleZoom () {
+  document.body.classList.toggle('no-contain')
 }
 
 function enableFinderCommand (state) {

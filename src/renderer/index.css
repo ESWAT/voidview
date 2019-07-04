@@ -92,6 +92,18 @@ body:not(.can-finder) .finder-command {
   color: #fff;
 }
 
+body.no-contain .peek {
+  overflow: auto;
+  display: flex;
+}
+
+body.no-contain .peek-image {
+  height: auto;
+  width: auto;
+  object-fit: none;
+  margin: auto;
+}
+
 .list {
   position: relative;
 }
@@ -130,15 +142,14 @@ body:not(.can-finder) .finder-command {
   cursor: zoom-out;
   z-index: 5;
   animation: peek-appear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  text-align: center;
 }
 
 .peek-image {
-  width: 100%;
+  display: block;
   height: 100%;
-  position: relative;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+  width: 100%;
+  object-fit: contain;
 }
 
 .peek-image.is-appearing {
