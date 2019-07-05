@@ -246,6 +246,12 @@ function createWindow () {
     menu.items[2].submenu.items[3].enabled = arg
   })
 
+  ipcMain.on('toggle-window-button', (event, arg) => {
+    if (window !== null) {
+      window.setWindowButtonVisibility(arg)
+    }
+  })
+
   window.on('closed', () => {
     window = null
 

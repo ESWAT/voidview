@@ -19,12 +19,23 @@ let currentItem = -1
 let clusterize
 let lastKey = new KeyboardEvent(0)
 
+setupWindowButton()
 setupSplashScreen()
 setupTitlebar()
 setupDropScreen()
 setupCommands()
 setupGridStyle()
 setupContain()
+
+function setupWindowButton () {
+  document.addEventListener('mouseenter', () => {
+    ipcRenderer.send('toggle-window-button', true)
+  })
+
+  document.addEventListener('mouseleave', () => {
+    ipcRenderer.send('toggle-window-button', false)
+  })
+}
 
 function setupGridStyle () {
   document.head.appendChild(createFrag(gridStyle(store.get('columns'))))
