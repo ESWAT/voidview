@@ -7,12 +7,7 @@
     "start": "electron-webpack dev",
     "compile": "electron-webpack",
     "lint": "eslint ./src",
-    "dist-mac": "npm run compile && node scripts.js dist mac",
-    "dist-linux": "npm run compile && node scripts.js dist linux",
-    "dist-win": "npm run compile && node scripts.js dist win",
-    "push-mac": "node scripts.js push mac",
-    "push-linux": "node scripts.js push mac",
-    "push-win": "node scripts.js push mac"
+    "dist-mac": "npm run compile && node scripts.js dist mac"
   },
   "repository": "https://gitlab.com/eswat/voiwview",
   "author": "Philip Karpiak <philip@eswat.ca>",
