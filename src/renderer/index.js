@@ -60,6 +60,7 @@ function setupSplashScreen () {
 
 function setupTitlebar () {
   document.body.appendChild(createFrag(titlebar))
+  // document.querySelector('.js-titlebar').setAttribute('style', 'animation-delay: 0.3s')
 }
 
 function setupDropScreen () {
@@ -298,18 +299,20 @@ function selectItem (newIndex) {
 }
 
 function shuffleFiles () {
+  const list = document.querySelectorAll('.item')
   shuffle(files)
-  renderFiles()
 
-  document.querySelector('#app').scrollTop = 0
+  list.forEach((item, index) => {
+    let durations = [0.2, 0.35, 0.5]
 
-  let shufflerEl = document.querySelector('.js-shuffler')
+    item.style['animation-duration'] = `${durations[Math.floor(Math.random() * 3)]}s`
+    item.classList.add('shuffling')
+  })
 
-  if (shufflerEl) {
-    shufflerEl.remove()
-  }
-
-  shufflerEl = document.body.appendChild(createFrag(shuffler))
+  setTimeout(() => {
+    renderFiles()
+    document.querySelector('#app').scrollTop = 0
+  }, 500)
 }
 
 function navigateUp () {
