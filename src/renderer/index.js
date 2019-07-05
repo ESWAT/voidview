@@ -365,6 +365,8 @@ function readDesiredFiles (desiredFiles) {
     return
   }
 
+  console.log(desiredFiles)
+
   files = []
   document.querySelector('.js-splash').classList.remove('is-showing', 'is-dragging')
   document.getElementById('app').insertAdjacentHTML('afterend', loader)
@@ -386,15 +388,31 @@ function readDesiredFiles (desiredFiles) {
         })
       }
     } else {
+      const promises = []
+
       for (let i = 0; i < desiredFiles.length; i++) {
         const fullPath = typeof desiredFiles[0] === 'object' ? desiredFiles[i].path : desiredFiles[i]
 
         if (!isFilePathADirectory(fullPath)) {
           files.push(fullPath)
+        } else {
+          const promise = new Promise((resolve) => {
+            getImages(fullPath).then((paths) => {
+              paths.map((path) => {
+                files.push(path)
+              })
+
+              resolve()
+            })
+          })
+
+          promises.push(promise)
         }
       }
 
-      initialRender()
+      Promise.all(promises).then(() => {
+        initialRender()
+      })
     }
   }, { once: true })
 }
