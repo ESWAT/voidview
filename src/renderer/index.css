@@ -5,6 +5,32 @@ body {
   font: caption;
 }
 
+body.is-peeking .grid-command,
+body:not(.can-shuffle) .shuffle-command,
+body:not(.can-finder) .finder-command,
+body:not(.can-fit) .fit-command {
+  opacity: 0.2
+}
+
+body.is-peeking .grid-command .help-stroke,
+body:not(.can-shuffle) .shuffle-command .help-stroke,
+body:not(.can-finder) .finder-command .help-stroke,
+body:not(.can-fit) .fit-command .help-stroke {
+  color: #fff;
+}
+
+body.no-contain .peek {
+  overflow: auto;
+  display: flex;
+}
+
+body.no-contain .peek-image {
+  height: auto;
+  width: auto;
+  object-fit: none;
+  margin: auto;
+}
+
 #app {
   width: 100%;
   height: calc(100vh - 8px);
@@ -77,32 +103,6 @@ body {
   display: inline-block;
   transition: opacity 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
   margin-right: 16px;
-}
-
-body.is-peeking .grid-command,
-body:not(.can-shuffle) .shuffle-command,
-body:not(.can-finder) .finder-command,
-body:not(.can-fit) .fit-command {
-  opacity: 0.2
-}
-
-body.is-peeking .grid-command .help-stroke,
-body:not(.can-shuffle) .shuffle-command .help-stroke,
-body:not(.can-finder) .finder-command .help-stroke,
-body:not(.can-fit) .fit-command .help-stroke {
-  color: #fff;
-}
-
-body.no-contain .peek {
-  overflow: auto;
-  display: flex;
-}
-
-body.no-contain .peek-image {
-  height: auto;
-  width: auto;
-  object-fit: none;
-  margin: auto;
 }
 
 .list {
@@ -180,26 +180,6 @@ body.no-contain .peek-image {
   animation: peek-image-right 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.is-none {
-  display: none !important;
-}
-
-.is-zero {
-  opacity: 0 !important;
-}
-
-.is-frozen {
-  overflow: hidden !important;
-}
-
-.edge {
-  position: absolute;
-  bottom: 5%;
-  height: 10px;
-  width: 100%;
-  display: block;
-}
-
 .splash {
   position: fixed;
   top: 0;
@@ -212,7 +192,6 @@ body.no-contain .peek-image {
   align-items: center;
   opacity: 0;
   transition: opacity 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
-  transition-direction: forwards;
   pointer-events: none;
   z-index: 6;
 }
@@ -274,6 +253,18 @@ body.no-contain .peek-image {
   animation-delay: 1s;
 }
 
+.is-none {
+  display: none !important;
+}
+
+.is-zero {
+  opacity: 0 !important;
+}
+
+.is-frozen {
+  overflow: hidden !important;
+}
+
 @keyframes select {
   0% {
     transform: scale(1.025);
@@ -289,12 +280,6 @@ body.no-contain .peek-image {
   }
   100% {
     opacity: 1;
-  }
-}
-
-@keyframes peek-appear {
-  0% {
-    background-color: rgba(0,0,0,0);
   }
 }
 
@@ -320,11 +305,9 @@ body.no-contain .peek-image {
   }
 }
 
-
-@keyframes peek-image-appear {
+@keyframes peek-appear {
   0% {
-    opacity: 0;
-    transform: scale(0.96);
+    background-color: rgba(0,0,0,0);
   }
 }
 
@@ -334,6 +317,13 @@ body.no-contain .peek-image {
   }
   100% {
     background-color: rgba(0,0,0,0);
+  }
+}
+
+@keyframes peek-image-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
   }
 }
 
