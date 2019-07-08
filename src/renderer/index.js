@@ -8,7 +8,7 @@ import Store from 'electron-store'
 import elementReady from 'element-ready'
 import { ipcRenderer, remote, shell } from 'electron'
 import { createFrag, readDir } from './utils'
-import { gridStyle, help, layout, list, loader, peek, shuffler, splash, titlebar } from './templates'
+import { gridStyle, help, layout, list, loader, peek, splash, titlebar } from './templates'
 import { DEFAULT_COLUMNS, KEY_COMBO_COOLDOWN, OPEN_DIALOG_OPTIONS, SUPPORTED_EXTENSIONS, STORE_SCHEMA } from './constants'
 
 require('./index.css')
@@ -50,6 +50,7 @@ function setupContain () {
 function setupSplashScreen () {
   const logo = nodePath.join(__static, '/voidview-logo.svg')
   document.body.appendChild(createFrag(splash(logo)))
+  enableZoomCommand(false)
   enableFitCommand(false)
 
   document.querySelector('.js-splash').classList.add('is-showing')
@@ -109,6 +110,9 @@ function setupCommands () {
   ipcRenderer.on('resetColumns', () => {
     changeColumnSize(DEFAULT_COLUMNS)
   })
+  ipcRenderer.on('zoomImage', () => {
+    toggleZoom()
+  })
   ipcRenderer.on('fitImage', () => {
     const peekImageEl = document.querySelector('.js-peek-image')
 
@@ -161,9 +165,6 @@ function handleKeyUp (event) {
       case 'l':
       case 'Tab':
         changePeek(currentItem + 1)
-        break
-      case 'f':
-        toggleZoom()
         break
       default:
         break
@@ -365,8 +366,6 @@ function readDesiredFiles (desiredFiles) {
     return
   }
 
-  console.log(desiredFiles)
-
   files = []
   document.querySelector('.js-splash').classList.remove('is-showing', 'is-dragging')
   document.getElementById('app').insertAdjacentHTML('afterend', loader)
@@ -496,6 +495,7 @@ function openPeek (item) {
   enableFinderCommand(true)
   enableShuffleCommand(false)
   enableColumnChanging(false)
+  enableZoomCommand(true)
   enableFitCommand(!store.get('contain'))
 
   currentItem = parseInt(item.dataset.index, 10)
@@ -549,6 +549,8 @@ function closePeek () {
 
   enableShuffleCommand(true)
   enableColumnChanging(true)
+  enableZoomCommand(false)
+  enableFitCommand(false)
   document.body.classList.remove('is-peeking')
 
   document.querySelector('.js-list').classList.remove('is-zero')
@@ -566,6 +568,10 @@ function toggleZoom () {
   document.body.classList.toggle('no-contain')
 
   enableFitCommand(document.querySelector('.js-peek') && !store.get('contain'))
+}
+
+function enableZoomCommand (state) {
+  toggleCommand('zoom', state)
 }
 
 function enableFitCommand (state) {

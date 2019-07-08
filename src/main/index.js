@@ -116,6 +116,14 @@ const menuTemplate = [
         }
       },
       {
+        label: 'Toogle Zoom Image',
+        accelerator: 'F',
+        enable: false,
+        click: () => {
+          window.webContents.send('zoomImage')
+        }
+      },
+      {
         label: 'Fit to Image',
         accelerator: 'Cmd+F',
         enable: false,
@@ -228,8 +236,12 @@ function createWindow () {
     }
   })
 
-  ipcMain.on('enable-fit-command', (event, arg) => {
+  ipcMain.on('enable-zoom-command', (event, arg) => {
     menu.items[2].submenu.items[6].enabled = arg
+  })
+
+  ipcMain.on('enable-fit-command', (event, arg) => {
+    menu.items[2].submenu.items[7].enabled = arg
   })
 
   ipcMain.on('enable-shuffle-command', (event, arg) => {
@@ -262,6 +274,7 @@ function createWindow () {
     menu.items[2].submenu.items[3].enabled = false
     menu.items[2].submenu.items[5].enabled = false
     menu.items[2].submenu.items[6].enabled = false
+    menu.items[2].submenu.items[7].enabled = false
   })
 
   window.webContents.on('devtools-opened', () => {
