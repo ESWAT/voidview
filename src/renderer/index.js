@@ -121,7 +121,7 @@ function setupCommands () {
 }
 
 function addListeners () {
-  document.querySelector('.list').addEventListener('click', handleListClick)
+  document.querySelector('.js-list').addEventListener('click', handleListClick)
   document.addEventListener('keyup', handleKeyUp)
 
   // Prevent default viewport scrolling with arrow keys
@@ -298,7 +298,7 @@ function selectItem (newIndex) {
 }
 
 function shuffleFiles () {
-  const list = document.querySelectorAll('.item')
+  const list = document.querySelectorAll('.js-item')
   files = shuffle(files)
 
   list.forEach((item, index) => {
