@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, Menu, screen } from 'electron'
 import * as windowStateKeeper from 'electron-window-state'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
-
+const isMac = process.platform === 'darwin'
 let window
 
 const menuTemplate = [
@@ -195,8 +195,8 @@ function createWindow () {
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    titleBarStyle: 'hidden',
-    frame: false,
+    titleBarStyle: isMac ? 'hidden' : 'default',
+    frame: !isMac,
     show: false
   })
 
@@ -247,7 +247,7 @@ function createWindow () {
   })
 
   ipcMain.on('toggle-window-button', (event, arg) => {
-    if (window !== null) {
+    if (window !== null && isMac) {
       window.setWindowButtonVisibility(arg)
     }
   })
@@ -291,7 +291,7 @@ app.on('ready', () => {
 app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
+  if (!isMac) {
     app.quit()
   }
 })
