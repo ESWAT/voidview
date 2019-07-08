@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import nodePath from 'path'
-import shuffle from 'shuffle-array'
+import shuffle from 'fast-shuffle'
 import Clusterize from 'clusterize.js'
 import Store from 'electron-store'
 import elementReady from 'element-ready'
@@ -299,7 +299,7 @@ function selectItem (newIndex) {
 
 function shuffleFiles () {
   const list = document.querySelectorAll('.item')
-  shuffle(files)
+  files = shuffle(files)
 
   list.forEach((item, index) => {
     let durations = [0.2, 0.35, 0.5]
