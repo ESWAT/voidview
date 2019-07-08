@@ -1,8 +1,6 @@
 import * as fs from 'fs'
 import nodePath from 'path'
-import imageType from 'image-type'
 import shuffle from 'shuffle-array'
-import readChunk from 'read-chunk'
 import Clusterize from 'clusterize.js'
 import Store from 'electron-store'
 import elementReady from 'element-ready'
@@ -460,10 +458,8 @@ function getImages (path) {
 
 function isFilePathADirectory (filePath) {
   if (fs.statSync(filePath).isFile()) {
-    const buf = readChunk.sync(filePath, 0, 12)
-    const type = imageType(buf)
-
-    if (type && SUPPORTED_EXTENSIONS.includes(type.ext)) {
+    const ext = nodePath.extname(filePath)
+    if (ext && SUPPORTED_EXTENSIONS.includes(ext.substring(1, ext.length))) {
       return false
     }
   }
