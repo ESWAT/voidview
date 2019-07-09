@@ -482,7 +482,7 @@ function openPeek (item) {
 
   const peekImageEl = document.querySelector('.js-peek-image')
 
-  document.querySelector('.js-peek-image').addEventListener('click', () => {
+  document.querySelector('.js-peek').addEventListener('click', () => {
     if (!document.querySelector('.js-peek').classList.contains('is-removing')) {
       closePeek()
     }
