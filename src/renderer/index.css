@@ -81,6 +81,7 @@ body.no-contain .peek-image {
   font-weight: 600;
   z-index: 5;
   animation: help-appear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  pointer-events: none;
 }
 
 .help-list {
