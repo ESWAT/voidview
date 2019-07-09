@@ -44,7 +44,7 @@ export const help = `
     </div>
     <div class="help-list">
       <span class="help-command finder-command"><span class="help-stroke">⌘⇧O</span> Show in Finder</span>
-      <span class="help-command"><span class="help-stroke">F</span> Zoom</span>
+      <span class="help-command"><span class="help-stroke">F</span> Fit Image to Frame</span>
       <span class="help-command shuffle-command"><span class="help-stroke">⌘=/⌘-</span> Add/Remove Columns</span>
       <span class="help-command shuffle-command"><span class="help-stroke">⌘0</span> Reset Columns</span>
     </div>
@@ -52,7 +52,7 @@ export const help = `
       <span class="help-command"><span class="help-stroke">⌘⇧H</span> Help</span>
       <span class="help-command"><span class="help-stroke">⌘⇧A</span> Always on Top</span>
       <span class="help-command shuffle-command"><span class="help-stroke">⌘R</span> Shuffle Images</span>
-      <span class="help-command fit-command"><span class="help-stroke">⌘F</span> Fit to Image</span>
+      <span class="help-command fit-command"><span class="help-stroke">⌘F</span> Fit Frame to Image</span>
     </div>
   </div>
 `

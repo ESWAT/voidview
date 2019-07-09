@@ -93,14 +93,30 @@ const menuTemplate = [
         }
       },
       {
-        type: 'separator'
-      },
-      {
         label: 'Reset Columns',
         accelerator: 'Cmd+0',
         enabled: false,
         click: () => {
           window.webContents.send('resetColumns')
+        }
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Fit Image to Frame',
+        accelerator: 'F',
+        enable: false,
+        click: () => {
+          window.webContents.send('zoomImage')
+        }
+      },
+      {
+        label: 'Fit Frame to Image',
+        accelerator: 'Cmd+F',
+        enable: false,
+        click: () => {
+          window.webContents.send('fitImage')
         }
       },
       {
@@ -113,22 +129,6 @@ const menuTemplate = [
         checked: window && window.isAlwaysOnTop(),
         click: () => {
           window.setAlwaysOnTop(!window.isAlwaysOnTop())
-        }
-      },
-      {
-        label: 'Toogle Zoom Image',
-        accelerator: 'F',
-        enable: false,
-        click: () => {
-          window.webContents.send('zoomImage')
-        }
-      },
-      {
-        label: 'Fit to Image',
-        accelerator: 'Cmd+F',
-        enable: false,
-        click: () => {
-          window.webContents.send('fitImage')
         }
       },
       {
@@ -237,11 +237,11 @@ function createWindow () {
   })
 
   ipcMain.on('enable-zoom-command', (event, arg) => {
-    menu.items[2].submenu.items[6].enabled = arg
+    menu.items[2].submenu.items[4].enabled = arg
   })
 
   ipcMain.on('enable-fit-command', (event, arg) => {
-    menu.items[2].submenu.items[7].enabled = arg
+    menu.items[2].submenu.items[5].enabled = arg
   })
 
   ipcMain.on('enable-shuffle-command', (event, arg) => {
@@ -255,7 +255,7 @@ function createWindow () {
   ipcMain.on('enable-columns-command', (event, arg) => {
     menu.items[2].submenu.items[0].enabled = arg
     menu.items[2].submenu.items[1].enabled = arg
-    menu.items[2].submenu.items[3].enabled = arg
+    menu.items[2].submenu.items[2].enabled = arg
   })
 
   ipcMain.on('toggle-window-button', (event, arg) => {
@@ -271,10 +271,9 @@ function createWindow () {
     menu.items[1].submenu.items[3].enabled = false
     menu.items[2].submenu.items[0].enabled = false
     menu.items[2].submenu.items[1].enabled = false
-    menu.items[2].submenu.items[3].enabled = false
+    menu.items[2].submenu.items[2].enabled = false
+    menu.items[2].submenu.items[4].enabled = false
     menu.items[2].submenu.items[5].enabled = false
-    menu.items[2].submenu.items[6].enabled = false
-    menu.items[2].submenu.items[7].enabled = false
   })
 
   window.webContents.on('devtools-opened', () => {
