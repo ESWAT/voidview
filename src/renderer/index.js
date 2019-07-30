@@ -356,7 +356,7 @@ function navigateDown () {
 function openExternally () {
   const { image } = document.querySelector(`.js-item[data-index="${currentItem}"]`).dataset
 
-  shell.showItemInFolder(image)
+  shell.showItemInFolder(decodeURI(image))
 }
 
 function readDesiredFiles (desiredFiles) {
@@ -373,12 +373,12 @@ function readDesiredFiles (desiredFiles) {
     if (desiredFiles.length === 1) {
       const fullPath = typeof desiredFiles[0] === 'object' ? desiredFiles[0].path : desiredFiles[0]
       if (!isFilePathADirectory(fullPath)) {
-        files.push(fullPath)
+        files.push(encodeURI(fullPath))
         initialRender()
       } else {
         getImages(fullPath).then((paths) => {
           paths.map((path) => {
-            files.push(path)
+            files.push(encodeURI(path))
           })
 
           initialRender()
@@ -391,12 +391,12 @@ function readDesiredFiles (desiredFiles) {
         const fullPath = typeof desiredFiles[0] === 'object' ? desiredFiles[i].path : desiredFiles[i]
 
         if (!isFilePathADirectory(fullPath)) {
-          files.push(fullPath)
+          files.push(encodeURI(fullPath))
         } else {
           const promise = new Promise((resolve) => {
             getImages(fullPath).then((paths) => {
               paths.map((path) => {
-                files.push(path)
+                files.push(encodeURI(path))
               })
 
               resolve()

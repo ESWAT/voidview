@@ -73,7 +73,7 @@ function getItem (backgroundUrl, index) {
   return `
     <div
       class="js-item item"
-      style='background-image: url("${`file://${backgroundUrl}`}")'
+      style="background-image: url('${`file://${backgroundUrl}`}')"
       data-image="${backgroundUrl}"
       data-index="${index}"
       tabindex="0"
