@@ -302,7 +302,7 @@ function shuffleFiles () {
   files = shuffle(files)
 
   list.forEach((item, index) => {
-    let durations = [0.2, 0.35, 0.5]
+    const durations = [0.2, 0.35, 0.5]
 
     item.style['animation-duration'] = `${durations[Math.floor(Math.random() * 3)]}s`
     item.classList.add('shuffling')
