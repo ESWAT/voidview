@@ -1,8 +1,9 @@
-import { app, BrowserWindow, ipcMain, Menu, screen } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu, screen, session } from 'electron'
 import * as windowStateKeeper from 'electron-window-state'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const isMac = process.platform === 'darwin'
+const csp = "default-src 'none'; connect-src 'self'; img-src file:; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
 let window
 
 const menuTemplate = [
@@ -216,6 +217,15 @@ function createWindow () {
   const url = isDevelopment
     ? `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`
     : `file://${__dirname}/index.html`
+
+  session.defaultSession.webRequest.onHeadersReceived((details, done) => {
+    done({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': [csp]
+      }
+    })
+  })
 
   // Open the DevTools.
   if (isDevelopment) {
