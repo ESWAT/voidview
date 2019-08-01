@@ -14,8 +14,8 @@
   "author": "Philip Karpiak <philip@eswat.ca>",
   "devDependencies": {
     "css-loader": "^3.1.0",
-    "electron": "^5.0.7",
-    "electron-builder": "^21.1.1",
+    "electron": "^6.0.0",
+    "electron-builder": "^21.2.0",
     "electron-webpack": "^2.7.4",
     "eslint": "^6.1.0",
     "eslint-config-standard": "^13.0.1",
@@ -23,7 +23,7 @@
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
-    "webpack": "^4.36.1"
+    "webpack": "^4.39.0"
   },
   "electronWebpack": {
     "title": "VoidView",
@@ -47,6 +47,6 @@
     "electron-window-state": "^5.0.3",
     "element-ready": "^4.1.0",
     "fast-shuffle": "^1.0.5",
-    "source-map-support": "^0.5.12"
+    "source-map-support": "^0.5.13"
   }
 }
