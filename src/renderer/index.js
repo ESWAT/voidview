@@ -46,7 +46,7 @@ function setupContain () {
 }
 
 function setupSplashScreen () {
-  const logo = nodePath.join(__static, '/voidview-logo.svg')
+  const logo = nodePath.join(__static, '/voidview-logo.svg') // eslint-disable-line no-undef
   document.body.appendChild(createFrag(splash(logo)))
   enableZoomCommand(false)
   enableFitCommand(false)
