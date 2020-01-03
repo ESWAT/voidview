@@ -1,5 +1,6 @@
-import { app, BrowserWindow, ipcMain, Menu, screen, session } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain, Menu, screen, session } from 'electron'
 import * as windowStateKeeper from 'electron-window-state'
+import { OPEN_DIALOG_OPTIONS } from './constants'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const isMac = process.platform === 'darwin'
@@ -274,8 +275,14 @@ function createWindow () {
     }
   })
 
+  ipcMain.handle('open-dialog', async (event, arg) => {
+    const result = await dialog.showOpenDialogSync({ properties: OPEN_DIALOG_OPTIONS })
+    return result
+  })
+
   window.on('closed', () => {
     window = null
+    ipcMain.removeHandler('open-dialog')
 
     menu.items[1].submenu.items[2].enabled = false
     menu.items[1].submenu.items[3].enabled = false

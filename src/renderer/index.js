@@ -4,10 +4,10 @@ import shuffle from 'fast-shuffle'
 import Clusterize from 'clusterize.js'
 import Store from 'electron-store'
 import elementReady from 'element-ready'
-import { ipcRenderer, remote, shell } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import { createFrag, readDir } from './utils'
 import { gridStyle, help, layout, list, loader, peek, splash, titlebar } from './templates'
-import { DEFAULT_COLUMNS, KEY_COMBO_COOLDOWN, OPEN_DIALOG_OPTIONS, SUPPORTED_EXTENSIONS, STORE_SCHEMA } from './constants'
+import { DEFAULT_COLUMNS, KEY_COMBO_COOLDOWN, SUPPORTED_EXTENSIONS, STORE_SCHEMA } from './constants'
 
 require('./index.css')
 
@@ -53,7 +53,7 @@ function setupSplashScreen () {
 
   document.querySelector('.js-splash').classList.add('is-showing')
   document.querySelector('.js-splash-open').addEventListener('click', () => {
-    readDesiredFiles(remote.dialog.showOpenDialogSync({ properties: OPEN_DIALOG_OPTIONS }))
+    ipcRenderer.invoke('open-dialog').then((result) => readDesiredFiles(result))
   })
 }
 
@@ -86,7 +86,7 @@ function setupDropScreen () {
 
 function setupCommands () {
   ipcRenderer.on('open', () => {
-    readDesiredFiles(remote.dialog.showOpenDialogSync({ properties: OPEN_DIALOG_OPTIONS }))
+    ipcRenderer.invoke('open-dialog').then((result) => readDesiredFiles(result))
   })
   ipcRenderer.on('shuffle', () => {
     shuffleFiles()
