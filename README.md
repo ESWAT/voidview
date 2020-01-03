@@ -1,5 +1,7 @@
 # 👁 VoidView
 
+[![DeepScan grade](https://deepscan.io/api/teams/6614/projects/8635/branches/107342/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=6614&pid=8635&bid=107342)
+
 > Step into the void, surrounded by imagery and inspiration
 
 [VoidView](https://eswat.ca/voidview/) is an Electron-based minimalist image viewer. An alternative to Adobe Bridge, it was made for viewing imagery from a single directory or multiple files to quickly seek inspiration, rather than obtaining metadata, interfacing with other software or being distracted by a lot of UI chrome.
