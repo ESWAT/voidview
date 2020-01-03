@@ -237,7 +237,7 @@ function toggleHelp () {
     document.body.appendChild(createFrag(help))
     helpEl = document.querySelector('.js-help')
     helpEl.addEventListener('click', () => {
-      toggleHelp(false)
+      toggleHelp()
     })
   } else {
     helpEl.classList.add('is-removing')
