@@ -298,10 +298,10 @@ function selectItem (newIndex) {
 }
 
 function shuffleFiles () {
-  const list = document.querySelectorAll('.js-item')
+  const shuffleList = document.querySelectorAll('.js-item')
   files = shuffle(files)
 
-  list.forEach((item, index) => {
+  shuffleList.forEach((item, index) => {
     const durations = [0.2, 0.35, 0.5]
 
     item.style['animation-duration'] = `${durations[Math.floor(Math.random() * 3)]}s`
@@ -387,21 +387,23 @@ function readDesiredFiles (desiredFiles) {
     } else {
       const promises = []
 
+      const promise = (pathToResolve) => new Promise((resolve) => {
+        getImages(pathToResolve).then((paths) => {
+          paths.map((path) => {
+            files.push(encodeURI(path))
+          })
+
+          resolve()
+        })
+      })
+
       for (let i = 0; i < desiredFiles.length; i++) {
         const fullPath = typeof desiredFiles[0] === 'object' ? desiredFiles[i].path : desiredFiles[i]
 
         if (!isFilePathADirectory(fullPath)) {
           files.push(encodeURI(fullPath))
         } else {
-          const promise = new Promise((resolve) => {
-            getImages(fullPath).then((paths) => {
-              paths.map((path) => {
-                files.push(encodeURI(path))
-              })
-
-              resolve()
-            })
-          })
+          promise(fullPath)
 
           promises.push(promise)
         }
@@ -528,11 +530,11 @@ function changePeek (newIndex) {
 
 function positionPeekImage () {
   if (document.body.classList.contains('no-contain')) {
-    const peek = document.querySelector('.js-peek')
+    const peekEl = document.querySelector('.js-peek')
     const peekImageEl = document.querySelector('.js-peek-image')
 
-    peek.scrollTop = (peekImageEl.clientHeight - document.querySelector('#app').clientHeight) / 2
-    peek.scrollLeft = (peekImageEl.clientWidth - document.querySelector('#app').clientWidth) / 2
+    peekEl.scrollTop = (peekImageEl.clientHeight - document.querySelector('#app').clientHeight) / 2
+    peekEl.scrollLeft = (peekImageEl.clientWidth - document.querySelector('#app').clientWidth) / 2
   }
 }
 
