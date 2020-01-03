@@ -85,7 +85,6 @@ body.no-contain .peek-image {
 }
 
 .help-list {
-  display: block;
   margin: 12px 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
