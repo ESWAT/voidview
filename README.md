@@ -1,6 +1,6 @@
 # 👁 VoidView
 
-[![DeepScan grade](https://deepscan.io/api/teams/6614/projects/8635/branches/107342/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=6614&pid=8635&bid=107342) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ESWAT_voidview&metric=alert_status)](https://sonarcloud.io/dashboard?id=ESWAT_voidview)
+[![DeepScan grade](https://deepscan.io/api/teams/6614/projects/8635/branches/107342/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=6614&pid=8635&bid=107342) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ESWAT_voidview&metric=alert_status)](https://sonarcloud.io/dashboard?id=ESWAT_voidview) [![Known Vulnerabilities](https://snyk.io/test/github/ESWAT/voidview/badge.svg?targetFile=package.json)](https://snyk.io/test/github/ESWAT/voidview?targetFile=package.json)
 
 > Step into the void, surrounded by imagery and inspiration
 
