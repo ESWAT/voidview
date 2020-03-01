@@ -1,10 +1,9 @@
 import { app, BrowserWindow, dialog, ipcMain, Menu, screen, session } from 'electron'
 import * as windowStateKeeper from 'electron-window-state'
-import { OPEN_DIALOG_OPTIONS } from './constants'
+import { CSP, OPEN_DIALOG_OPTIONS } from './constants'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const isMac = process.platform === 'darwin'
-const csp = "default-src 'none'; connect-src 'self'; img-src file:; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
 let window
 
 const menuTemplate = [
@@ -223,7 +222,7 @@ function createWindow () {
     done({
       responseHeaders: {
         ...details.responseHeaders,
-        'Content-Security-Policy': [csp]
+        'Content-Security-Policy': [CSP]
       }
     })
   })
