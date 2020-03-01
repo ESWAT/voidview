@@ -196,7 +196,7 @@ function createWindow () {
     webPreferences: {
       contextIsolation: false,
       nodeIntegration: true,
-      webSecurity: false,
+      webSecurity: false, /* lgtm [js/disabling-electron-websecurity] */
       webviewTag: false
     },
     backgroundColor: '#000',
