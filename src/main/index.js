@@ -127,7 +127,7 @@ const menuTemplate = [
         label: 'Always on Top',
         accelerator: 'Cmd+Shift+A',
         type: 'checkbox',
-        checked: window && window.isAlwaysOnTop(),
+        checked: false,
         click: () => {
           window.setAlwaysOnTop(!window.isAlwaysOnTop())
         }
@@ -290,6 +290,7 @@ function createWindow () {
     menu.items[2].submenu.items[2].enabled = false
     menu.items[2].submenu.items[4].enabled = false
     menu.items[2].submenu.items[5].enabled = false
+    menu.items[2].submenu.items[7].enabled = false
   })
 
   window.webContents.on('devtools-opened', () => {
