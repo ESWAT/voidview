@@ -9,26 +9,7 @@ body.is-peeking .grid-command,
 body:not(.can-shuffle) .shuffle-command,
 body:not(.can-finder) .finder-command,
 body:not(.can-fit) .fit-command {
-  opacity: 0.2
-}
-
-body.is-peeking .grid-command .help-stroke,
-body:not(.can-shuffle) .shuffle-command .help-stroke,
-body:not(.can-finder) .finder-command .help-stroke,
-body:not(.can-fit) .fit-command .help-stroke {
-  color: #fff;
-}
-
-body.no-contain .peek {
-  overflow: auto;
-  display: flex;
-}
-
-body.no-contain .peek-image {
-  height: auto;
-  width: auto;
-  object-fit: none;
-  margin: auto;
+  opacity: 0.2;
 }
 
 #app {
@@ -74,7 +55,7 @@ body.no-contain .peek-image {
   bottom: 0;
   left: 0;
   padding: 0 12px;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
   font: caption;
   font-size: 12px;
@@ -105,6 +86,13 @@ body.no-contain .peek-image {
   margin-right: 16px;
 }
 
+body.is-peeking .grid-command .help-stroke,
+body:not(.can-shuffle) .shuffle-command .help-stroke,
+body:not(.can-finder) .finder-command .help-stroke,
+body:not(.can-fit) .fit-command .help-stroke {
+  color: #fff;
+}
+
 .list {
   position: relative;
 }
@@ -128,9 +116,8 @@ body.no-contain .peek-image {
 .item:focus {
   background-color: rgba(0, 255, 238, 0.8);
   background-blend-mode: luminosity;
-  box-shadow: inset 0 0 0 1px #0fe
+  box-shadow: inset 0 0 0 1px #0fe;
 }
-
 
 .item.shuffling {
   animation-name: shuffle-items;
@@ -144,7 +131,7 @@ body.no-contain .peek-image {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0,0,0,1);
+  background-color: rgba(0, 0, 0, 1);
   cursor: zoom-out;
   z-index: 5;
   animation: peek-appear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -163,7 +150,7 @@ body.no-contain .peek-image {
 }
 
 .peek.is-animating {
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(0, 0, 0, 0);
   animation: peek-disappear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
@@ -180,13 +167,25 @@ body.no-contain .peek-image {
   animation: peek-image-right 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
+body.no-contain .peek {
+  overflow: auto;
+  display: flex;
+}
+
+body.no-contain .peek-image {
+  height: auto;
+  width: auto;
+  object-fit: none;
+  margin: auto;
+}
+
 .splash {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0,0,0,0.95);
+  background-color: rgba(0, 0, 0, 0.95);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -269,6 +268,7 @@ body.no-contain .peek-image {
   0% {
     transform: scale(1.025);
   }
+
   100% {
     transform: scale(1);
   }
@@ -278,6 +278,7 @@ body.no-contain .peek-image {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -288,6 +289,7 @@ body.no-contain .peek-image {
     transform: translateY(48px);
     opacity: 0;
   }
+
   100% {
     transform: translateY(0);
     opacity: 1;
@@ -299,6 +301,7 @@ body.no-contain .peek-image {
     transform: translateY(0);
     opacity: 1;
   }
+
   100% {
     transform: translateY(48px);
     opacity: 0;
@@ -307,16 +310,17 @@ body.no-contain .peek-image {
 
 @keyframes peek-appear {
   0% {
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
   }
 }
 
 @keyframes peek-disappear {
   0% {
-    background-color: rgba(0,0,0,1);
+    background-color: rgba(0, 0, 0, 1);
   }
+
   100% {
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
   }
 }
 
@@ -331,6 +335,7 @@ body.no-contain .peek-image {
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -341,6 +346,7 @@ body.no-contain .peek-image {
     opacity: 0;
     transform: translateX(16px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -352,6 +358,7 @@ body.no-contain .peek-image {
     opacity: 0;
     transform: translateX(-16px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -362,6 +369,7 @@ body.no-contain .peek-image {
   0% {
     top: 100%;
   }
+
   100% {
     top: 0;
   }
@@ -371,6 +379,7 @@ body.no-contain .peek-image {
   0% {
     height: 100%;
   }
+
   100% {
     height: 0;
   }
@@ -380,6 +389,7 @@ body.no-contain .peek-image {
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
