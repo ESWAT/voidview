@@ -8,7 +8,8 @@ body {
 body.is-peeking .grid-command,
 body:not(.can-shuffle) .shuffle-command,
 body:not(.can-finder) .finder-command,
-body:not(.can-fit) .fit-command {
+body:not(.can-fit) .fit-command,
+body:not(.can-copy) .copy-command {
   opacity: 0.2;
 }
 

@@ -4,7 +4,7 @@ import shuffle from 'fast-shuffle'
 import Clusterize from 'clusterize.js'
 import Store from 'electron-store'
 import elementReady from 'element-ready'
-import { ipcRenderer, shell } from 'electron'
+import { clipboard, ipcRenderer, shell } from 'electron'
 import { createFrag, readDir } from './utils'
 import { gridStyle, help, layout, list, loader, peek, splash, titlebar } from './templates'
 import { DEFAULT_COLUMNS, KEY_COMBO_COOLDOWN, SUPPORTED_EXTENSIONS, STORE_SCHEMA } from './constants'
@@ -94,6 +94,9 @@ function setupCommands () {
   ipcRenderer.on('reveal', () => {
     openExternally()
   })
+  ipcRenderer.on('copy', () => {
+    copyImage()
+  })
   ipcRenderer.on('help', () => {
     if (files.length > 0) {
       toggleHelp()
@@ -175,6 +178,7 @@ function handleKeyUp (event) {
       case 'Tab':
         currentItem = parseInt(document.activeElement.dataset.index, 10)
         enableFinderCommand(true)
+        enableCopyCommand(true)
         break
       case 'Enter':
       case ' ':
@@ -279,6 +283,7 @@ function renderFiles () {
 
 function deselectItems () {
   enableFinderCommand(false)
+  enableCopyCommand(false)
   currentItem = -1
   document.activeElement.blur()
 }
@@ -293,6 +298,7 @@ function selectItem (newIndex) {
 
   if (element) {
     enableFinderCommand(true)
+    enableCopyCommand(true)
     element.focus()
   }
 }
@@ -418,6 +424,7 @@ function readDesiredFiles (desiredFiles) {
 
 function initialRender () {
   enableFinderCommand(false)
+  enableCopyCommand(false)
   enableShuffleCommand(true)
   enableColumnChanging(true)
 
@@ -458,6 +465,12 @@ function getImages (path) {
   })
 }
 
+function copyImage () {
+  const { image } = document.querySelector(`.js-item[data-index="${currentItem}"]`).dataset
+
+  clipboard.writeImage(decodeURI(image))
+}
+
 function isFilePathADirectory (filePath) {
   if (fs.statSync(filePath).isFile()) {
     const ext = nodePath.extname(filePath)
@@ -491,6 +504,7 @@ function openPeek (item) {
   }, { capture: false, once: true })
 
   enableFinderCommand(true)
+  enableCopyCommand(true)
   enableShuffleCommand(false)
   enableColumnChanging(false)
   enableZoomCommand(true)
@@ -566,6 +580,10 @@ function toggleZoom () {
   document.body.classList.toggle('no-contain')
 
   enableFitCommand(document.querySelector('.js-peek') && !store.get('contain'))
+}
+
+function enableCopyCommand (state) {
+  toggleCommand('copy', state)
 }
 
 function enableZoomCommand (state) {

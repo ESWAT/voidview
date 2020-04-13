@@ -65,6 +65,14 @@ const menuTemplate = [
         }
       },
       {
+        label: 'Copy Image',
+        accelerator: 'Cmd+C',
+        enabled: false,
+        click: () => {
+          window.webContents.send('copy')
+        }
+      },
+      {
         label: 'Show in Finder',
         accelerator: 'Cmd+Shift+O',
         enabled: false,
@@ -258,8 +266,12 @@ function createWindow () {
     menu.items[1].submenu.items[2].enabled = arg
   })
 
-  ipcMain.on('enable-finder-command', (event, arg) => {
+  ipcMain.on('enable-copy-command', (event, arg) => {
     menu.items[1].submenu.items[3].enabled = arg
+  })
+
+  ipcMain.on('enable-finder-command', (event, arg) => {
+    menu.items[1].submenu.items[4].enabled = arg
   })
 
   ipcMain.on('enable-columns-command', (event, arg) => {

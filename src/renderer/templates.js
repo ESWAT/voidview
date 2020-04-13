@@ -43,10 +43,10 @@ export const help = `
       <span class="help-command grid-command"><span class="help-stroke">⇧G</span> Go to Bottom</span>
     </div>
     <div class="help-list">
+      <span class="help-command copy-command"><span class="help-stroke">⌘C</span> Copy Image</span>
       <span class="help-command finder-command"><span class="help-stroke">⌘⇧O</span> Show in Finder</span>
-      <span class="help-command"><span class="help-stroke">F</span> Fit Image to Frame</span>
-      <span class="help-command shuffle-command"><span class="help-stroke">⌘=/⌘-</span> Add/Remove Columns</span>
-      <span class="help-command shuffle-command"><span class="help-stroke">⌘0</span> Reset Columns</span>
+      <span class="help-command shuffle-command"><span class="help-stroke">⌘=/⌘-/⌘0</span> Add/Remove/Reset Columns</span>
+      <span class="help-command fit-command"><span class="help-stroke">F</span> Fit Image to Frame</span>
     </div>
     <div class="help-list">
       <span class="help-command"><span class="help-stroke">⌘⇧H</span> Help</span>
